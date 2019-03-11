@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from pySBD.lang.common import Common
+from pySBD.lang.common.numbers import Common
 from pySBD.cleaner import Cleaner
-from pySBD.abbreviation_replacer import AbbreviationReplacer
+# from pySBD.abbreviation_replacer import AbbreviationReplacer
 
 
 class English(object):
@@ -16,5 +16,5 @@ class English(object):
         raise NotImplementedError
 
 
-class EnAbbreviationReplacer(AbbreviationReplacer):
-    raise NotImplementedError
+# class EnAbbreviationReplacer(AbbreviationReplacer):
+#     raise NotImplementedError
