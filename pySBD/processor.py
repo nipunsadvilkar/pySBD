@@ -20,6 +20,7 @@ class Processor(object):
         self.text = text
 
     def process(self):
+        # text = ListItemReplacer(self.text)
         # text = add_line_break(text)
         # text = replace_abbreviation(text)
         # text = replace_numbers(text)
@@ -28,8 +29,8 @@ class Processor(object):
         # Abbreviations.WithMultiplePeriodsAndEmailRule
         # GeoLocationRule
         # FileFormatRule
-        self.text = self.split_into_segments()
-        return self.text
+        processed = self.split_into_segments()
+        return processed
 
     def split_into_segments(self):
         text = self.check_for_parens_between_quotes(self.text)
@@ -37,7 +38,10 @@ class Processor(object):
         # remove empty and none values
         # https://stackoverflow.com/questions/3845423/remove-empty-strings-from-a-list-of-strings
         sents = list(filter(None, sents))
-        sents = [Text(e).apply(Standard.SingleNewLineRule, *EllipsisRules.All) for e in sents]
+        sents = [
+            Text(e).apply(Standard.SingleNewLineRule, *EllipsisRules.All)
+            for e in sents
+        ]
         # SingleNewLineRule
         # EllipsisRules
         # check_for_punctuation
@@ -70,7 +74,7 @@ class Processor(object):
 
     def replace_periods_before_numeric_references(self, txt):
         # https://github.com/diasks2/pragmatic_segmenter/commit/d9ec1a352aff92b91e2e572c30bb9561eb42c703
-        return re.sub(Common.NUMBERED_REFERENCE_REGEX, "∯\\2\\r\\7", txt)
+        return re.sub(Common.NUMBERED_REFERENCE_REGEX, r"∯\\2\\r\\7", txt)
 
     def consecutive_underscore(self, txt):
         # Rubular: http://rubular.com/r/fTF2Ff3WBL

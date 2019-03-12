@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import string
 import re
+from pySBD.rules import Text
 
 
 class ListItemReplacer(object):
@@ -47,7 +48,7 @@ class ListItemReplacer(object):
     ROMAN_NUMERALS_IN_PARENTHESES = r'\(((?=[mdclxvi])m*(c[md]|d?c*)(x[cl]|l?x*)(i[xv]|v?i*))\)(?=\s[A-Z])'
 
     def __init__(self, text):
-        self.text = text
+        self.text = Text(text)
 
     @classmethod
     def add_line_break(self, text):
