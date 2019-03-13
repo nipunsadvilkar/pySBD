@@ -11,9 +11,6 @@ class ExclamationWords(object):
     EXCLAMATION_WORDS = "!Xũ !Kung ǃʼOǃKung !Xuun !Kung-Ekoka ǃHu ǃKhung ǃKu ǃung ǃXo ǃXû ǃXung ǃXũ !Xun Yahoo! Y!J Yum!".split()
     EXCLAMATION_REGEX = r"|".join(re.escape(w) for w in EXCLAMATION_WORDS)
 
-    # def __init__(self, text):
-    #     self.text = text
-
     @classmethod
     def apply_rules(self, text):
         return re.sub(ExclamationWords.EXCLAMATION_REGEX, replace_punctuation,
