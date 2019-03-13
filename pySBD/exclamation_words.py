@@ -12,7 +12,7 @@ class ExclamationWords(object):
     EXCLAMATION_REGEX = r"|".join(re.escape(w) for w in EXCLAMATION_WORDS)
 
     @classmethod
-    def apply_rules(self, text):
+    def apply_rules(cls, text):
         return re.sub(ExclamationWords.EXCLAMATION_REGEX, replace_punctuation,
                       text)
 

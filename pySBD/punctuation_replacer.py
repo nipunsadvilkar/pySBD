@@ -25,7 +25,7 @@ class SubEscapedRegexReservedCharacters(object):
     ]
 
 
-def replace_punctuation(match):
+def replace_punctuation(match, match_type=None):
     text = Text(match.group()).apply(*EscapeRegexReservedCharacters.All)
     sub = re.sub(r'\.', '∯', text)
     sub_1 = re.sub(r'\。', '&ᓰ&', sub)
@@ -33,6 +33,8 @@ def replace_punctuation(match):
     sub_3 = re.sub(r'\！', '&ᓳ&', sub_2)
     sub_4 = re.sub(r'\!', '&ᓴ&', sub_3)
     sub_5 = re.sub(r'\?', '&ᓷ&', sub_4)
-    sub_6 = re.sub(r'\？', '&ᓸ&', sub_5)
-    text = Text(sub_6).apply(*SubEscapedRegexReservedCharacters.All)
+    last_sub = re.sub(r'\？', '&ᓸ&', sub_5)
+    if match_type:
+        last_sub = re.sub(r'"', '&⎋&', last_sub)
+    text = Text(last_sub).apply(*SubEscapedRegexReservedCharacters.All)
     return text
