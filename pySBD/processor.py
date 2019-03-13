@@ -38,6 +38,7 @@ class Processor(object):
         # remove empty and none values
         # https://stackoverflow.com/questions/3845423/remove-empty-strings-from-a-list-of-strings
         sents = list(filter(None, sents))
+        # https://stackoverflow.com/questions/4698493/can-i-add-custom-methods-attributes-to-built-in-python-types
         sents = [
             Text(e).apply(Standard.SingleNewLineRule, *EllipsisRules.All)
             for e in sents
@@ -66,7 +67,10 @@ class Processor(object):
             sub1 = re.sub(r'\s(?=\()', '\r', match)
             sub2 = re.sub(r'(?<=\))\s', '\r', sub1)
             return sub2
-        return re.sub(Common.PARENS_BETWEEN_DOUBLE_QUOTES_REGEX, paren_replace, txt)
+        # TODO: return Text class inherited from str
+        # should have .apply method
+        return re.sub(Common.PARENS_BETWEEN_DOUBLE_QUOTES_REGEX,
+                      paren_replace, txt)
 
     def replace_continuous_punctuation(self, txt):
         # CONTINUOUS_PUNCTUATION_REGEX
@@ -74,18 +78,23 @@ class Processor(object):
 
     def replace_periods_before_numeric_references(self, txt):
         # https://github.com/diasks2/pragmatic_segmenter/commit/d9ec1a352aff92b91e2e572c30bb9561eb42c703
-        return re.sub(Common.NUMBERED_REFERENCE_REGEX, r"∯\\2\\r\\7", txt)
+        return re.sub(Common.NUMBERED_REFERENCE_REGEX,
+                      r"∯\\2\\r\\7", txt)
 
     def consecutive_underscore(self, txt):
         # Rubular: http://rubular.com/r/fTF2Ff3WBL
         raise NotImplementedError
 
     def check_for_punctuation(self, txt):
-        # Punctuations
-        # process_text
-        raise NotImplementedError
+        # if any(re.search(re.escape(r'{}'.format(p)), txt)
+        #        for p in Standard.Punctuations):
+        if any(p in txt for p in Standard.Punctuations):
+            self.process_text(txt)
 
     def process_text(self, txt):
+        if not any(p in txt[-1] for p in Standard.Punctuations):
+            txt += 'ȸ'  # "Hello .World" -> "Hello .Worldȸ"
+        Text(txt)
         # Punctuations
         # ExclamationWords
         # between_punctuation
@@ -125,5 +134,5 @@ class Processor(object):
 
 if __name__ == "__main__":
     text = "\"Dinah'll miss me very much to-night, I should think!\" (Dinah was the cat.) \"I hope they'll remember her saucer of milk at tea-time. Dinah, my dear, I wish you were down here with me!\""
-    t = "\"Dinah'll miss me very much to-night, I should think!\" (Dinah was the cat.) \"I hope they'll remember her saucer of milk at tea-time. Dinah, my dear, I wish you were down here with me!\" (abcd eef fv.) \"Dinah'll miss me very much to-night, I should think!\" (Dinah was the cat.) \"I hope they'll remember her saucer of milk at tea-time. Dinah, my dear, I wish you were down here with me!\""
-    Processor.check_for_parens_between_quotes(text)
+    p = Processor.check_for_parens_between_quotes(text)
+    print(p)
