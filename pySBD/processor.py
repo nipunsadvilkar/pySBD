@@ -10,6 +10,7 @@ from pySBD.languages import Language
 from pySBD.lang.standard import Standard
 from pySBD.lang.common.numbers import Common
 from pySBD.lang.common.ellipsis import EllipsisRules
+from pySBD.exclaimation_words import ExclamationWords
 
 
 class Processor(object):
@@ -94,8 +95,10 @@ class Processor(object):
     def process_text(self, txt):
         if not any(p in txt[-1] for p in Standard.Punctuations):
             txt += 'ȸ'  # "Hello .World" -> "Hello .Worldȸ"
+        # work for Yahoo! company -> work for Yahoo&ᓴ& company
+        txt = ExclamationWords.apply_rules(txt)
+        txt = self.between_punctuation(txt)
         Text(txt)
-        # Punctuations
         # ExclamationWords
         # between_punctuation
         # DoublePunctuationRules
