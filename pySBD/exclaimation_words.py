@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
-from pySBD.punctuation_replacer import PunctuationReplacer
+from pySBD.punctuation_replacer import replace_punctuation
 
 
 class ExclamationWords(object):
@@ -11,10 +11,15 @@ class ExclamationWords(object):
     EXCLAMATION_WORDS = "!Xũ !Kung ǃʼOǃKung !Xuun !Kung-Ekoka ǃHu ǃKhung ǃKu ǃung ǃXo ǃXû ǃXung ǃXũ !Xun Yahoo! Y!J Yum!".split()
     EXCLAMATION_REGEX = r"|".join(re.escape(w) for w in EXCLAMATION_WORDS)
 
-    def __init__(self, text):
-        self.text = text
+    # def __init__(self, text):
+    #     self.text = text
 
     @classmethod
-    def apply_rules(self):
-        matches = re.findall(ExclamationWords.EXCLAMATION_REGEX, self.text)
-        PunctuationReplacer(self.text, matches).replace()
+    def apply_rules(self, text):
+        return re.sub(ExclamationWords.EXCLAMATION_REGEX, replace_punctuation,
+                      text)
+
+
+if __name__ == "__main__":
+    text = "Hello .World work for Yahoo! company"
+    print(ExclamationWords.apply_rules(text))

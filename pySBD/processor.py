@@ -65,7 +65,7 @@ class Processor(object):
         def paren_replace(match):
             match = match.group()
             sub1 = re.sub(r'\s(?=\()', '\r', match)
-            sub2 = re.sub(r'(?<=\))\s', '\r', sub1)
+            sub2 = re.sub(r'(?<=\))\s', '\rq', sub1)
             return sub2
         # TODO: return Text class inherited from str
         # should have .apply method
