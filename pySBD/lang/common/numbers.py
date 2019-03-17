@@ -3,7 +3,8 @@ import re
 
 
 class Common(object):
-    # SENTENCE_BOUNDARY_REGEX = r'\u{ff08}(?: [ ^\u{ff09}]) *\u{ff09}(?=\s?[A-Z]) |\u{300c}(?: [ ^\u{300d}]) *\u{300d}(?=\s[A-Z]) |\((?: [ ^\)]){2, }\)(?=\s[A-Z])|'(?:[^'])*[^, ]'(?=\s[A-Z])|"(?:[^"])*[^, ]"(?=\s[A-Z]) |“(?: [ ^”])*[^, ]”(?=\s[A-Z]) |\S.*?[。．.！!?？ȸȹ☉☈☇☄]'
+
+    SENTENCE_BOUNDARY_REGEX = r"\\u{ff08}(?:[^\\u{ff09}])*\\u{ff09}(?=\s?[A-Z])|\\u{300c}(?:[^\\u{300d}])*\\u{300d}(?=\s[A-Z])|\((?:[^\)]){2,}\)(?=\s[A-Z])|\'(?:[^\'])*[^,]\'(?=\s[A-Z])|\"(?:[^\"])*[^,]\"(?=\s[A-Z])|\“(?:[^\”])*[^,]\”(?=\s[A-Z])|\S.*?[。．.！!?？ȸȹ☉☈☇☄]"
 
     # # Rubular: http://rubular.com/r/NqCqv372Ix
     # QUOTATION_AT_END_OF_SENTENCE_REGEX = r'[!?\.-][\"\'\u{201d}\u{201c}]\s{1}[A-Z]'

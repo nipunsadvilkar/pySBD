@@ -73,7 +73,7 @@ class BetweenPunctuation(object):
                 (not re.search(r"'\s", txt)):
             return txt
         return re.sub(self.BETWEEN_SINGLE_QUOTES_REGEX,
-                      partial(replace_punctuation, match_type='single'), text)
+                      partial(replace_punctuation, match_type='single'), txt)
 
     def sub_punctuation_between_single_quote_slanted(self, txt):
         return re.sub(self.BETWEEN_SINGLE_QUOTE_SLANTED_REGEX,

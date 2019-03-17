@@ -96,6 +96,7 @@ class Processor(object):
     def process_text(self, txt):
         if not any(p in txt[-1] for p in Standard.Punctuations):
             txt += 'ȸ'  # "Hello .World" -> "Hello .Worldȸ"
+
         # work for Yahoo! company -> work for Yahoo&ᓴ& company
         txt = ExclamationWords.apply_rules(txt)
         txt = BetweenPunctuation(text).replace()
@@ -103,7 +104,7 @@ class Processor(object):
                               Standard.QuestionMarkInQuotationRule,
                               *ExclamationPointRules.All)
         txt = ListItemReplacer(txt).replace_parens()
-        # sentence_boundary_punctuation
+        txt = self.sentence_boundary_punctuation(txt)
         return txt
 
     def replace_numbers(self, txt):
@@ -127,15 +128,22 @@ class Processor(object):
         raise NotImplementedError
 
     def sentence_boundary_punctuation(self, txt):
-        # ReplaceColonBetweenNumbersRule
-        # ReplaceNonSentenceBoundaryCommaRule
+        if hasattr(self.language_module, 'ReplaceColonBetweenNumbersRule'):
+            txt = Text(txt).apply(
+                self.language_module.ReplaceColonBetweenNumbersRule)
+        if hasattr(self.language_module, 'ReplaceNonSentenceBoundaryCommaRule'):
+            txt = Text(txt).apply(
+                self.language_module.ReplaceNonSentenceBoundaryCommaRule)
         # SENTENCE_BOUNDARY_REGEX
-        raise NotImplementedError
+        txt = re.findall(Common.SENTENCE_BOUNDARY_REGEX, txt)
+        return txt
 
 
 if __name__ == "__main__":
-    text = "\"Dinah'll miss me very much to-night, I should think!\" (Dinah was the cat.) \"I hope they'll remember her saucer of milk at tea-time. Dinah, my dear, I wish you were down here with me!\""
+    # text = "\"Dinah'll miss me very much to-night, I should think!\" (Dinah was the cat.) \"I hope they'll remember her saucer of milk at tea-time. Dinah, my dear, I wish you were down here with me!\""
+    text = 'Hi'
     print("Input String:\n{}".format(text))
     p = Processor(text)
     print("\nOutput String:\n")
-    print(p.check_for_parens_between_quotes(text))
+    # print(p.check_for_parens_between_quotes(text))
+    print(p.process_text(text))
