@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 
 
 class Common(object):
@@ -8,7 +9,7 @@ class Common(object):
     # QUOTATION_AT_END_OF_SENTENCE_REGEX = r'[!?\.-][\"\'\u{201d}\u{201c}]\s{1}[A-Z]'
 
     # # Rubular: http://rubular.com/r/6flGnUMEVl
-    PARENS_BETWEEN_DOUBLE_QUOTES_REGEX=r'["\”]\s\(.*\)\s["\“]'
+    PARENS_BETWEEN_DOUBLE_QUOTES_REGEX = r'["\”]\s\(.*\)\s["\“]'
 
     # # Rubular: http://rubular.com/r/TYzr4qOW1Q
     # BETWEEN_DOUBLE_QUOTES_REGEX = / "(?:[^"])*[^, ]"|“(?: [ ^”])*[^, ]”/

@@ -10,7 +10,8 @@ from pySBD.languages import Language
 from pySBD.lang.standard import Standard
 from pySBD.lang.common.numbers import Common
 from pySBD.lang.common.ellipsis import EllipsisRules
-from pySBD.exclaimation_words import ExclamationWords
+from pySBD.exclamation_words import ExclamationWords
+from pySBD.between_punctuation import BetweenPunctuation
 
 
 class Processor(object):
@@ -61,12 +62,11 @@ class Processor(object):
         # SPLIT_SPACE_QUOTATION_AT_END_OF_SENTENCE_REGEX
         raise NotImplementedError
 
-    @classmethod
     def check_for_parens_between_quotes(self, txt):
         def paren_replace(match):
             match = match.group()
-            sub1 = re.sub(r'\s(?=\()', '\r', match)
-            sub2 = re.sub(r'(?<=\))\s', '\rq', sub1)
+            sub1 = re.sub(r'\s(?=\()', r'\\r', match)
+            sub2 = re.sub(r'(?<=\))\s', r'\\r', sub1)
             return sub2
         # TODO: return Text class inherited from str
         # should have .apply method
@@ -97,8 +97,7 @@ class Processor(object):
             txt += 'ȸ'  # "Hello .World" -> "Hello .Worldȸ"
         # work for Yahoo! company -> work for Yahoo&ᓴ& company
         txt = ExclamationWords.apply_rules(txt)
-        txt = self.between_punctuation(txt)
-        Text(txt)
+        txt = BetweenPunctuation(text).replace()
         # ExclamationWords
         # between_punctuation
         # DoublePunctuationRules
@@ -137,5 +136,7 @@ class Processor(object):
 
 if __name__ == "__main__":
     text = "\"Dinah'll miss me very much to-night, I should think!\" (Dinah was the cat.) \"I hope they'll remember her saucer of milk at tea-time. Dinah, my dear, I wish you were down here with me!\""
-    p = Processor.check_for_parens_between_quotes(text)
-    print(p)
+    print("Input String:\n{}".format(text))
+    p = Processor(text)
+    print("\nOutput String:\n")
+    print(p.check_for_parens_between_quotes(text))
