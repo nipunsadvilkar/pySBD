@@ -60,7 +60,7 @@ class ListItemReplacer(object):
 
     def replace_parens(self):
         text = re.sub(self.ROMAN_NUMERALS_IN_PARENTHESES,
-                      '&✂&\1&⌬&', self.text)
+                      '&✂&\\1&⌬&', self.text)
         return text
 
     # def format_numbered_list_with_parens(self):
@@ -105,3 +105,6 @@ class ListItemReplacer(object):
     # if @text.include?('☝') & & @text !~ /☝.+\n.+☝|☝.+\r.+☝/
 
     # @text.apply(SpaceBetweenListItemsThirdRule)
+if __name__ == "__main__":
+    text = '(vii) Something'
+    print(ListItemReplacer(text).replace_parens())
