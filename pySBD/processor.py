@@ -7,7 +7,8 @@ from pySBD.lists_item_replacer import ListItemReplacer
 # from pySBD import abbreviation_replacer
 # from pySBD import exclamation_words
 from pySBD.languages import Language
-from pySBD.lang.standard import Standard
+from pySBD.lang.standard import (Standard, DoublePunctuationRules,
+                                 ExclamationPointRules)
 from pySBD.lang.common.numbers import Common
 from pySBD.lang.common.ellipsis import EllipsisRules
 from pySBD.exclamation_words import ExclamationWords
@@ -98,14 +99,13 @@ class Processor(object):
         # work for Yahoo! company -> work for Yahoo&ᓴ& company
         txt = ExclamationWords.apply_rules(txt)
         txt = BetweenPunctuation(text).replace()
-        # ExclamationWords
-        # between_punctuation
-        # DoublePunctuationRules
-        # QuestionMarkInQuotationRule
-        # ExclamationPointRules
+        txt = Text(txt).apply(*DoublePunctuationRules.All,
+                              Standard.QuestionMarkInQuotationRule,
+                              *ExclamationPointRules.All)
+        # txt = ListItemReplacer.
         # replace_parens
         # sentence_boundary_punctuation
-        raise NotImplementedError
+        return txt
 
     def replace_numbers(self, txt):
         # Numbers
