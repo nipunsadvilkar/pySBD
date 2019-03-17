@@ -102,7 +102,7 @@ class Processor(object):
         txt = Text(txt).apply(*DoublePunctuationRules.All,
                               Standard.QuestionMarkInQuotationRule,
                               *ExclamationPointRules.All)
-        # txt = ListItemReplacer.
+        # txt = ListItemReplacer
         # replace_parens
         # sentence_boundary_punctuation
         return txt

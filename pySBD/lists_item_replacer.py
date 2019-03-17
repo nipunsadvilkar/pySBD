@@ -58,9 +58,10 @@ class ListItemReplacer(object):
         text = self.format_numbered_list_with_parens(text)
         return text
 
-    # def replace_parens(self):
-    #     text = re.sub(self.ROMAN_NUMERALS_IN_PARENTHESES, '&✂&\1&⌬&', self.text)
-    #     return text
+    def replace_parens(self):
+        text = re.sub(self.ROMAN_NUMERALS_IN_PARENTHESES,
+                      '&✂&\1&⌬&', self.text)
+        return text
 
     # def format_numbered_list_with_parens(self):
     #     # replace_parens_in_numbered_list
