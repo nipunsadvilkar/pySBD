@@ -20,8 +20,11 @@ class BetweenPunctuation(object):
     # Rubular: http://rubular.com/r/x6s4PZK8jc
     BETWEEN_QUOTE_ARROW_REGEX = r'«(?>[^»\\]+|\\{2}|\\.)*»'
 
+    BETWEEN_QUOTE_ARROW_REGEX_2 = r"\«(?=(?P<tmp>[^»\\]+|\\{2}|\\.)*)(?P=tmp)\»"
+
     # Rubular: http://rubular.com/r/JbAIpKdlSq
     BETWEEN_QUOTE_SLANTED_REGEX = r"“(?>[^”\\]+|\\{2}|\\.)*”"
+    BETWEEN_QUOTE_SLANTED_REGEX_2 = r"\“(?=(?P<tmp>[^”\\]+|\\{2}|\\.)*)(?P=tmp)\”"
 
     # Rubular: http://rubular.com/r/WX4AvnZvlX
     BETWEEN_SQUARE_BRACKETS_REGEX = r"\[(?>[^\]\\]+|\\{2}|\\.)*\]"
@@ -35,8 +38,6 @@ class BetweenPunctuation(object):
 
     # Rubular: http://rubular.com/r/mXf8cW025o
     WORD_WITH_LEADING_APOSTROPHE = r"(?<=\s)'(?:[^']|'[a-zA-Z])*'\S"
-
-    WORD_WITH_LEADING_APOSTROPHE_2 = r"(?=(?P<tmp>\s)'(?:[^']|'[a-zA-Z])*'\S)(?P=tmp)\)"
 
     # Rubular: http://rubular.com/r/jTtDKfjxzr
     BETWEEN_EM_DASHES_REGEX = r"\-\-(?>[^\-\-])*\-\-"
@@ -87,13 +88,13 @@ class BetweenPunctuation(object):
     # end
 
     def sub_punctuation_between_quotes_arrow(self, txt):
-        return re.sub(self.BETWEEN_QUOTE_ARROW_REGEX, replace_punctuation, txt)
+        return re.sub(self.BETWEEN_QUOTE_ARROW_REGEX_2, replace_punctuation, txt)
 
     def sub_punctuation_between_em_dashes(self, txt):
         return re.sub(self.BETWEEN_EM_DASHES_REGEX_2, replace_punctuation, txt)
 
     def sub_punctuation_between_quotes_slanted(self, txt):
-        return re.sub(self.BETWEEN_QUOTE_SLANTED_REGEX, replace_punctuation,
+        return re.sub(self.BETWEEN_QUOTE_SLANTED_REGEX_2, replace_punctuation,
                       txt)
 
 
