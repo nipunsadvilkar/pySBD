@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import string
 import re
+from pySBD.rules import Text
 
 
 class ListItemReplacer(object):
@@ -47,7 +48,7 @@ class ListItemReplacer(object):
     ROMAN_NUMERALS_IN_PARENTHESES = r'\(((?=[mdclxvi])m*(c[md]|d?c*)(x[cl]|l?x*)(i[xv]|v?i*))\)(?=\s[A-Z])'
 
     def __init__(self, text):
-        self.text = text
+        self.text = Text(text)
 
     @classmethod
     def add_line_break(self, text):
@@ -57,9 +58,10 @@ class ListItemReplacer(object):
         text = self.format_numbered_list_with_parens(text)
         return text
 
-    # def replace_parens(self):
-    #     text = re.sub(self.ROMAN_NUMERALS_IN_PARENTHESES, '&✂&\1&⌬&', self.text)
-    #     return text
+    def replace_parens(self):
+        text = re.sub(self.ROMAN_NUMERALS_IN_PARENTHESES,
+                      '&✂&\\1&⌬&', self.text)
+        return text
 
     # def format_numbered_list_with_parens(self):
     #     # replace_parens_in_numbered_list
@@ -103,3 +105,6 @@ class ListItemReplacer(object):
     # if @text.include?('☝') & & @text !~ /☝.+\n.+☝|☝.+\r.+☝/
 
     # @text.apply(SpaceBetweenListItemsThirdRule)
+if __name__ == "__main__":
+    text = '(vii) Something'
+    print(ListItemReplacer(text).replace_parens())

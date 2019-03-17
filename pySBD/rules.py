@@ -13,6 +13,10 @@ class Rule(object):
         self.pattern = pattern
         self.replacement = replacement
 
+    def __repr__(self):
+        return '<{} pattern={} and replacement={}>'.format(
+            self.__class__.__name__, self.pattern, self.replacement)
+
 
 class Text(str):
 

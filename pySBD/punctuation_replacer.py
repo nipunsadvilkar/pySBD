@@ -1,52 +1,40 @@
 # -*- coding: utf-8 -*-
+import re
+from pySBD.rules import Rule, Text
 
 
-class PunctuationReplacer(object):
+class EscapeRegexReservedCharacters(object):
+    LeftParen = Rule(re.escape(r'('), '\\(')
+    RightParen = Rule(re.escape(r')'), '\\)')
+    LeftBracket = Rule(re.escape(r'\['), '\\[')
+    RightBracket = Rule(re.escape(r'\]'), '\\]')
+    Dash = Rule(re.escape(r'\-'), '\\-')
 
-    def __init__(self, text, matches_array, match_type=None):
-        self.text = text
-        self.matches_array = matches_array
-        self.match_type = match_type
+    All = [LeftParen, RightParen, LeftBracket, RightBracket, Dash]
 
-    def replace(self):
-        self.replace_punctuation(matches_array)
 
-    def replace_punctuation(self, array):
-        return if !array | | array.empty?
-            @text.apply(Rules: : EscapeRegexReservedCharacters: : All)
-            array.each do | a|
-            a.apply(Rules: : EscapeRegexReservedCharacters: : All)
-            sub = sub_characters(a, '.', '∯')
-            sub_1 = sub_characters(sub, '。', '&ᓰ&')
-            sub_2 = sub_characters(sub_1, '．', '&ᓱ&')
-            sub_3 = sub_characters(sub_2, '！', '&ᓳ&')
-            sub_4 = sub_characters(sub_3, '!', '&ᓴ&')
-            sub_5 = sub_characters(sub_4, '?', '&ᓷ&')
-            sub_6 = sub_characters(sub_5, '？', '&ᓸ&')
-            unless match_type.eql?('single')
-            sub_7 = sub_characters(sub_6, "'", '&⎋&')
-            @text.apply(Rules: : SubEscapedRegexReservedCharacters: : All)
+class SubEscapedRegexReservedCharacters(object):
+    SubLeftParen = Rule(re.escape(r"\\("), "(")
+    SubRightParen = Rule(re.escape(r'\\)'), ')')
+    SubLeftBracket = Rule(re.escape(r'\\['), '[')
+    SubRightBracket = Rule(re.escape(r'\\]'), ']')
+    SubDash = Rule(re.escape(r'\\-'), '-')
 
-    def sub_characters(self, string, char_a, char_b)
-        sub = string.gsub(char_a, char_b)
-        @text.gsub!(#{Regexp.escape(string)}, sub)
+    All = [
+        SubLeftParen, SubRightParen, SubLeftBracket, SubRightBracket, SubDash
+    ]
 
-    class EscapeRegexReservedCharacters(object):
-        LeftParen = Rule.new('(', '\\(')
-        RightParen = Rule.new(')', '\\)')
-        LeftBracket = Rule.new('[', '\\[')
-        RightBracket = Rule.new(']', '\\]')
-        Dash = Rule.new('-', '\\-')
 
-        All = [LeftParen, RightParen,
-                LeftBracket, RightBracket, Dash]
-
-    class SubEscapedRegexReservedCharacters(object):
-        SubLeftParen = Rule.new('\\(', '(')
-        SubRightParen = Rule.new('\\)', ')')
-        SubLeftBracket = Rule.new('\\[', '[')
-        SubRightBracket = Rule.new('\\]', ']')
-        SubDash = Rule.new('\\-', '-')
-
-        All = [SubLeftParen, SubRightParen,
-                SubLeftBracket, SubRightBracket, SubDash]
+def replace_punctuation(match, match_type=None):
+    text = Text(match.group()).apply(*EscapeRegexReservedCharacters.All)
+    sub = re.sub(r'\.', '∯', text)
+    sub_1 = re.sub(r'\。', '&ᓰ&', sub)
+    sub_2 = re.sub(r'\．', '&ᓱ&', sub_1)
+    sub_3 = re.sub(r'\！', '&ᓳ&', sub_2)
+    sub_4 = re.sub(r'\!', '&ᓴ&', sub_3)
+    sub_5 = re.sub(r'\?', '&ᓷ&', sub_4)
+    last_sub = re.sub(r'\？', '&ᓸ&', sub_5)
+    if match_type:
+        last_sub = re.sub(r'"', '&⎋&', last_sub)
+    text = Text(last_sub).apply(*SubEscapedRegexReservedCharacters.All)
+    return text

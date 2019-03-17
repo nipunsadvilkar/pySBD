@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
+import re
 
 
 class Common(object):
-    # SENTENCE_BOUNDARY_REGEX = r'\u{ff08}(?: [ ^\u{ff09}]) *\u{ff09}(?=\s?[A-Z]) |\u{300c}(?: [ ^\u{300d}]) *\u{300d}(?=\s[A-Z]) |\((?: [ ^\)]){2, }\)(?=\s[A-Z])|'(?:[^'])*[^, ]'(?=\s[A-Z])|"(?:[^"])*[^, ]"(?=\s[A-Z]) |“(?: [ ^”])*[^, ]”(?=\s[A-Z]) |\S.*?[。．.！!?？ȸȹ☉☈☇☄]'
+
+    SENTENCE_BOUNDARY_REGEX = r"\\u{ff08}(?:[^\\u{ff09}])*\\u{ff09}(?=\s?[A-Z])|\\u{300c}(?:[^\\u{300d}])*\\u{300d}(?=\s[A-Z])|\((?:[^\)]){2,}\)(?=\s[A-Z])|\'(?:[^\'])*[^,]\'(?=\s[A-Z])|\"(?:[^\"])*[^,]\"(?=\s[A-Z])|\“(?:[^\”])*[^,]\”(?=\s[A-Z])|\S.*?[。．.！!?？ȸȹ☉☈☇☄]"
 
     # # Rubular: http://rubular.com/r/NqCqv372Ix
     # QUOTATION_AT_END_OF_SENTENCE_REGEX = r'[!?\.-][\"\'\u{201d}\u{201c}]\s{1}[A-Z]'
 
     # # Rubular: http://rubular.com/r/6flGnUMEVl
-    PARENS_BETWEEN_DOUBLE_QUOTES_REGEX=r'["\”]\s\(.*\)\s["\“]'
+    PARENS_BETWEEN_DOUBLE_QUOTES_REGEX = r'["\”]\s\(.*\)\s["\“]'
 
     # # Rubular: http://rubular.com/r/TYzr4qOW1Q
     # BETWEEN_DOUBLE_QUOTES_REGEX = / "(?:[^"])*[^, ]"|“(?: [ ^”])*[^, ]”/
@@ -21,7 +23,7 @@ class Common(object):
 
     # https://rubular.com/r/UkumQaILKbkeyc
     # https://github.com/diasks2/pragmatic_segmenter/commit/d9ec1a352aff92b91e2e572c30bb9561eb42c703
-    NUMBERED_REFERENCE_REGEX = '(?<=[^\\d\\s])(\\.|∯)((\\[(\\d{1,3},?\\s?-?\\s?)*\\b\\d{1,3}\\])+|((\\d{1,3}\\s?)*\\d{1,3}))(\\s)(?=[A-Z])'
+    NUMBERED_REFERENCE_REGEX = r'(?<=[^\\d\\s])(\\.|∯)((\\[(\\d{1,3},?\\s?-?\\s?)*\\b\\d{1,3}\\])+|((\\d{1,3}\\s?)*\\d{1,3}))(\\s)(?=[A-Z])'
 
     # # Rubular: http://rubular.com/r/yqa4Rit8EY
     # PossessiveAbbreviationRule = Rule.new(/\.(?='s\s)|\.(?='s$) |\.(?='s\z)/, '∯')
