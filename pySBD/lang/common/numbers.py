@@ -113,3 +113,6 @@ class Common(object):
     #     SingleUpperCaseLetterAtStartOfLineRule,
     #     SingleUpperCaseLetterRule
     #     ]
+if __name__ == "__main__":
+    txt = 'My friend work at Yahoo☄ amazing right?'
+    print(re.findall(Common.SENTENCE_BOUNDARY_REGEX, txt))

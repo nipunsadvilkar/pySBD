@@ -8,7 +8,7 @@ from pySBD.lists_item_replacer import ListItemReplacer
 # from pySBD import exclamation_words
 from pySBD.languages import Language
 from pySBD.lang.standard import (Standard, DoublePunctuationRules,
-                                 ExclamationPointRules)
+                                 ExclamationPointRules, SubSymbolsRules)
 from pySBD.lang.common.numbers import Common
 from pySBD.lang.common.ellipsis import EllipsisRules
 from pySBD.exclamation_words import ExclamationWords
@@ -28,10 +28,10 @@ class Processor(object):
         # text = replace_abbreviation(text)
         # text = replace_numbers(text)
         # text = replace_continuous_punctuation(text)
-        self.text = self.replace_periods_before_numeric_references(self.text)
         # Abbreviations.WithMultiplePeriodsAndEmailRule
         # GeoLocationRule
         # FileFormatRule
+        self.text = self.replace_periods_before_numeric_references(self.text)
         processed = self.split_into_segments()
         return processed
 
@@ -46,9 +46,18 @@ class Processor(object):
             Text(e).apply(Standard.SingleNewLineRule, *EllipsisRules.All)
             for e in sents
         ]
-        # SingleNewLineRule
-        # EllipsisRules
-        # check_for_punctuation
+        # new_sents = []
+        # for s in sents:
+        #     s = self.check_for_punctuation(s)
+        #     if not s:
+        #         continue
+        #     elif len(s) == 1:
+        #         s = Text(s).apply(*SubSymbolsRules.All)
+        #         new_sents.append(s)
+        #     else:
+        #         s = Text(s).apply(*SubSymbolsRules.All)
+        #         new_sents.append(s)
+
         # SubSymbolsRules
         # post_process_segments
         # SubSingleQuoteRule
@@ -140,10 +149,14 @@ class Processor(object):
 
 
 if __name__ == "__main__":
-    # text = "\"Dinah'll miss me very much to-night, I should think!\" (Dinah was the cat.) \"I hope they'll remember her saucer of milk at tea-time. Dinah, my dear, I wish you were down here with me!\""
-    text = 'Hi'
+    text = "\"Dinah'll miss me very much to-night, I should think!\" (Dinah was the cat.) \"I hope they'll remember her saucer of milk at tea-time. Dinah, my dear, I wish you were down here with me!\""
+    # text = 'Hi'
     print("Input String:\n{}".format(text))
     p = Processor(text)
     print("\nOutput String:\n")
-    # print(p.check_for_parens_between_quotes(text))
-    print(p.process_text(text))
+    paren_quotes_txt = p.check_for_parens_between_quotes(text)
+    print(paren_quotes_txt.split('\r'))
+    processed_op = p.process_text(paren_quotes_txt)
+    print("\nProcessed String:\n")
+    print(processed_op)
+    print(len(processed_op))
