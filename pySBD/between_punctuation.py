@@ -15,7 +15,7 @@ class BetweenPunctuation(object):
 
     # https://regex101.com/r/r6I1bW/1
     # https://stackoverflow.com/questions/13577372/do-python-regular-expressions-have-an-equivalent-to-rubys-atomic-grouping?noredirect=1&lq=1
-    BETWEEN_DOUBLE_QUOTES_REGEX_2 = r'"(?=(?P<tmp>[^"\\]+|\\{2}|\\.)*)(?P=tmp)"'
+    BETWEEN_DOUBLE_QUOTES_REGEX_2 = r'"(?=(?P<tmp>[^\"\\]+|\\{2}|\\.)*)(?P=tmp)"'
 
     # Rubular: http://rubular.com/r/x6s4PZK8jc
     BETWEEN_QUOTE_ARROW_REGEX = r'«(?>[^»\\]+|\\{2}|\\.)*»'
@@ -53,7 +53,7 @@ class BetweenPunctuation(object):
     def sub_punctuation_between_quotes_and_parens(self, txt):
         txt = self.sub_punctuation_between_single_quotes(txt)
         txt = self.sub_punctuation_between_single_quote_slanted(txt)
-        # txt = self.sub_punctuation_between_double_quotes(txt)
+        txt = self.sub_punctuation_between_double_quotes(txt)
         txt = self.sub_punctuation_between_square_brackets(txt)
         txt = self.sub_punctuation_between_parens(txt)
         txt = self.sub_punctuation_between_quotes_arrow(txt)
@@ -83,10 +83,6 @@ class BetweenPunctuation(object):
         return re.sub(self.BETWEEN_DOUBLE_QUOTES_REGEX_2, replace_punctuation,
                       txt)
 
-    # def btwn_dbl_quote(txt):
-    #   txt.scan(BETWEEN_DOUBLE_QUOTES_REGEX)
-    # end
-
     def sub_punctuation_between_quotes_arrow(self, txt):
         return re.sub(self.BETWEEN_QUOTE_ARROW_REGEX_2, replace_punctuation, txt)
 
@@ -99,5 +95,7 @@ class BetweenPunctuation(object):
 
 
 if __name__ == "__main__":
-    text = "Hello .World 'This is great.' you work for Google"
+    # text = "Hello .World 'This is great.' you work for Google"
+    text = "\"Dinah'll miss me very much to-night, I should think!\""
     print(BetweenPunctuation(text).replace())
+    # "Dinah&⎋&ll miss me very much to-night, I should think&ᓴ&"

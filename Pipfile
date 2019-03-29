@@ -6,6 +6,7 @@ verify_ssl = true
 [dev-packages]
 yapf = "*"
 ipython = "*"
+ipdb = "*"
 
 [packages]
 pytest = "*"
