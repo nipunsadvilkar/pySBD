@@ -34,7 +34,7 @@ def replace_punctuation(match, match_type=None):
     sub_4 = re.sub(r'\!', '&ᓴ&', sub_3)
     sub_5 = re.sub(r'\?', '&ᓷ&', sub_4)
     last_sub = re.sub(r'\？', '&ᓸ&', sub_5)
-    if match_type:
-        last_sub = re.sub(r'"', '&⎋&', last_sub)
+    if match_type != 'single':
+        last_sub = re.sub(r"'", '&⎋&', last_sub)
     text = Text(last_sub).apply(*SubEscapedRegexReservedCharacters.All)
     return text

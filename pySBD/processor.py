@@ -37,7 +37,7 @@ class Processor(object):
 
     def split_into_segments(self):
         text = self.check_for_parens_between_quotes(self.text)
-        sents = text.split('\r')
+        sents = text.split('\\r')
         # remove empty and none values
         # https://stackoverflow.com/questions/3845423/remove-empty-strings-from-a-list-of-strings
         sents = list(filter(None, sents))
@@ -46,8 +46,10 @@ class Processor(object):
             Text(e).apply(Standard.SingleNewLineRule, *EllipsisRules.All)
             for e in sents
         ]
+        # print(sents)
         # new_sents = []
         # for s in sents:
+        #     print(s)
         #     s = self.check_for_punctuation(s)
         #     if not s:
         #         continue
@@ -103,12 +105,13 @@ class Processor(object):
             self.process_text(txt)
 
     def process_text(self, txt):
-        if not any(p in txt[-1] for p in Standard.Punctuations):
-            txt += 'ȸ'  # "Hello .World" -> "Hello .Worldȸ"
-
+        # if not any(p in txt[-1] for p in Standard.Punctuations):
+        if txt[-1] not in Standard.Punctuations:
+            # "Hello .World" -> "Hello .Worldȸ"
+            txt += 'ȸ'
         # work for Yahoo! company -> work for Yahoo&ᓴ& company
         txt = ExclamationWords.apply_rules(txt)
-        txt = BetweenPunctuation(text).replace()
+        txt = BetweenPunctuation(txt).replace()
         txt = Text(txt).apply(*DoublePunctuationRules.All,
                               Standard.QuestionMarkInQuotationRule,
                               *ExclamationPointRules.All)
@@ -150,13 +153,22 @@ class Processor(object):
 
 if __name__ == "__main__":
     text = "\"Dinah'll miss me very much to-night, I should think!\" (Dinah was the cat.) \"I hope they'll remember her saucer of milk at tea-time. Dinah, my dear, I wish you were down here with me!\""
-    # text = 'Hi'
+    # text = "\"Dinah'll miss me very much to-night, I should think!\""
+    #  text = "I hope they'll remember her saucer of milk at tea-time. Dinah, my dear, I wish you were down here with me!\""
     print("Input String:\n{}".format(text))
     p = Processor(text)
-    print("\nOutput String:\n")
-    paren_quotes_txt = p.check_for_parens_between_quotes(text)
-    print(paren_quotes_txt.split('\r'))
-    processed_op = p.process_text(paren_quotes_txt)
+    processed_op = p.split_into_segments()
     print("\nProcessed String:\n")
+    print("Number of sentences: {}\n".format(len(processed_op)))
     print(processed_op)
-    print(len(processed_op))
+    for e in processed_op:
+        print(e)
+# output after check_for_punctuation
+# "\"Dinah&⎋&ll miss me very much to-night, I should think&ᓴ&\"ȸ"
+# "(Dinah was the cat∯)ȸ"
+# "\"I hope they&⎋&ll remember her saucer of milk at tea-time∯ Dinah, my dear, I wish you were down here with me&ᓴ&\"ȸ"
+
+# After SubSymbolsRules.all
+# "\"Dinah&⎋&ll miss me very much to-night, I should think!\""
+# "(Dinah was the cat.)"
+# "\"I hope they&⎋&ll remember her saucer of milk at tea-time. Dinah, my dear, I wish you were down here with me!\""

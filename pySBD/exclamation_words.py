@@ -18,5 +18,6 @@ class ExclamationWords(object):
 
 
 if __name__ == "__main__":
-    text = "Hello .World work for Yahoo! company"
+    # text = "Hello .World work for Yahoo! company"
+    text = "\"Dinah'll miss me very much to-night, I should think!\"ȸ"
     print(ExclamationWords.apply_rules(text))
