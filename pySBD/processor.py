@@ -8,7 +8,8 @@ from pySBD.lists_item_replacer import ListItemReplacer
 # from pySBD import exclamation_words
 from pySBD.languages import Language
 from pySBD.lang.standard import (Standard, DoublePunctuationRules,
-                                 ExclamationPointRules, SubSymbolsRules)
+                                 ExclamationPointRules, SubSymbolsRules,
+                                 ReinsertEllipsisRules)
 from pySBD.lang.common.numbers import Common
 from pySBD.lang.common.ellipsis import EllipsisRules
 from pySBD.exclamation_words import ExclamationWords
@@ -53,20 +54,30 @@ class Processor(object):
             Text(s).apply(*SubSymbolsRules.All)
             for s in sents
         ]
-
-        # SubSymbolsRules
-        # post_process_segments
-        # SubSingleQuoteRule
-        # raise NotImplementedError
+        post_process_sents = [self.post_process_segments(s) for s in sents]
+        # remove any empty or null values
+        sents = [s for s in post_process_sents if s]
+        sents = [
+            Text(s).apply(Standard.SubSingleQuoteRule)
+            for s in sents
+        ]
         return sents
 
-    def post_process_segments(self, text):
-        # consecutive_underscore
-        # ReinsertEllipsisRules
-        # ExtraWhiteSpaceRule
-        # QUOTATION_AT_END_OF_SENTENCE_REGEX
-        # SPLIT_SPACE_QUOTATION_AT_END_OF_SENTENCE_REGEX
-        raise NotImplementedError
+    def post_process_segments(self, txt):
+        if len(txt) > 2 and re.search(r'\A[a-zA-Z]*\Z', txt):
+            return txt
+        if self.consecutive_underscore(txt) or len(txt) < 2:
+            txt = Text(txt).apply(*ReinsertEllipsisRules.All,
+                                  Standard.ExtraWhiteSpaceRule)
+            return txt
+
+        if re.search(Common.QUOTATION_AT_END_OF_SENTENCE_REGEX, txt):
+            txt = re.split(
+                Common.SPLIT_SPACE_QUOTATION_AT_END_OF_SENTENCE_REGEX, txt)
+            return txt
+        else:
+            txt = txt.replace('\n', '')
+            return txt.strip()
 
     def check_for_parens_between_quotes(self, txt):
         def paren_replace(match):
@@ -90,7 +101,8 @@ class Processor(object):
 
     def consecutive_underscore(self, txt):
         # Rubular: http://rubular.com/r/fTF2Ff3WBL
-        raise NotImplementedError
+        txt = re.sub(r'_{3,}', '', txt)
+        return len(txt) == 0
 
     def check_for_punctuation(self, txt):
         # if any(re.search(re.escape(r'{}'.format(p)), txt)
