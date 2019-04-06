@@ -7,7 +7,7 @@ class Common(object):
     SENTENCE_BOUNDARY_REGEX = r"\\u{ff08}(?:[^\\u{ff09}])*\\u{ff09}(?=\s?[A-Z])|\\u{300c}(?:[^\\u{300d}])*\\u{300d}(?=\s[A-Z])|\((?:[^\)]){2,}\)(?=\s[A-Z])|\'(?:[^\'])*[^,]\'(?=\s[A-Z])|\"(?:[^\"])*[^,]\"(?=\s[A-Z])|\“(?:[^\”])*[^,]\”(?=\s[A-Z])|\S.*?[。．.！!?？ȸȹ☉☈☇☄]"
 
     # # Rubular: http://rubular.com/r/NqCqv372Ix
-    # QUOTATION_AT_END_OF_SENTENCE_REGEX = r'[!?\.-][\"\'\u{201d}\u{201c}]\s{1}[A-Z]'
+    QUOTATION_AT_END_OF_SENTENCE_REGEX = r'[!?\.][\"\'“”]\s{1}[A-Z]'
 
     # # Rubular: http://rubular.com/r/6flGnUMEVl
     PARENS_BETWEEN_DOUBLE_QUOTES_REGEX = r'["\”]\s\(.*\)\s["\“]'
@@ -16,7 +16,7 @@ class Common(object):
     # BETWEEN_DOUBLE_QUOTES_REGEX = / "(?:[^"])*[^, ]"|“(?: [ ^”])*[^, ]”/
 
     # # Rubular: http://rubular.com/r/JMjlZHAT4g
-    # SPLIT_SPACE_QUOTATION_AT_END_OF_SENTENCE_REGEX= / (?<= [!?\.-][\"\'\u{201d}\u{201c}])\s{1}(?=[A-Z]) /
+    SPLIT_SPACE_QUOTATION_AT_END_OF_SENTENCE_REGEX = r'(?<=[!?\.][\"\'“”])\s{1}(?=[A-Z])'
 
     # # Rubular: http://rubular.com/r/mQ8Es9bxtk
     # CONTINUOUS_PUNCTUATION_REGEX= / (?<=\S)(!|\?){3, }(?=(\s |\z |$)) /
@@ -113,6 +113,8 @@ class Common(object):
     #     SingleUpperCaseLetterAtStartOfLineRule,
     #     SingleUpperCaseLetterRule
     #     ]
+
+
 if __name__ == "__main__":
     txt = 'My friend work at Yahoo☄ amazing right?'
     print(re.findall(Common.SENTENCE_BOUNDARY_REGEX, txt))
