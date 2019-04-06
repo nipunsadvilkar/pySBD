@@ -43,22 +43,16 @@ class Processor(object):
         sents = list(filter(None, sents))
         # https://stackoverflow.com/questions/4698493/can-i-add-custom-methods-attributes-to-built-in-python-types
         sents = [
-            Text(e).apply(Standard.SingleNewLineRule, *EllipsisRules.All)
-            for e in sents
+            Text(s).apply(Standard.SingleNewLineRule, *EllipsisRules.All)
+            for s in sents
         ]
-        # print(sents)
-        # new_sents = []
-        # for s in sents:
-        #     print(s)
-        #     s = self.check_for_punctuation(s)
-        #     if not s:
-        #         continue
-        #     elif len(s) == 1:
-        #         s = Text(s).apply(*SubSymbolsRules.All)
-        #         new_sents.append(s)
-        #     else:
-        #         s = Text(s).apply(*SubSymbolsRules.All)
-        #         new_sents.append(s)
+        new_sents = [self.check_for_punctuation(s) for s in sents]
+        # flatten list of list of sentences
+        sents = [s for sents in new_sents for s in sents]
+        sents = [
+            Text(s).apply(*SubSymbolsRules.All)
+            for s in sents
+        ]
 
         # SubSymbolsRules
         # post_process_segments
@@ -102,7 +96,10 @@ class Processor(object):
         # if any(re.search(re.escape(r'{}'.format(p)), txt)
         #        for p in Standard.Punctuations):
         if any(p in txt for p in Standard.Punctuations):
-            self.process_text(txt)
+            sents = self.process_text(txt)
+            return sents
+        else:
+            return txt
 
     def process_text(self, txt):
         # if not any(p in txt[-1] for p in Standard.Punctuations):
