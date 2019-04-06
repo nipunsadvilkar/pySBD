@@ -4,7 +4,7 @@ from pySBD.rules import Rule, Text
 
 
 class EscapeRegexReservedCharacters(object):
-    LeftParen = Rule('\(', '\\(')
+    LeftParen = Rule(r'\(', '\\(')
     RightParen = Rule(r'\)', '\\)')
     # LeftParen = Rule(re.escape(r'('), '(')
     # RightParen = Rule(re.escape(r')'), ')')
