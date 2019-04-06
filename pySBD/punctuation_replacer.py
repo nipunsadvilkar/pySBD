@@ -4,8 +4,10 @@ from pySBD.rules import Rule, Text
 
 
 class EscapeRegexReservedCharacters(object):
-    LeftParen = Rule(re.escape(r'('), '\\(')
-    RightParen = Rule(re.escape(r')'), '\\)')
+    LeftParen = Rule('\(', '\\(')
+    RightParen = Rule(r'\)', '\\)')
+    # LeftParen = Rule(re.escape(r'('), '(')
+    # RightParen = Rule(re.escape(r')'), ')')
     LeftBracket = Rule(re.escape(r'\['), '\\[')
     RightBracket = Rule(re.escape(r'\]'), '\\]')
     Dash = Rule(re.escape(r'\-'), '\\-')
@@ -14,8 +16,10 @@ class EscapeRegexReservedCharacters(object):
 
 
 class SubEscapedRegexReservedCharacters(object):
-    SubLeftParen = Rule(re.escape(r"\\("), "(")
-    SubRightParen = Rule(re.escape(r'\\)'), ')')
+    SubLeftParen = Rule(r'\\\(', '(')
+    SubRightParen = Rule(r'\\\)', ')')
+    # SubLeftParen = Rule(re.escape(r"\\("), "(")
+    # SubRightParen = Rule(re.escape(r'\\)'), ')')
     SubLeftBracket = Rule(re.escape(r'\\['), '[')
     SubRightBracket = Rule(re.escape(r'\\]'), ']')
     SubDash = Rule(re.escape(r'\\-'), '-')
