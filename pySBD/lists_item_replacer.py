@@ -76,16 +76,18 @@ class ListItemReplacer(object):
     #     return self.text
 
     def format_alphabetical_lists(self):
-        self.add_line_breaks_for_alphabetical_list_with_periods(
+        self.txt = self.add_line_breaks_for_alphabetical_list_with_periods(
             roman_numeral=False)
-        self.add_line_breaks_for_alphabetical_list_with_parens(
+        self.txt = self.add_line_breaks_for_alphabetical_list_with_parens(
             roman_numeral=False)
+        return self.txt
 
     def format_roman_numeral_lists(self):
-        self.add_line_breaks_for_alphabetical_list_with_periods(
+        self.txt = self.add_line_breaks_for_alphabetical_list_with_periods(
             roman_numeral=True)
-        self.add_line_breaks_for_alphabetical_list_with_parens(
+        self.txt = self.add_line_breaks_for_alphabetical_list_with_parens(
             roman_numeral=True)
+        return self.txt
 
     def add_line_breaks_for_alphabetical_list_with_periods(
             self, roman_numeral=False):
@@ -122,6 +124,10 @@ class ListItemReplacer(object):
 
     # @text.apply(SpaceBetweenListItemsThirdRule)
     def replace_alphabet_list(self, a):
+        """
+        Input: 'a. ffegnog b. fgegkl c.'
+        Output: \ra∯ ffegnog \rb∯ fgegkl \rc∯
+        """
 
         def replace_letter_period(match, val=None):
             match = match.group()
@@ -132,18 +138,32 @@ class ListItemReplacer(object):
                 return match
 
         txt = re.sub(self.ALPHABETICAL_LIST_LETTERS_AND_PERIODS_REGEX,
-                     partial(replace_letter_period, val=a), self.text)
+                     partial(replace_letter_period, val=a),
+                     self.text, re.IGNORECASE)
         return txt
-        # txt = re.sub(self.ALPHABETICAL_LIST_LETTERS_AND_PERIODS_REGEX,
-        #              partial(replace_letter_period, a), self.text)
-        # list_array = re.findall(self.ALPHABETICAL_LIST_LETTERS_AND_PERIODS_REGEX)
-
-
 
     def replace_alphabet_list_parens(self, a):
-        list_array = re.findall(self.EXTRACT_ALPHABETICAL_LIST_LETTERS_REGEX,
-                                self.text, re.IGNORECASE)
-        pass
+        """
+        Input: "a) ffegnog (b) fgegkl c)"
+        Output: "\ra) ffegnog \r&✂&b) fgegkl \rc)"
+        """
+
+        def replace_alphabet_paren(match, val=None):
+            match = match.group()
+            print(match, val)
+            # match_wo_period = match.strip('.')
+            # if match_wo_period == val:
+            #     return '\\r{}∯'.format(match_wo_period)
+            # else:
+            #     return match
+
+        txt = re.findall(self.EXTRACT_ALPHABETICAL_LIST_LETTERS_REGEX,
+                     partial(replace_alphabet_paren), self.text, re.IGNORECASE)
+        print(txt)
+        # txt = re.sub(self.EXTRACT_ALPHABETICAL_LIST_LETTERS_REGEX,
+        #              partial(replace_alphabet_paren),
+        #              self.text, re.IGNORECASE)
+        return txt
 
     def replace_correct_alphabet_list(self, a, parens):
         if parens:
@@ -172,9 +192,9 @@ class ListItemReplacer(object):
         result = self.replace_correct_alphabet_list(a, parens)
         return result
 
-    def iterate_alphabet_array(self, regex, parens=False, roman_numerals=False):
+    def iterate_alphabet_array(self, regex, parens=False, roman_numeral=False):
         list_array = re.findall(regex, self.text)
-        alphabet = self.ROMAN_NUMERALS if roman_numerals else self.LATIN_NUMERALS
+        alphabet = self.ROMAN_NUMERALS if roman_numeral else self.LATIN_NUMERALS
         list_array = [i for i in list_array if i in alphabet]
         for ind, each in enumerate(list_array):
             if ind == len(list_array) - 1:
@@ -186,8 +206,9 @@ class ListItemReplacer(object):
 
 
 if __name__ == "__main__":
-    # text = '(vii) Something'
+    # text = "a) ffegnog (b) fgegkl c)"
+    # "\ra) ffegnog \r&✂&b) fgegkl \rc)"
     text = 'a. ffegnog b. fgegkl c.'
+    # \ra∯ ffegnog \rb∯ fgegkl \rc∯
     li = ListItemReplacer(text)
-    # print(li.replace_parens())
-    print(li.iterate_alphabet_array(li.ALPHABETICAL_LIST_WITH_PERIODS))
+    print(li.format_alphabetical_lists())
