@@ -4,21 +4,25 @@ from pySBD.rules import Rule, Text
 
 
 class EscapeRegexReservedCharacters(object):
-    LeftParen = Rule(re.escape(r'('), '\\(')
-    RightParen = Rule(re.escape(r')'), '\\)')
-    LeftBracket = Rule(re.escape(r'\['), '\\[')
-    RightBracket = Rule(re.escape(r'\]'), '\\]')
-    Dash = Rule(re.escape(r'\-'), '\\-')
+    LeftParen = Rule(r'\(', '\\(')
+    RightParen = Rule(r'\)', '\\)')
+    # LeftParen = Rule(re.escape(r'('), '(')
+    # RightParen = Rule(re.escape(r')'), ')')
+    LeftBracket = Rule(r'\[', '\\[')
+    RightBracket = Rule(r'\]', '\\]')
+    Dash = Rule(r'\-', '\\-')
 
     All = [LeftParen, RightParen, LeftBracket, RightBracket, Dash]
 
 
 class SubEscapedRegexReservedCharacters(object):
-    SubLeftParen = Rule(re.escape(r"\\("), "(")
-    SubRightParen = Rule(re.escape(r'\\)'), ')')
-    SubLeftBracket = Rule(re.escape(r'\\['), '[')
-    SubRightBracket = Rule(re.escape(r'\\]'), ']')
-    SubDash = Rule(re.escape(r'\\-'), '-')
+    SubLeftParen = Rule(r'\\\(', '(')
+    SubRightParen = Rule(r'\\\)', ')')
+    # SubLeftParen = Rule(re.escape(r"\\("), "(")
+    # SubRightParen = Rule(re.escape(r'\\)'), ')')
+    SubLeftBracket = Rule(r'\\\[', '[')
+    SubRightBracket = Rule(r'\\\]', ']')
+    SubDash = Rule(r'\\\-', '-')
 
     All = [
         SubLeftParen, SubRightParen, SubLeftBracket, SubRightBracket, SubDash

@@ -10,7 +10,7 @@ class Standard(object):
     # Rubular: http://rubular.com/r/G2opjedIm9
     GeoLocationRule = Rule(r'(?<=[a-zA-z]°)\.(?=\s*\d+)', '∯')
 
-    FileFormatRule = Rule('(?<=\s)\.(?=(jpe?g|png|gif|tiff?|pdf|ps|docx?|xlsx?|svg|bmp|tga|exif|odt|html?|txt|rtf|bat|sxw|xml|zip|exe|msi|blend|wmv|mp[34]|pptx?|flac|rb|cpp|cs|js)\s)', '∯')
+    FileFormatRule = Rule(r'(?<=\s)\.(?=(jpe?g|png|gif|tiff?|pdf|ps|docx?|xlsx?|svg|bmp|tga|exif|odt|html?|txt|rtf|bat|sxw|xml|zip|exe|msi|blend|wmv|mp[34]|pptx?|flac|rb|cpp|cs|js)\s)', '∯')
 
     SingleNewLineRule = Rule(r'\n', 'ȹ')
 

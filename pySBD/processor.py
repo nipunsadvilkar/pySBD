@@ -24,8 +24,10 @@ class Processor(object):
         self.text = text
 
     def process(self):
-        # text = ListItemReplacer(self.text)
-        # text = add_line_break(text)
+        if not self.text:
+            return self.text
+        # li = ListItemReplacer(self.text)
+        # text = li.add_line_break()
         # text = replace_abbreviation(text)
         # text = replace_numbers(text)
         # text = replace_continuous_punctuation(text)
@@ -155,18 +157,16 @@ class Processor(object):
         if hasattr(self.language_module, 'ReplaceNonSentenceBoundaryCommaRule'):
             txt = Text(txt).apply(
                 self.language_module.ReplaceNonSentenceBoundaryCommaRule)
-        # SENTENCE_BOUNDARY_REGEX
         txt = re.findall(Common.SENTENCE_BOUNDARY_REGEX, txt)
         return txt
 
 
 if __name__ == "__main__":
-    text = "\"Dinah'll miss me very much to-night, I should think!\" (Dinah was the cat.) \"I hope they'll remember her saucer of milk at tea-time. Dinah, my dear, I wish you were down here with me!\""
-    # text = "\"Dinah'll miss me very much to-night, I should think!\""
-    #  text = "I hope they'll remember her saucer of milk at tea-time. Dinah, my dear, I wish you were down here with me!\""
+    # text = "\"Dinah'll miss me very much to-night, I should think!\" (Dinah was the cat.) \"I hope they'll remember her saucer of milk at tea-time. Dinah, my dear, I wish you were down here with me!\""
+    text = "My name is Jonas E. Smith."
     print("Input String:\n{}".format(text))
     p = Processor(text)
-    processed_op = p.split_into_segments()
+    processed_op = p.process()
     print("\nProcessed String:\n")
     print("Number of sentences: {}\n".format(len(processed_op)))
     print(processed_op)
