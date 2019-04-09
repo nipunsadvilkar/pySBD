@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import string
 import re
-from pySBD.rules import Text
+from pySBD.rules import Rule
+from functools import partial
 
 
 class ListItemReplacer(object):
@@ -10,30 +11,35 @@ class ListItemReplacer(object):
     LATIN_NUMERALS = list(string.ascii_lowercase)
 
     # Rubular: http://rubular.com/r/XcpaJKH0sz
-    ALPHABETICAL_LIST_WITH_PERIODS = r'(?<= ^)[a-z](?=\.) | (?<=\A)[a-z](?=\.) | (?<=\s)[a-z](?=\.)'
+    ALPHABETICAL_LIST_WITH_PERIODS = r'(?<=^)[a-z](?=\.)|(?<=\A)[a-z](?=\.)|(?<=\s)[a-z](?=\.)'
 
     # Rubular: http://rubular.com/r/Gu5rQapywf
     # TODO: Make sure below regex call is case-insensitive
     ALPHABETICAL_LIST_WITH_PARENS = r'(?<=\()[a-z]+(?=\))|(?<=^)[a-z]+(?=\))|(?<=\A)[a-z]+(?=\))|(?<=\s)[a-z]+(?=\))'
 
     # (pattern, replacement)
-    SubstituteListPeriodRule = ('♨', '∯')
-    ListMarkerRule = ('☝', '')
+    SubstituteListPeriodRule = Rule('♨', '∯')
+    ListMarkerRule = Rule('☝', '')
 
-    # Rubular: https://regex101.com/r/62YBlv/1
-    SpaceBetweenListItemsFirstRule = (r'(?<=\S\S)\s(?=\S\s*\d+♨)', "\r")
+    # Rubular: http://rubular.com/r/Wv4qLdoPx7
+    # https://regex101.com/r/62YBlv/1
+    SpaceBetweenListItemsFirstRule = Rule(r'(?<=\S\S)\s(?=\S\s*\d+♨)', "\r")
 
     # Rubular: http://rubular.com/r/AizHXC6HxK
-    SpaceBetweenListItemsSecondRule = (r'(?<=\S\S)\s(?=\d{1,2}♨)', "\r")
+    # https://regex101.com/r/62YBlv/2
+    SpaceBetweenListItemsSecondRule = Rule(r'(?<=\S\S)\s(?=\d{1,2}♨)', "\r")
 
     # Rubular: http://rubular.com/r/GE5q6yID2j
-    SpaceBetweenListItemsThirdRule = (r'(?<=\S\S)\s(?=\d{1,2}☝)', "\r")
+    # https://regex101.com/r/62YBlv/3
+    SpaceBetweenListItemsThirdRule = Rule(r'(?<=\S\S)\s(?=\d{1,2}☝)', "\r")
 
+
+    NUMBERED_LIST_REGEX_1 = r'\s\d{1,2}(?=\.\s)|^\d{1,2}(?=\.\s)|\s\d{1,2}(?=\.\))|^\d{1,2}(?=\.\))|(?<=\s\-)\d{1,2}(?=\.\s)|(?<=^\-)\d{1,2}(?=\.\s)|(?<=\s\⁃)\d{1,2}(?=\.\s)|(?<=^\⁃)\d{1,2}(?=\.\s)|(?<=s\-)\d{1,2}(?=\.\))|(?<=^\-)\d{1,2}(?=\.\))|(?<=\s\⁃)\d{1,2}(?=\.\))|(?<=^\⁃)\d{1,2}(?=\.\))'
     # 1. abcd
     # 2. xyz
-    NUMBERED_LIST_REGEX_1 = r'\s\d{1,2}(?=\.\s)|^\d{1,2}(?=\.\s)|\s\d{1,2}(?=\.\))|^\d{1,2}(?=\.\))|(?<=\s\-)\d{1,2}(?=\.\s)|(?<=^\-)\d{1,2}(?=\.\s)|(?<=\s\⁃)\d{1,2}(?=\.\s)|(?<=^\⁃)\d{1,2}(?=\.\s)|(?<=s\-)\d{1,2}(?=\.\))|(?<=^\-)\d{1,2}(?=\.\))|(?<=\s\⁃)\d{1,2}(?=\.\))|(?<=^\⁃)\d{1,2}(?=\.\))'
-
     NUMBERED_LIST_REGEX_2 = r'(?<=\s)\d{1,2}\.(?=\s)|^\d{1,2}\.(?=\s)|(?<=\s)\d{1,2}\.(?=\))|^\d{1,2}\.(?=\))|(?<=\s\-)\d{1,2}\.(?=\s)|(?<=^\-)\d{1,2}\.(?=\s)|(?<=\s\⁃)\d{1,2}\.(?=\s)|(?<=^\⁃)\d{1,2}\.(?=\s)|(?<=\s\-)\d{1,2}\.(?=\))|(?<=^\-)\d{1,2}\.(?=\))|(?<=\s\⁃)\d{1,2}\.(?=\))|(?<=^\⁃)\d{1,2}\.(?=\))'
+    # 1) abcd
+    # 2) xyz
     NUMBERED_LIST_PARENS_REGEX = r'\d{1,2}(?=\)\s)'
 
     # Rubular: http://rubular.com/r/NsNFSqrNvJ
@@ -48,11 +54,10 @@ class ListItemReplacer(object):
     ROMAN_NUMERALS_IN_PARENTHESES = r'\(((?=[mdclxvi])m*(c[md]|d?c*)(x[cl]|l?x*)(i[xv]|v?i*))\)(?=\s[A-Z])'
 
     def __init__(self, text):
-        self.text = Text(text)
+        self.text = text
 
-    @classmethod
-    def add_line_break(self, text):
-        text = self.format_alphabetical_lists(text)
+    def add_line_break(self):
+        text = self.format_alphabetical_lists(self.text)
         text = self.format_roman_numeral_lists(text)
         text = self.format_numbered_list_with_periods(text)
         text = self.format_numbered_list_with_parens(text)
@@ -60,7 +65,7 @@ class ListItemReplacer(object):
 
     def replace_parens(self):
         text = re.sub(self.ROMAN_NUMERALS_IN_PARENTHESES,
-                      '&✂&\\1&⌬&', self.text)
+                      r'&✂&\1&⌬&', self.text)
         return text
 
     # def format_numbered_list_with_parens(self):
@@ -82,9 +87,20 @@ class ListItemReplacer(object):
         self.add_line_breaks_for_alphabetical_list_with_parens(
             roman_numeral=True)
 
-    def add_line_breaks_for_alphabetical_list_with_periods(self, roman_numeral=False):
-        pass
-        # iterate_alphabet_array(ALPHABETICAL_LIST_WITH_PERIODS, roman_numeral: roman_numeral)
+    def add_line_breaks_for_alphabetical_list_with_periods(
+            self, roman_numeral=False):
+        txt = self.iterate_alphabet_array(
+            self.ALPHABETICAL_LIST_WITH_PERIODS,
+            roman_numeral=roman_numeral)
+        return txt
+
+    def add_line_breaks_for_alphabetical_list_with_parens(self, roman_numeral=False):
+        txt = self.iterate_alphabet_array(
+            self.ALPHABETICAL_LIST_WITH_PARENS,
+            parens=True,
+            roman_numeral=roman_numeral)
+        return txt
+
     # def replace_periods_in_numbered_list(self):
     #     self.scan_lists(self.NUMBERED_LIST_REGEX_1,
     #                     self.NUMBERED_LIST_REGEX_2, '♨', strip=True)
@@ -105,6 +121,73 @@ class ListItemReplacer(object):
     # if @text.include?('☝') & & @text !~ /☝.+\n.+☝|☝.+\r.+☝/
 
     # @text.apply(SpaceBetweenListItemsThirdRule)
+    def replace_alphabet_list(self, a):
+
+        def replace_letter_period(match, val=None):
+            match = match.group()
+            match_wo_period = match.strip('.')
+            if match_wo_period == val:
+                return '\\r{}∯'.format(match_wo_period)
+            else:
+                return match
+
+        txt = re.sub(self.ALPHABETICAL_LIST_LETTERS_AND_PERIODS_REGEX,
+                     partial(replace_letter_period, val=a), self.text)
+        return txt
+        # txt = re.sub(self.ALPHABETICAL_LIST_LETTERS_AND_PERIODS_REGEX,
+        #              partial(replace_letter_period, a), self.text)
+        # list_array = re.findall(self.ALPHABETICAL_LIST_LETTERS_AND_PERIODS_REGEX)
+
+
+
+    def replace_alphabet_list_parens(self, a):
+        list_array = re.findall(self.EXTRACT_ALPHABETICAL_LIST_LETTERS_REGEX,
+                                self.text, re.IGNORECASE)
+        pass
+
+    def replace_correct_alphabet_list(self, a, parens):
+        if parens:
+            a = self.replace_alphabet_list_parens(a)
+        else:
+            a = self.replace_alphabet_list(a)
+        return a
+
+    def last_array_item_replacement(self, a, i, alphabet, list_array, parens):
+        if (len(alphabet) == 0) & (len(list_array) == 0) or (
+                list_array[i - 1] not in alphabet) or (a not in alphabet):
+            return a
+        if abs(alphabet.index(list_array[i - 1]) - alphabet.index(a)) != 1:
+            return a
+        result = self.replace_correct_alphabet_list(a, parens)
+        return result
+
+    def other_items_replacement(self, a, i, alphabet, list_array, parens):
+        if (len(alphabet) == 0) & (len(list_array) == 0) or (
+                list_array[i - 1] not in alphabet) or (a not in alphabet) or (
+                    list_array[i + 1] not in alphabet):
+            return a
+        if alphabet.index(list_array[i + 1]) - alphabet.index(a) != 1 and \
+                abs(alphabet.index(list_array[i - 1]) - alphabet.index(a)) != 1:
+            return a
+        result = self.replace_correct_alphabet_list(a, parens)
+        return result
+
+    def iterate_alphabet_array(self, regex, parens=False, roman_numerals=False):
+        list_array = re.findall(regex, self.text)
+        alphabet = self.ROMAN_NUMERALS if roman_numerals else self.LATIN_NUMERALS
+        list_array = [i for i in list_array if i in alphabet]
+        for ind, each in enumerate(list_array):
+            if ind == len(list_array) - 1:
+                self.text = self.last_array_item_replacement(each, ind, alphabet, list_array, parens)
+            else:
+                self.text = self.other_items_replacement(
+                    each, ind, alphabet, list_array, parens)
+        return self.text
+
+
 if __name__ == "__main__":
-    text = '(vii) Something'
-    print(ListItemReplacer(text).replace_parens())
+    # text = '(vii) Something'
+    text = 'a. ffegnog b. fgegkl c.'
+    li = ListItemReplacer(text)
+    # print(li.replace_parens())
+    print(li.iterate_alphabet_array(li.ALPHABETICAL_LIST_WITH_PERIODS))

@@ -26,8 +26,8 @@ class Processor(object):
     def process(self):
         if not self.text:
             return self.text
-        # text = ListItemReplacer(self.text)
-        # text = add_line_break(text)
+        # li = ListItemReplacer(self.text)
+        # text = li.add_line_break()
         # text = replace_abbreviation(text)
         # text = replace_numbers(text)
         # text = replace_continuous_punctuation(text)
