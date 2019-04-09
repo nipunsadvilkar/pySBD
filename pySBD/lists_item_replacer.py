@@ -151,18 +151,21 @@ class ListItemReplacer(object):
         def replace_alphabet_paren(match, val=None):
             match = match.group()
             print(match, val)
-            # match_wo_period = match.strip('.')
-            # if match_wo_period == val:
-            #     return '\\r{}∯'.format(match_wo_period)
-            # else:
-            #     return match
+            if '(' in match:
+                match_wo_paren = match.strip('(')
+                if match_wo_paren == val:
+                    return '\\r&✂&{}'.format(match_wo_paren)
+                else:
+                    return match
+            else:
+                if match == val:
+                    return '\\r{}'.format(match)
+                else:
+                    return match
 
-        txt = re.findall(self.EXTRACT_ALPHABETICAL_LIST_LETTERS_REGEX,
-                     partial(replace_alphabet_paren), self.text, re.IGNORECASE)
-        print(txt)
-        # txt = re.sub(self.EXTRACT_ALPHABETICAL_LIST_LETTERS_REGEX,
-        #              partial(replace_alphabet_paren),
-        #              self.text, re.IGNORECASE)
+        txt = re.sub(self.EXTRACT_ALPHABETICAL_LIST_LETTERS_REGEX,
+                     partial(replace_alphabet_paren, val=a),
+                     self.text, re.IGNORECASE)
         return txt
 
     def replace_correct_alphabet_list(self, a, parens):
@@ -196,6 +199,7 @@ class ListItemReplacer(object):
         list_array = re.findall(regex, self.text)
         alphabet = self.ROMAN_NUMERALS if roman_numeral else self.LATIN_NUMERALS
         list_array = [i for i in list_array if i in alphabet]
+        # print(list_array)
         for ind, each in enumerate(list_array):
             if ind == len(list_array) - 1:
                 self.text = self.last_array_item_replacement(each, ind, alphabet, list_array, parens)
@@ -206,9 +210,9 @@ class ListItemReplacer(object):
 
 
 if __name__ == "__main__":
-    # text = "a) ffegnog (b) fgegkl c)"
+    text = "a) ffegnog (b) fgegkl c)"
     # "\ra) ffegnog \r&✂&b) fgegkl \rc)"
-    text = 'a. ffegnog b. fgegkl c.'
+    # text = 'a. ffegnog b. fgegkl c.'
     # \ra∯ ffegnog \rb∯ fgegkl \rc∯
     li = ListItemReplacer(text)
     print(li.format_alphabetical_lists())
