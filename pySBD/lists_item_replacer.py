@@ -58,8 +58,8 @@ class ListItemReplacer(object):
     def add_line_break(self):
         text = self.format_alphabetical_lists()
         text = self.format_roman_numeral_lists()
-        text = self.format_numbered_list_with_periods(text)
-        text = self.format_numbered_list_with_parens(text)
+        text = self.format_numbered_list_with_periods()
+        text = self.format_numbered_list_with_parens()
         return text
 
     def replace_parens(self):
@@ -126,7 +126,9 @@ class ListItemReplacer(object):
     def substitute_found_list_items(self, regex, each, strip, replacement):
         list_array = re.findall(regex, self.text)
         for ind, match in enumerate(list_array, start=1):
-            if str(each) == str(match).strip()[:-1]:
+            stripped_match = str(match).strip()
+            chomped_match = stripped_match if len(stripped_match) == 1 else stripped_match[:-1]
+            if str(each) == chomped_match:
                 self.text = re.sub(str(match), "{}{}".format(each, replacement), self.text)
             else:
                 self.text = re.sub(str(match), "{}".format(match), self.text)
@@ -142,6 +144,7 @@ class ListItemReplacer(object):
         self.scan_lists(
             self.NUMBERED_LIST_PARENS_REGEX, self.NUMBERED_LIST_PARENS_REGEX, '☝')
         self.scan_lists(self.NUMBERED_LIST_PARENS_REGEX, self.NUMBERED_LIST_PARENS_REGEX, '☝')
+        # print(repr(self.text))
 
     def add_line_breaks_for_numbered_list_with_parens(self):
         if '☝' in self.text and not re.search(r"☝.+\n.+☝|☝.+\r.+☝", self.text):
@@ -179,12 +182,12 @@ class ListItemReplacer(object):
             if '(' in match:
                 match_wo_paren = match.strip('(')
                 if match_wo_paren == val:
-                    return '\\r&✂&{}'.format(match_wo_paren)
+                    return '\r&✂&{}'.format(match_wo_paren)
                 else:
                     return match
             else:
                 if match == val:
-                    return '\\r{}'.format(match)
+                    return '\r{}'.format(match)
                 else:
                     return match
 
@@ -239,8 +242,10 @@ if __name__ == "__main__":
     # OP # \ra∯ The first item. \rb∯ The second item.
     # text = "a) ffegnog (b) fgegkl c)"
     # OP # \ra) ffegnog &✂&b) fgegkl c)
-    text = '1. abcd\n 2. xyz'
-    # OP # 1∯ abcd\n 2∯ xyz
+    # text = "1) The first item 2) The second item"
+    # OP # 1) The first item\r2) The second item
+    text = "1.) The first item 2.) The second item"
+    # OP # '1∯) The first item\r2∯) The second item'
     li = ListItemReplacer(text)
-    li.format_numbered_list_with_periods()
+    li.add_line_break()
     print(repr(li.text))
