@@ -56,11 +56,12 @@ class ListItemReplacer(object):
         self.text = text
 
     def add_line_break(self):
-        text = self.format_alphabetical_lists()
-        text = self.format_roman_numeral_lists()
-        text = self.format_numbered_list_with_periods()
-        text = self.format_numbered_list_with_parens()
-        return text
+        self.format_alphabetical_lists()
+        self.format_roman_numeral_lists()
+        self.format_numbered_list_with_periods()
+        self.format_numbered_list_with_parens()
+        # print('###', repr(self.text))
+        return self.text
 
     def replace_parens(self):
         text = re.sub(self.ROMAN_NUMERALS_IN_PARENTHESES,
@@ -242,10 +243,11 @@ if __name__ == "__main__":
     # OP # \ra∯ The first item. \rb∯ The second item.
     # text = "a) ffegnog (b) fgegkl c)"
     # OP # \ra) ffegnog &✂&b) fgegkl c)
-    # text = "1) The first item 2) The second item"
+    text = "1) The first item 2) The second item"
     # OP # 1) The first item\r2) The second item
-    text = "1.) The first item 2.) The second item"
+    # text = "1.) The first item 2.) The second item"
     # OP # '1∯) The first item\r2∯) The second item'
     li = ListItemReplacer(text)
     li.add_line_break()
     print(repr(li.text))
+    print(li.text)
