@@ -136,7 +136,7 @@ class ListItemReplacer(object):
 
     def add_line_breaks_for_numbered_list_with_periods(self):
         if '♨' in self.text and not re.search(
-                r'♨.+(\n|\r).+♨', self.text) and not re.search(
+                '♨.+(\n|\r).+♨', self.text) and not re.search(
                     r'for\s\d{1,2}♨\s[a-z]', self.text):
             self.text = Text(self.text).apply(self.SpaceBetweenListItemsFirstRule,
                                     self.SpaceBetweenListItemsSecondRule)
@@ -148,7 +148,7 @@ class ListItemReplacer(object):
         # print(repr(self.text))
 
     def add_line_breaks_for_numbered_list_with_parens(self):
-        if '☝' in self.text and not re.search(r"☝.+\n.+☝|☝.+\r.+☝", self.text):
+        if '☝' in self.text and not re.search("☝.+\n.+☝|☝.+\r.+☝", self.text):
             self.text = Text(self.text).apply(
                 self.SpaceBetweenListItemsThirdRule)
 
@@ -162,7 +162,7 @@ class ListItemReplacer(object):
             match = match.group()
             match_wo_period = match.strip('.')
             if match_wo_period == val:
-                return r'\r{}∯'.format(match_wo_period)
+                return '\r{}∯'.format(match_wo_period)
             else:
                 return match
 
