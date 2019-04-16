@@ -18,6 +18,7 @@ import os
 
 os.linesep = '\r'
 
+
 class Processor(object):
 
     def __init__(self, text, language='common'):
@@ -62,7 +63,7 @@ class Processor(object):
 
         sents = [
             Text(s).apply(*SubSymbolsRules.All)
-            for s in sents
+            for s in new_sents
         ]
         post_process_sents = [self.post_process_segments(s) for s in sents]
         # remove any empty or null values
@@ -172,7 +173,8 @@ class Processor(object):
 if __name__ == "__main__":
     # text = "\"Dinah'll miss me very much to-night, I should think!\" (Dinah was the cat.) \"I hope they'll remember her saucer of milk at tea-time. Dinah, my dear, I wish you were down here with me!\""
     # text = "My name is Jonas E. Smith."
-    text = "1) The first item 2) The second item"
+    # text = "1) The first item 2) The second item"
+    text = 'What is your name? My name is Jonas.'
     print("Input String:\n{}".format(text))
     p = Processor(text)
     processed_op = p.process()
