@@ -111,27 +111,30 @@ class ListItemReplacer(object):
 
     def scan_lists(self, regex1, regex2, replacement, strip=False):
         list_array = re.findall(regex1, self.text)
-        list_array = map(int, list_array)
+        list_array = list(map(int, list_array))
         for ind, each in enumerate(list_array):
-            if not ((each + 1) == list_array[ind - 1]) or \
-                ((each - 1) == list_array[ind - 1]) or \
-                ((each == 0) and (list_array[ind - 1] == 9)) or \
-                    ((each == 0) and (list_array[ind + 1] == 0)):
-                continue
+            # to avoid IndexError
+            # ruby returns nil if index is out of range
+            if ind < len(list_array)-1:
+                if not ((each + 1) == list_array[ind + 1]) or \
+                    ((each - 1) == list_array[ind - 1]) or \
+                    ((each == 0) and (list_array[ind - 1] == 9)) or \
+                        ((each == 0) and (list_array[ind + 1] == 0)):
+                    continue
             self.substitute_found_list_items(regex2, each, strip, replacement)
 
     def substitute_found_list_items(self, regex, each, strip, replacement):
         list_array = re.findall(regex, self.text)
-        for ind, each in enumerate(list_array, start=1):
-            if str(ind) == str(each).strip()[-1]:
-                self.text = re.sub(str(ind), "{}{}".format(ind, replacement), self.text)
+        for ind, match in enumerate(list_array, start=1):
+            if str(each) == str(match).strip()[:-1]:
+                self.text = re.sub(str(match), "{}{}".format(each, replacement), self.text)
             else:
-                self.text = re.sub(
-                    str(ind), "{}{}".format(each), self.text)
+                self.text = re.sub(str(match), "{}".format(match), self.text)
 
     def add_line_breaks_for_numbered_list_with_periods(self):
-        if '♨' in self.text and not re.search(r'♨.+(\n|\r).+♨', self.text) and \
-            not re.search(r'for\s\d{1,2}♨\s[a-z]', self.text):
+        if '♨' in self.text and not re.search(
+                r'♨.+(\n|\r).+♨', self.text) and not re.search(
+                    r'for\s\d{1,2}♨\s[a-z]', self.text):
             self.text = Text(self.text).apply(self.SpaceBetweenListItemsFirstRule,
                                     self.SpaceBetweenListItemsSecondRule)
 
@@ -236,10 +239,8 @@ if __name__ == "__main__":
     # OP # \ra∯ The first item. \rb∯ The second item.
     # text = "a) ffegnog (b) fgegkl c)"
     # OP # \ra) ffegnog &✂&b) fgegkl c)
-
-    # "\ra) ffegnog \r&✂&b) fgegkl \rc)"
-    # text = 'a. ffegnog b. fgegkl c.'
-    # \ra∯ ffegnog \rb∯ fgegkl \rc∯
+    text = '1. abcd\n 2. xyz'
+    # OP # 1∯ abcd\n 2∯ xyz
     li = ListItemReplacer(text)
-    print(li.format_alphabetical_lists())
-    # print(li.add_line_break())
+    li.format_numbered_list_with_periods()
+    print(repr(li.text))
