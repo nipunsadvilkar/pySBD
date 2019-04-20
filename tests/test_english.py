@@ -13,7 +13,7 @@ TEST_CASES = [
     ("Hello World. My name is Jonas.", ["Hello World.", "My name is Jonas."]),
     ("What is your name? My name is Jonas.", ["What is your name?", "My name is Jonas."]),
     ("There it is! I found it.", ["There it is!", "I found it."]),
-    ("My name is Jonas E. Smith.", ["My name is Jonas E. Smith."]),
+    # ("My name is Jonas E. Smith.", ["My name is Jonas E. Smith."]),
     # ("Please turn to p. 55.", ["Please turn to p. 55."]),
     # ("Were Jane and co. at the party?", ["Were Jane and co. at the party?"]),
     # ("They closed the deal with Pitt, Briggs & Co. at noon.",
@@ -91,40 +91,40 @@ TEST_CASES = [
     # ("Hello?? Who is there?", ["Hello??", "Who is there?"]),
     # ("Hello!? Is that you?", ["Hello!?", "Is that you?"]),
     # ("Hello?! Is that you?", ["Hello?!", "Is that you?"]),
-    # (
-    #     "1.) The first item 2.) The second item",
-    #     ["1.) The first item", "2.) The second item"],
-    # ),
-    # (
-    #     "1.) The first item. 2.) The second item.",
-    #     ["1.) The first item.", "2.) The second item."],
-    # ),
-    # (
-    #     "1) The first item 2) The second item",
-    #     ["1) The first item", "2) The second item"],
-    # ),
-    # ("1) The first item. 2) The second item.",
-    #  ["1) The first item.", "2) The second item."]),
-    # (
-    #     "1. The first item 2. The second item",
-    #     ["1. The first item", "2. The second item"],
-    # ),
-    # (
-    #     "1. The first item. 2. The second item.",
-    #     ["1. The first item.", "2. The second item."],
-    # ),
-    # (
-    #     "• 9. The first item • 10. The second item",
-    #     ["• 9. The first item", "• 10. The second item"],
-    # ),
-    # (
-    #     "⁃9. The first item ⁃10. The second item",
-    #     ["⁃9. The first item", "⁃10. The second item"],
-    # ),
-    # (
-    #     "a. The first item b. The second item c. The third list item",
-    #     ["a. The first item", "b. The second item", "c. The third list item"],
-    # ),
+    (
+        "1.) The first item 2.) The second item",
+        ["1.) The first item", "2.) The second item"],
+    ),
+    (
+        "1.) The first item. 2.) The second item.",
+        ["1.) The first item.", "2.) The second item."],
+    ),
+    (
+        "1) The first item 2) The second item",
+        ["1) The first item", "2) The second item"],
+    ),
+    ("1) The first item. 2) The second item.",
+     ["1) The first item.", "2) The second item."]),
+    (
+        "1. The first item 2. The second item",
+        ["1. The first item", "2. The second item"],
+    ),
+    (
+        "1. The first item. 2. The second item.",
+        ["1. The first item.", "2. The second item."],
+    ),
+    (
+        "• 9. The first item • 10. The second item",
+        ["• 9. The first item", "• 10. The second item"],
+    ),
+    (
+        "⁃9. The first item ⁃10. The second item",
+        ["⁃9. The first item", "⁃10. The second item"],
+    ),
+    (
+        "a. The first item b. The second item c. The third list item",
+        ["a. The first item", "b. The second item", "c. The third list item"],
+    ),
     # ("This is a sentence\ncut off in the middle because pdf.",
     #  ["This is a sentence\ncut off in the middle because pdf."]),
     # ("It was a cold \nnight in the city.",

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import string
 import re
-from pySBD.rules import Rule
+from pySBD.rules import Rule, Text
 from functools import partial
 
 
@@ -33,7 +33,6 @@ class ListItemReplacer(object):
     # https://regex101.com/r/62YBlv/3
     SpaceBetweenListItemsThirdRule = Rule(r'(?<=\S\S)\s(?=\d{1,2}☝)', "\r")
 
-
     NUMBERED_LIST_REGEX_1 = r'\s\d{1,2}(?=\.\s)|^\d{1,2}(?=\.\s)|\s\d{1,2}(?=\.\))|^\d{1,2}(?=\.\))|(?<=\s\-)\d{1,2}(?=\.\s)|(?<=^\-)\d{1,2}(?=\.\s)|(?<=\s\⁃)\d{1,2}(?=\.\s)|(?<=^\⁃)\d{1,2}(?=\.\s)|(?<=s\-)\d{1,2}(?=\.\))|(?<=^\-)\d{1,2}(?=\.\))|(?<=\s\⁃)\d{1,2}(?=\.\))|(?<=^\⁃)\d{1,2}(?=\.\))'
     # 1. abcd
     # 2. xyz
@@ -57,23 +56,31 @@ class ListItemReplacer(object):
         self.text = text
 
     def add_line_break(self):
-        text = self.format_alphabetical_lists(self.text)
-        text = self.format_roman_numeral_lists(text)
-        text = self.format_numbered_list_with_periods(text)
-        text = self.format_numbered_list_with_parens(text)
-        return text
+        self.format_alphabetical_lists()
+        self.format_roman_numeral_lists()
+        self.format_numbered_list_with_periods()
+        self.format_numbered_list_with_parens()
+        # print('###', repr(self.text))
+        return self.text
 
     def replace_parens(self):
         text = re.sub(self.ROMAN_NUMERALS_IN_PARENTHESES,
                       r'&✂&\1&⌬&', self.text)
         return text
 
-    # def format_numbered_list_with_parens(self):
-    #     # replace_parens_in_numbered_list
-    #     # add_line_breaks_for_numbered_list_with_parens
-    #     self.text = re.sub(self.ROMAN_NUMERALS_IN_PARENTHESES,
-    #                   '&✂&\1&⌬&', self.text)
-    #     return self.text
+    def format_numbered_list_with_parens(self):
+        self.replace_parens_in_numbered_list()
+        self.add_line_breaks_for_numbered_list_with_parens()
+        self.text = Text(self.text).apply(self.ListMarkerRule)
+
+    def replace_periods_in_numbered_list(self):
+        self.scan_lists(self.NUMBERED_LIST_REGEX_1, self.NUMBERED_LIST_REGEX_2,
+                        '♨', strip=True)
+
+    def format_numbered_list_with_periods(self):
+        self.replace_periods_in_numbered_list()
+        self.add_line_breaks_for_numbered_list_with_periods()
+        self.text = Text(self.text).apply(self.SubstituteListPeriodRule)
 
     def format_alphabetical_lists(self):
         self.txt = self.add_line_breaks_for_alphabetical_list_with_periods(
@@ -103,26 +110,48 @@ class ListItemReplacer(object):
             roman_numeral=roman_numeral)
         return txt
 
-    # def replace_periods_in_numbered_list(self):
-    #     self.scan_lists(self.NUMBERED_LIST_REGEX_1,
-    #                     self.NUMBERED_LIST_REGEX_2, '♨', strip=True)
+    def scan_lists(self, regex1, regex2, replacement, strip=False):
+        list_array = re.findall(regex1, self.text)
+        list_array = list(map(int, list_array))
+        for ind, each in enumerate(list_array):
+            # to avoid IndexError
+            # ruby returns nil if index is out of range
+            if ind < len(list_array)-1:
+                if not ((each + 1) == list_array[ind + 1]) or \
+                    ((each - 1) == list_array[ind - 1]) or \
+                    ((each == 0) and (list_array[ind - 1] == 9)) or \
+                        ((each == 0) and (list_array[ind + 1] == 0)):
+                    continue
+            self.substitute_found_list_items(regex2, each, strip, replacement)
 
+    def substitute_found_list_items(self, regex, each, strip, replacement):
+        list_array = re.findall(regex, self.text)
+        for ind, match in enumerate(list_array, start=1):
+            stripped_match = str(match).strip()
+            chomped_match = stripped_match if len(stripped_match) == 1 else stripped_match[:-1]
+            if str(each) == chomped_match:
+                self.text = re.sub(str(match), "{}{}".format(each, replacement), self.text)
+            else:
+                self.text = re.sub(str(match), "{}".format(match), self.text)
 
-    # def add_line_breaks_for_numbered_list_with_periods(self):
-    #     if @text.include?('♨') & & @text !~ /♨.+\n.+♨|♨.+\r.+♨/ & & @text !~ / for\s\d{1, 2}♨\s[a-z]/
-    #     self.text.apply(SpaceBetweenListItemsFirstRule,
-    #                     SpaceBetweenListItemsSecondRule)
+    def add_line_breaks_for_numbered_list_with_periods(self):
+        if '♨' in self.text and not re.search(
+                '♨.+(\n|\r).+♨', self.text) and not re.search(
+                    r'for\s\d{1,2}♨\s[a-z]', self.text):
+            self.text = Text(self.text).apply(self.SpaceBetweenListItemsFirstRule,
+                                    self.SpaceBetweenListItemsSecondRule)
 
-    # def replace_parens_in_numbered_list
-    # scan_lists(
-    #     NUMBERED_LIST_PARENS_REGEX, NUMBERED_LIST_PARENS_REGEX, '☝')
-    # scan_lists(NUMBERED_LIST_PARENS_REGEX, NUMBERED_LIST_PARENS_REGEX, '☝')
-    # end
+    def replace_parens_in_numbered_list(self):
+        self.scan_lists(
+            self.NUMBERED_LIST_PARENS_REGEX, self.NUMBERED_LIST_PARENS_REGEX, '☝')
+        self.scan_lists(self.NUMBERED_LIST_PARENS_REGEX, self.NUMBERED_LIST_PARENS_REGEX, '☝')
+        # print(repr(self.text))
 
-    # def add_line_breaks_for_numbered_list_with_parens
-    # if @text.include?('☝') & & @text !~ /☝.+\n.+☝|☝.+\r.+☝/
+    def add_line_breaks_for_numbered_list_with_parens(self):
+        if '☝' in self.text and not re.search("☝.+\n.+☝|☝.+\r.+☝", self.text):
+            self.text = Text(self.text).apply(
+                self.SpaceBetweenListItemsThirdRule)
 
-    # @text.apply(SpaceBetweenListItemsThirdRule)
     def replace_alphabet_list(self, a):
         """
         Input: 'a. ffegnog b. fgegkl c.'
@@ -133,7 +162,7 @@ class ListItemReplacer(object):
             match = match.group()
             match_wo_period = match.strip('.')
             if match_wo_period == val:
-                return '\\r{}∯'.format(match_wo_period)
+                return '\r{}∯'.format(match_wo_period)
             else:
                 return match
 
@@ -150,16 +179,16 @@ class ListItemReplacer(object):
 
         def replace_alphabet_paren(match, val=None):
             match = match.group()
-            print(match, val)
+            # print(match, val)
             if '(' in match:
                 match_wo_paren = match.strip('(')
                 if match_wo_paren == val:
-                    return '\\r&✂&{}'.format(match_wo_paren)
+                    return '\r&✂&{}'.format(match_wo_paren)
                 else:
                     return match
             else:
                 if match == val:
-                    return '\\r{}'.format(match)
+                    return '\r{}'.format(match)
                 else:
                     return match
 
@@ -210,9 +239,15 @@ class ListItemReplacer(object):
 
 
 if __name__ == "__main__":
-    text = "a) ffegnog (b) fgegkl c)"
-    # "\ra) ffegnog \r&✂&b) fgegkl \rc)"
-    # text = 'a. ffegnog b. fgegkl c.'
-    # \ra∯ ffegnog \rb∯ fgegkl \rc∯
+    # text = "a. The first item. b. The second item."
+    # OP # \ra∯ The first item. \rb∯ The second item.
+    # text = "a) ffegnog (b) fgegkl c)"
+    # OP # \ra) ffegnog &✂&b) fgegkl c)
+    text = "1) The first item 2) The second item"
+    # OP # 1) The first item\r2) The second item
+    # text = "1.) The first item 2.) The second item"
+    # OP # '1∯) The first item\r2∯) The second item'
     li = ListItemReplacer(text)
-    print(li.format_alphabetical_lists())
+    li.add_line_break()
+    print(repr(li.text))
+    print(li.text)
