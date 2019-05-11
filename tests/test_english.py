@@ -27,12 +27,12 @@ TEST_CASES = [
             "It closed yesterday."
         ],
     ),
-    # ("I can see Mt. Fuji from here.", ["I can see Mt. Fuji from here."]),
-    # (
-    #     "St. Michael's Church is on 5th st. near the light.",
-    #     ["St. Michael's Church is on 5th st. near the light."],
-    # ),
-    # ("That is JFK Jr.'s book.", ["That is JFK Jr.'s book."]),
+    ("I can see Mt. Fuji from here.", ["I can see Mt. Fuji from here."]),
+    (
+        "St. Michael's Church is on 5th st. near the light.",
+        ["St. Michael's Church is on 5th st. near the light."],
+    ),
+    ("That is JFK Jr.'s book.", ["That is JFK Jr.'s book."]),
     # ("I visited the U.S.A. last year.", ["I visited the U.S.A. last year."]),
     # # failed by the genia parser
     # (
