@@ -1,5 +1,4 @@
 import pytest
-from pySBD.rules import sample_segment
 from pySBD.processor import Processor
 
 
@@ -33,21 +32,19 @@ TEST_CASES = [
         ["St. Michael's Church is on 5th st. near the light."],
     ),
     ("That is JFK Jr.'s book.", ["That is JFK Jr.'s book."]),
-    # ("I visited the U.S.A. last year.", ["I visited the U.S.A. last year."]),
-    # # failed by the genia parser
-    # (
-    #     "I live in the E.U. How about you?",
-    #     ["I live in the E.U.", "How about you?"],
-    # ),
-    # # failed by the genia parser
-    # (
-    #     "I live in the U.S. How about you?",
-    #     ["I live in the U.S.", "How about you?"],
-    # ),
-    # ("I work for the U.S. Government in Virginia.",
-    #  ["I work for the U.S. Government in Virginia."]),
+    ("I visited the U.S.A. last year.", ["I visited the U.S.A. last year."]),
+    (
+        "I live in the E.U. How about you?",
+        ["I live in the E.U.", "How about you?"],
+    ),
+    (
+        "I live in the U.S. How about you?",
+        ["I live in the U.S.", "How about you?"],
+    ),
+    ("I work for the U.S. Government in Virginia.",
+        ["I work for the U.S. Government in Virginia."]),
     # ("I have lived in the U.S. for 20 years.",
-    #  ["I have lived in the U.S. for 20 years."]),
+    #     ["I have lived in the U.S. for 20 years."]),
     # # failed by the genia parser
     # (
     #     "At 5 a.m. Mr. Smith went to the bank. He left the bank at 6 P.M. Mr. Smith then went to the store.",
@@ -199,5 +196,4 @@ def test_en_sbd(text, expected_sents):
     """SBD tests from Pragmatic Segmenter"""
     p = Processor(text)
     op_sent = p.process()
-    #  = sample_segment(text, expected_sents)
     assert op_sent == expected_sents
