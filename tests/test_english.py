@@ -16,7 +16,7 @@ TEST_CASES = [
     ("Please turn to p. 55.", ["Please turn to p. 55."]),
     ("Were Jane and co. at the party?", ["Were Jane and co. at the party?"]),
     ("They closed the deal with Pitt, Briggs & Co. at noon.",
-     ["They closed the deal with Pitt, Briggs & Co. at noon."]),
+        ["They closed the deal with Pitt, Briggs & Co. at noon."]),
     (
         "Let's ask Jane and co. They should know.",
         ["Let's ask Jane and co.", "They should know."]),
@@ -70,13 +70,13 @@ TEST_CASES = [
         'She turned to him, "This is great." she said.',
         ['She turned to him, "This is great." she said.'],
     ),
-    # (
-    #     'She turned to him, "This is great." She held the book out to show him.',
-    #     [
-    #         'She turned to him, "This is great."',
-    #         "She held the book out to show him."
-    #     ],
-    # ),
+    (
+        'She turned to him, "This is great." She held the book out to show him.',
+        [
+            'She turned to him, "This is great."',
+            "She held the book out to show him."
+        ],
+    ),
     ("Hello!! Long time no see.", ["Hello!!", "Long time no see."]),
     ("Hello?? Who is there?", ["Hello??", "Who is there?"]),
     ("Hello!? Is that you?", ["Hello!?", "Is that you?"]),

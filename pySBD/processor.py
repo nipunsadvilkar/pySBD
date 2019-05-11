@@ -44,7 +44,7 @@ class Processor(object):
         return processed
 
     def split_into_segments(self):
-        self.check_for_parens_between_quotes(self.text)
+        self.check_for_parens_between_quotes()
         sents = self.text.split('\r')
         # remove empty and none values
         # https://stackoverflow.com/questions/3845423/remove-empty-strings-from-a-list-of-strings
@@ -58,14 +58,24 @@ class Processor(object):
         # flatten list of list of sentences
         if any(isinstance(s, list) for s in new_sents):
             new_sents = [s for sents in new_sents for s in sents]
-
         sents = [
             Text(s).apply(*SubSymbolsRules.All)
             for s in new_sents
         ]
         post_process_sents = [self.post_process_segments(s) for s in sents]
+        # TODO: Refactor to flatten and remove None and empty lists
         # remove any empty or null values
-        sents = [s for s in post_process_sents if s]
+        sents = []
+        for s in post_process_sents:
+            if not s:
+                continue
+            if isinstance(s, list):
+                for l in s:
+                    sents.append(l)
+            else:
+                sents.append(s)
+
+        # print(sents)
         sents = [
             Text(s).apply(Standard.SubSingleQuoteRule)
             for s in sents
@@ -87,14 +97,14 @@ class Processor(object):
             txt = txt.replace('\n', '')
             return txt.strip()
 
-    def check_for_parens_between_quotes(self, txt):
+    def check_for_parens_between_quotes(self):
         def paren_replace(match):
             match = match.group()
-            sub1 = re.sub(r'\s(?=\()', r'\r', match)
-            sub2 = re.sub(r'(?<=\))\s', r'\r', sub1)
+            sub1 = re.sub(r'\s(?=\()', '\r', match)
+            sub2 = re.sub(r'(?<=\))\s', '\r', sub1)
             return sub2
-        return re.sub(Common.PARENS_BETWEEN_DOUBLE_QUOTES_REGEX,
-                      paren_replace, txt)
+        self.text = re.sub(Common.PARENS_BETWEEN_DOUBLE_QUOTES_REGEX,
+                      paren_replace, self.text)
 
     def replace_continuous_punctuation(self):
         def continuous_puncs_replace(match):
@@ -171,7 +181,7 @@ class Processor(object):
 
 
 if __name__ == "__main__":
-    text = "I have lived in the U.S. for 20 years."
+    text = 'She turned to him, "This is great." She held the book out to show him.'
     print("Input String:\n{}".format(text))
     p = Processor(text)
     processed_op = p.process()
