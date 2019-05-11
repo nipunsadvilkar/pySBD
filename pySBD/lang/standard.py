@@ -29,9 +29,9 @@ class Abbreviation(object):
     NUMBER_ABBREVIATIONS = ['art', 'ext', 'no', 'nos', 'p', 'pp']
 
 
-class Abbreviations(object):
+    # Part of "Abbreviations" ruby module
     # Rubular: http://rubular.com/r/EUbZCNfgei
-    WithMultiplePeriodsAndEmailRule = Rule(r'(\w)(\.)(\w)', '\1∮\3')
+    WithMultiplePeriodsAndEmailRule = Rule(r'(\w)(\.)(\w)', '\\1∮\\3')
 
 
 class DoublePunctuationRules(object):

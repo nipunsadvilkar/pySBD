@@ -20,7 +20,7 @@ class Common(object):
     SPLIT_SPACE_QUOTATION_AT_END_OF_SENTENCE_REGEX = r'(?<=[!?\.][\"\'“”])\s{1}(?=[A-Z])'
 
     # # Rubular: http://rubular.com/r/mQ8Es9bxtk
-    # CONTINUOUS_PUNCTUATION_REGEX= / (?<=\S)(!|\?){3, }(?=(\s |\z |$)) /
+    CONTINUOUS_PUNCTUATION_REGEX = r'(?<=\S)(!|\?){3,}(?=(\s|\Z|$))'
 
     # https://rubular.com/r/UkumQaILKbkeyc
     # https://github.com/diasks2/pragmatic_segmenter/commit/d9ec1a352aff92b91e2e572c30bb9561eb42c703
