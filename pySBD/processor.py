@@ -32,7 +32,7 @@ class Processor(object):
             return self.text
         li = ListItemReplacer(self.text)
         self.text = li.add_line_break()
-        print(self.text)
+        # print(self.text)
         self.text = AbbreviationReplacer(self.text).replace()
         # print(self.text)
         # print(repr(self.text))
@@ -54,7 +54,7 @@ class Processor(object):
         # remove empty and none values
         # https://stackoverflow.com/questions/3845423/remove-empty-strings-from-a-list-of-strings
         sents = list(filter(None, sents))
-        print(sents)
+        # print(sents)
         # https://stackoverflow.com/questions/4698493/can-i-add-custom-methods-attributes-to-built-in-python-types
         sents = [
             Text(s).apply(Standard.SingleNewLineRule, *EllipsisRules.All)

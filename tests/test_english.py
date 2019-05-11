@@ -15,20 +15,18 @@ TEST_CASES = [
     ("There it is! I found it.", ["There it is!", "I found it."]),
     ("My name is Jonas E. Smith.", ["My name is Jonas E. Smith."]),
     ("Please turn to p. 55.", ["Please turn to p. 55."]),
-    # ("Were Jane and co. at the party?", ["Were Jane and co. at the party?"]),
-    # ("They closed the deal with Pitt, Briggs & Co. at noon.",
-    #  ["They closed the deal with Pitt, Briggs & Co. at noon."]),
-    # # failed by the genia parser
-    # (
-    #     "Let's ask Jane and co. They should know.",
-    #     ["Let's ask Jane and co.", "They should know."]),
-    # # # failed by the genia parser
-    # (
-    #     "They closed the deal with Pitt, Briggs & Co. It closed yesterday.", [
-    #         "They closed the deal with Pitt, Briggs & Co.",
-    #         "It closed yesterday."
-    #     ],
-    # ),
+    ("Were Jane and co. at the party?", ["Were Jane and co. at the party?"]),
+    ("They closed the deal with Pitt, Briggs & Co. at noon.",
+     ["They closed the deal with Pitt, Briggs & Co. at noon."]),
+    (
+        "Let's ask Jane and co. They should know.",
+        ["Let's ask Jane and co.", "They should know."]),
+    (
+        "They closed the deal with Pitt, Briggs & Co. It closed yesterday.", [
+            "They closed the deal with Pitt, Briggs & Co.",
+            "It closed yesterday."
+        ],
+    ),
     # ("I can see Mt. Fuji from here.", ["I can see Mt. Fuji from here."]),
     # (
     #     "St. Michael's Church is on 5th st. near the light.",
