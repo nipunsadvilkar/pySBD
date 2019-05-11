@@ -77,10 +77,10 @@ TEST_CASES = [
     #         "She held the book out to show him."
     #     ],
     # ),
-    # ("Hello!! Long time no see.", ["Hello!!", "Long time no see."]),
-    # ("Hello?? Who is there?", ["Hello??", "Who is there?"]),
-    # ("Hello!? Is that you?", ["Hello!?", "Is that you?"]),
-    # ("Hello?! Is that you?", ["Hello?!", "Is that you?"]),
+    ("Hello!! Long time no see.", ["Hello!!", "Long time no see."]),
+    ("Hello?? Who is there?", ["Hello??", "Who is there?"]),
+    ("Hello!? Is that you?", ["Hello!?", "Is that you?"]),
+    ("Hello?! Is that you?", ["Hello?!", "Is that you?"]),
     (
         "1.) The first item 2.) The second item",
         ["1.) The first item", "2.) The second item"],
@@ -116,9 +116,9 @@ TEST_CASES = [
         ["a. The first item", "b. The second item", "c. The third list item"],
     ),
     # ("This is a sentence\ncut off in the middle because pdf.",
-    #  ["This is a sentence\ncut off in the middle because pdf."]),
+    #     ["This is a sentence\ncut off in the middle because pdf."]),
     # ("It was a cold \nnight in the city.",
-    #  ["It was a cold \nnight in the city."]),
+    #     ["It was a cold \nnight in the city."]),
     # (
     #     "features\ncontact manager\nevents, activities\n",
     #     ["features", "contact manager", "events, activities"],
@@ -130,59 +130,57 @@ TEST_CASES = [
     #         "That is where the treasure is."
     #     ],
     # ),
-    # # failed by the genia parser
-    # (
-    #     "She works at Yahoo! in the accounting department.",
-    #     ["She works at Yahoo! in the accounting department."],
-    # ),
-    # # failed by the genia parser
-    # (
-    #     "We make a good team, you and I. Did you see Albert I. Jones yesterday?",
-    #     [
-    #         "We make a good team, you and I.",
-    #         "Did you see Albert I. Jones yesterday?"
-    #     ],
-    # ),
-    # (
-    #     "Thoreau argues that by simplifying one’s life, “the laws of the universe will appear less complex. . . .”",
-    #     [
-    #         "Thoreau argues that by simplifying one’s life, “the laws of the universe will appear less complex. . . .”"
-    #     ],
-    # ),
-    # (
-    #     """"Bohr [...] used the analogy of parallel stairways [...]" (Smith 55).""",
-    #     [
-    #         '"Bohr [...] used the analogy of parallel stairways [...]" (Smith 55).'
-    #     ],
-    # ),
-    # ("If words are left off at the end of a sentence, and that is all that is omitted, indicate the omission with ellipsis marks (preceded and followed by a space) and then indicate the end of the sentence with a period . . . . Next sentence.",
-    #  [
-    #      "If words are left off at the end of a sentence, and that is all that is omitted, indicate the omission with ellipsis marks (preceded and followed by a space) and then indicate the end of the sentence with a period . . . .",
-    #      "Next sentence."
-    #  ]),
-    # (
-    #     "I never meant that.... She left the store.",
-    #     ["I never meant that....", "She left the store."],
-    # ),
-    # (
-    #     "I wasn’t really ... well, what I mean...see . . . what I'm saying, the thing is . . . I didn’t mean it.",
-    #     [
-    #         "I wasn’t really ... well, what I mean...see . . . what I'm saying, the thing is . . . I didn’t mean it."
-    #     ],
-    # ),
-    # (
-    #     "One further habit which was somewhat weakened . . . was that of combining words into self-interpreting compounds. . . . The practice was not abandoned. . . .",
-    #     [
-    #         "One further habit which was somewhat weakened . . . was that of combining words into self-interpreting compounds.",
-    #         ". . . The practice was not abandoned. . . ."
-    #     ],
-    # ),
+    (
+        "She works at Yahoo! in the accounting department.",
+        ["She works at Yahoo! in the accounting department."],
+    ),
+    (
+        "We make a good team, you and I. Did you see Albert I. Jones yesterday?",
+        [
+            "We make a good team, you and I.",
+            "Did you see Albert I. Jones yesterday?"
+        ],
+    ),
+    (
+        "Thoreau argues that by simplifying one’s life, “the laws of the universe will appear less complex. . . .”",
+        [
+            "Thoreau argues that by simplifying one’s life, “the laws of the universe will appear less complex. . . .”"
+        ],
+    ),
+    (
+        """"Bohr [...] used the analogy of parallel stairways [...]" (Smith 55).""",
+        [
+            '"Bohr [...] used the analogy of parallel stairways [...]" (Smith 55).'
+        ],
+    ),
+    ("If words are left off at the end of a sentence, and that is all that is omitted, indicate the omission with ellipsis marks (preceded and followed by a space) and then indicate the end of the sentence with a period . . . . Next sentence.",
+        [
+            "If words are left off at the end of a sentence, and that is all that is omitted, indicate the omission with ellipsis marks (preceded and followed by a space) and then indicate the end of the sentence with a period . . . .",
+            "Next sentence."
+        ]),
+    (
+        "I never meant that.... She left the store.",
+        ["I never meant that....", "She left the store."],
+    ),
+    (
+        "I wasn’t really ... well, what I mean...see . . . what I'm saying, the thing is . . . I didn’t mean it.",
+        [
+            "I wasn’t really ... well, what I mean...see . . . what I'm saying, the thing is . . . I didn’t mean it."
+        ],
+    ),
+    (
+        "One further habit which was somewhat weakened . . . was that of combining words into self-interpreting compounds. . . . The practice was not abandoned. . . .",
+        [
+            "One further habit which was somewhat weakened . . . was that of combining words into self-interpreting compounds.",
+            ". . . The practice was not abandoned. . . ."
+        ],
+    ),
     # (
     #     "Hello world.Today is Tuesday.Mr. Smith went to the store and bought 1,000.That is a lot.",
     #     [
     #         "Hello world.", "Today is Tuesday.",
     #         "Mr. Smith went to the store and bought 1,000.", "That is a lot."
-    #     ],)
+    #     ])
 ]
 
 
