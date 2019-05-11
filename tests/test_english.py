@@ -53,23 +53,23 @@ TEST_CASES = [
     #         "He left the bank at 6 P.M.", "Mr. Smith then went to the store."
     #     ],
     # ),
-    # ("She has $100.00 in her bag.", ["She has $100.00 in her bag."]),
-    # ("She has $100.00. It is in her bag.", ["She has $100.00.", "It is in her bag."]),
-    # ("He teaches science (He previously worked for 5 years as an engineer.) at the local University.",
-    #     ["He teaches science (He previously worked for 5 years as an engineer.) at the local University."]),
-    # ("Her email is Jane.Doe@example.com. I sent her an email.",
-    #     ["Her email is Jane.Doe@example.com.", "I sent her an email."]),
-    # ("The site is: https://www.example.50.com/new-site/awesome_content.html. Please check it out.",
-    #     ["The site is: https://www.example.50.com/new-site/awesome_content.html.",
-    #         "Please check it out."]),
-    # (
-    #     "She turned to him, 'This is great.' she said.",
-    #     ["She turned to him, 'This is great.' she said."],
-    # ),
-    # (
-    #     'She turned to him, "This is great." she said.',
-    #     ['She turned to him, "This is great." she said.'],
-    # ),
+    ("She has $100.00 in her bag.", ["She has $100.00 in her bag."]),
+    ("She has $100.00. It is in her bag.", ["She has $100.00.", "It is in her bag."]),
+    ("He teaches science (He previously worked for 5 years as an engineer.) at the local University.",
+        ["He teaches science (He previously worked for 5 years as an engineer.) at the local University."]),
+    ("Her email is Jane.Doe@example.com. I sent her an email.",
+        ["Her email is Jane.Doe@example.com.", "I sent her an email."]),
+    ("The site is: https://www.example.50.com/new-site/awesome_content.html. Please check it out.",
+        ["The site is: https://www.example.50.com/new-site/awesome_content.html.",
+            "Please check it out."]),
+    (
+        "She turned to him, 'This is great.' she said.",
+        ["She turned to him, 'This is great.' she said."],
+    ),
+    (
+        'She turned to him, "This is great." she said.',
+        ['She turned to him, "This is great." she said.'],
+    ),
     # (
     #     'She turned to him, "This is great." She held the book out to show him.',
     #     [
