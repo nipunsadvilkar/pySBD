@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
+from pySBD.rules import Rule
 
 
 class Common(object):
@@ -26,93 +27,93 @@ class Common(object):
     NUMBERED_REFERENCE_REGEX = r'(?<=[^\\d\\s])(\\.|∯)((\\[(\\d{1,3},?\\s?-?\\s?)*\\b\\d{1,3}\\])+|((\\d{1,3}\\s?)*\\d{1,3}))(\\s)(?=[A-Z])'
 
     # # Rubular: http://rubular.com/r/yqa4Rit8EY
-    # PossessiveAbbreviationRule = Rule.new(/\.(?='s\s)|\.(?='s$) |\.(?='s\z)/, '∯')
+    PossessiveAbbreviationRule = Rule(r"\.(?='s\s)|\.(?='s$)|\.(?='s\Z)", '∯')
 
     # # Rubular: http://rubular.com/r/NEv265G2X2
-    # KommanditgesellschaftRule=Rule.new(/(?<= Co)\.(?=\sKG)/, '∯')
+    KommanditgesellschaftRule = Rule(r'(?<=Co)\.(?=\sKG)', '∯')
 
     # # Rubular: http://rubular.com/r/xDkpFZ0EgH
-    # MULTI_PERIOD_ABBREVIATION_REGEX= /\b[a-z](?: \.[a-z])+[.]/i
+    MULTI_PERIOD_ABBREVIATION_REGEX = r"\b[a-z](?:\.[a-z])+[.]"
 
-    # class EllipsisRules(object):
-    #     # Rubular: http://rubular.com/r/i60hCK81fz
-    #     ThreeConsecutiveRule = Rule.new(/\.\.\.(?=\s+[A-Z])/, '☏.')
 
-    #     # Rubular: http://rubular.com/r/Hdqpd90owl
-    #     FourConsecutiveRule = Rule.new(/(?<=\S)\.{3}(?=\.\s[A-Z])/, 'ƪ')
+class AmPmRules(object):
 
-    #     # Rubular: http://rubular.com/r/YBG1dIHTRu
-    #     ThreeSpaceRule = Rule.new(/(\s\.){3}\s/, '♟')
+    # Rubular: http://rubular.com/r/Vnx3m4Spc8
+    UpperCasePmRule = Rule(r'(?<= P∯M)∯(?=\s[A-Z])', '.')
 
-    #     # Rubular: http://rubular.com/r/2VvZ8wRbd8
-    #     FourSpaceRule = Rule.new(/(?<= [a-z])(\.\s){3}\.(\z |$|\n)/, '♝')
+    # Rubular: http://rubular.com/r/AJMCotJVbW
+    UpperCaseAmRule = Rule(r'(?<=A∯M)∯(?=\s[A-Z])', '.')
 
-    #     OtherThreePeriodRule = Rule.new(/\.\.\./, 'ƪ')
+    # Rubular: http://rubular.com/r/13q7SnOhgA
+    LowerCasePmRule = Rule(r'(?<=p∯m)∯(?=\s[A-Z])', '.')
 
-    #     All = [
-    #         ThreeSpaceRule,
-    #         FourSpaceRule,
-    #         FourConsecutiveRule,
-    #         ThreeConsecutiveRule,
-    #         OtherThreePeriodRule
-    #     ]
+    # Rubular: http://rubular.com/r/DgUDq4mLz5
+    LowerCaseAmRule = Rule(r'(?<=a∯m)∯(?=\s[A-Z])', '.')
 
-    # class Numbers(object):
-    #     # Rubular: http://rubular.com/r/oNyxBOqbyy
-    #     PeriodBeforeNumberRule = Rule.new( /\.(?=\d)/, '∯')
+    All = [UpperCasePmRule, UpperCaseAmRule, LowerCasePmRule, LowerCaseAmRule]
 
-    #     # Rubular: http://rubular.com/r/EMk5MpiUzt
-    #     NumberAfterPeriodBeforeLetterRule = Rule.new(/(?<=\d)\.(?=\S)/, '∯')
 
-    #     # Rubular: http://rubular.com/r/rf4l1HjtjG
-    #     NewLineNumberPeriodSpaceLetterRule = Rule.new(/(?<=\r\d)\.(?=(\s\S) |\))/, '∯')
+class SingleLetterAbbreviationRules(object):
+    """Searches for periods within an abbreviation and
+    replaces the periods.
+    """
 
-    #     # Rubular: http://rubular.com/r/HPa4sdc6b9
-    #     StartLineNumberPeriodRule=Rule.new(/(?<= ^\d)\.(?=(\s\S) |\))/, '∯')
+    # Rubular: http://rubular.com/r/e3H6kwnr6H
+    SingleUpperCaseLetterAtStartOfLineRule = Rule(r"(?<=^[A-Z])\.(?=\s)", '∯')
 
-    #     # Rubular: http://rubular.com/r/NuvWnKleFl
-    #     StartLineTwoDigitNumberPeriodRule=Rule.new(/(?<= ^\d\d)\.(?= (\s\S) |\))/, '∯')
+    # Rubular: http://rubular.com/r/gitvf0YWH4
+    SingleUpperCaseLetterRule = Rule(r"(?<=\s[A-Z])\.(?=\s)", '∯')
 
-    #     All = [
-    #         PeriodBeforeNumberRule,
-    #         NumberAfterPeriodBeforeLetterRule,
-    #         NewLineNumberPeriodSpaceLetterRule,
-    #         StartLineNumberPeriodRule,
-    #         StartLineTwoDigitNumberPeriodRule
-    #         ]
+    All = [
+        SingleUpperCaseLetterAtStartOfLineRule, SingleUpperCaseLetterRule
+    ]
 
-    # class AmPmRules(object)
+# class EllipsisRules(object):
+#     # Rubular: http://rubular.com/r/i60hCK81fz
+#     ThreeConsecutiveRule = Rule.new(/\.\.\.(?=\s+[A-Z])/, '☏.')
 
-    #     # Rubular: http://rubular.com/r/Vnx3m4Spc8
-    #     UpperCasePmRule=Rule.new(/(?<= P∯M)∯(?=\s[A-Z])/, '.')
+#     # Rubular: http://rubular.com/r/Hdqpd90owl
+#     FourConsecutiveRule = Rule.new(/(?<=\S)\.{3}(?=\.\s[A-Z])/, 'ƪ')
 
-    #     # Rubular: http://rubular.com/r/AJMCotJVbW
-    #     UpperCaseAmRule=Rule.new(/(?<= A∯M)∯(?=\s[A-Z])/, '.')
+#     # Rubular: http://rubular.com/r/YBG1dIHTRu
+#     ThreeSpaceRule = Rule.new(/(\s\.){3}\s/, '♟')
 
-    #     # Rubular: http://rubular.com/r/13q7SnOhgA
-    #     LowerCasePmRule=Rule.new(/(?<= p∯m)∯(?=\s[A-Z])/, '.')
+#     # Rubular: http://rubular.com/r/2VvZ8wRbd8
+#     FourSpaceRule = Rule.new(/(?<= [a-z])(\.\s){3}\.(\z |$|\n)/, '♝')
 
-    #     # Rubular: http://rubular.com/r/DgUDq4mLz5
-    #     LowerCaseAmRule=Rule.new(/(?<= a∯m)∯(?=\s[A-Z])/, '.')
+#     OtherThreePeriodRule = Rule.new(/\.\.\./, 'ƪ')
 
-    #     All=[UpperCasePmRule, UpperCaseAmRule,
-    #          LowerCasePmRule, LowerCaseAmRule]
+#     All = [
+#         ThreeSpaceRule,
+#         FourSpaceRule,
+#         FourConsecutiveRule,
+#         ThreeConsecutiveRule,
+#         OtherThreePeriodRule
+#     ]
 
-    # class SingleLetterAbbreviationRules(object):
-    #     """Searches for periods within an abbreviation and
-    #     replaces the periods.
-    #     """
+# class Numbers(object):
+#     # Rubular: http://rubular.com/r/oNyxBOqbyy
+#     PeriodBeforeNumberRule = Rule.new( /\.(?=\d)/, '∯')
 
-    #     # Rubular: http://rubular.com/r/e3H6kwnr6H
-    #     SingleUpperCaseLetterAtStartOfLineRule=Rule.new(/(?<= ^[A-Z])\.(?=, ?\s)/, '∯')
+#     # Rubular: http://rubular.com/r/EMk5MpiUzt
+#     NumberAfterPeriodBeforeLetterRule = Rule.new(/(?<=\d)\.(?=\S)/, '∯')
 
-    #     # Rubular: http://rubular.com/r/gitvf0YWH4
-    #     SingleUpperCaseLetterRule=Rule.new(/(?<=\s[A-Z])\.(?=, ?\s)/, '∯')
+#     # Rubular: http://rubular.com/r/rf4l1HjtjG
+#     NewLineNumberPeriodSpaceLetterRule = Rule.new(/(?<=\r\d)\.(?=(\s\S) |\))/, '∯')
 
-    #     All=[
-    #     SingleUpperCaseLetterAtStartOfLineRule,
-    #     SingleUpperCaseLetterRule
-    #     ]
+#     # Rubular: http://rubular.com/r/HPa4sdc6b9
+#     StartLineNumberPeriodRule=Rule.new(/(?<= ^\d)\.(?=(\s\S) |\))/, '∯')
+
+#     # Rubular: http://rubular.com/r/NuvWnKleFl
+#     StartLineTwoDigitNumberPeriodRule=Rule.new(/(?<= ^\d\d)\.(?= (\s\S) |\))/, '∯')
+
+#     All = [
+#         PeriodBeforeNumberRule,
+#         NumberAfterPeriodBeforeLetterRule,
+#         NewLineNumberPeriodSpaceLetterRule,
+#         StartLineNumberPeriodRule,
+#         StartLineTwoDigitNumberPeriodRule
+#         ]
 
 
 if __name__ == "__main__":

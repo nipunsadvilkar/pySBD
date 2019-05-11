@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
+import os
 # from pySBD import punctuation_replacer
 # from pySBD import between_punctuation
 from pySBD.rules import Text
@@ -14,9 +15,9 @@ from pySBD.lang.common.numbers import Common
 from pySBD.lang.common.ellipsis import EllipsisRules
 from pySBD.exclamation_words import ExclamationWords
 from pySBD.between_punctuation import BetweenPunctuation
-import os
+from pySBD.abbreviation_replacer import AbbreviationReplacer
 
-os.linesep = '\r'
+# os.linesep = '\r'
 
 
 class Processor(object):
@@ -31,6 +32,9 @@ class Processor(object):
             return self.text
         li = ListItemReplacer(self.text)
         self.text = li.add_line_break()
+        print(self.text)
+        self.text = AbbreviationReplacer(self.text).replace()
+        # print(self.text)
         # print(repr(self.text))
         # self.text = self.text.replace('\r', '\r')
         # text = replace_abbreviation(text)
@@ -174,7 +178,8 @@ if __name__ == "__main__":
     # text = "\"Dinah'll miss me very much to-night, I should think!\" (Dinah was the cat.) \"I hope they'll remember her saucer of milk at tea-time. Dinah, my dear, I wish you were down here with me!\""
     # text = "My name is Jonas E. Smith."
     # text = "1) The first item 2) The second item"
-    text = 'What is your name? My name is Jonas.'
+    # text = 'What is your name? My name is Jonas.'
+    text = "Please turn to p. 55."
     print("Input String:\n{}".format(text))
     p = Processor(text)
     processed_op = p.process()
