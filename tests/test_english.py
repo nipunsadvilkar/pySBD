@@ -2,12 +2,6 @@ import pytest
 from pySBD.processor import Processor
 
 
-# TEST_CASES = [
-#     ("Hello World. My name is Jonas.", ["Hello World.", "My name is Jonas."]),
-#     ("What is your name? My name is Jonas.", ["What is your name?", "My name is Jonas."]),
-#     ("There it is! I found it.", ["There it is!", "I found it."])
-#     ]
-
 TEST_CASES = [
     ("Hello World. My name is Jonas.", ["Hello World.", "My name is Jonas."]),
     ("What is your name? My name is Jonas.", ["What is your name?", "My name is Jonas."]),
@@ -94,7 +88,7 @@ TEST_CASES = [
         ["1) The first item", "2) The second item"],
     ),
     ("1) The first item. 2) The second item.",
-     ["1) The first item.", "2) The second item."]),
+        ["1) The first item.", "2) The second item."]),
     (
         "1. The first item 2. The second item",
         ["1. The first item", "2. The second item"],
@@ -115,21 +109,24 @@ TEST_CASES = [
         "a. The first item b. The second item c. The third list item",
         ["a. The first item", "b. The second item", "c. The third list item"],
     ),
+    # This is for doctype pdf
     # ("This is a sentence\ncut off in the middle because pdf.",
     #     ["This is a sentence\ncut off in the middle because pdf."]),
+    # requires clean=True
     # ("It was a cold \nnight in the city.",
     #     ["It was a cold \nnight in the city."]),
+    # requires clean=True
     # (
     #     "features\ncontact manager\nevents, activities\n",
     #     ["features", "contact manager", "events, activities"],
     # ),
-    # (
-    #     "You can find it at N°. 1026.253.553. That is where the treasure is.",
-    #     [
-    #         "You can find it at N°. 1026.253.553.",
-    #         "That is where the treasure is."
-    #     ],
-    # ),
+    (
+        "You can find it at N°. 1026.253.553. That is where the treasure is.",
+        [
+            "You can find it at N°. 1026.253.553.",
+            "That is where the treasure is."
+        ],
+    ),
     (
         "She works at Yahoo! in the accounting department.",
         ["She works at Yahoo! in the accounting department."],

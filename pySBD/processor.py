@@ -30,6 +30,7 @@ class Processor(object):
 
     def process(self):
         if not self.text:
+            # return empty list?
             return self.text
         li = ListItemReplacer(self.text)
         self.text = li.add_line_break()
@@ -38,7 +39,7 @@ class Processor(object):
         self.text = self.replace_continuous_punctuation()
         self.text = self.replace_periods_before_numeric_references()
         self.text = Text(self.text).apply(Abbreviation.WithMultiplePeriodsAndEmailRule)
-        # GeoLocationRule
+        self.text = Text(self.text).apply(Standard.GeoLocationRule)
         # FileFormatRule
         processed = self.split_into_segments()
         return processed
@@ -75,7 +76,6 @@ class Processor(object):
             else:
                 sents.append(s)
 
-        # print(sents)
         sents = [
             Text(s).apply(Standard.SubSingleQuoteRule)
             for s in sents
@@ -181,7 +181,7 @@ class Processor(object):
 
 
 if __name__ == "__main__":
-    text = 'She turned to him, "This is great." She held the book out to show him.'
+    text = "This is a sentence\ncut off in the middle because pdf."
     print("Input String:\n{}".format(text))
     p = Processor(text)
     processed_op = p.process()
