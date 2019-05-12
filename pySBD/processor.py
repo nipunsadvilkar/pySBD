@@ -40,7 +40,7 @@ class Processor(object):
         self.text = self.replace_periods_before_numeric_references()
         self.text = Text(self.text).apply(Abbreviation.WithMultiplePeriodsAndEmailRule)
         self.text = Text(self.text).apply(Standard.GeoLocationRule)
-        # FileFormatRule
+        self.text = Text(self.text).apply(Standard.FileFormatRule)
         processed = self.split_into_segments()
         return processed
 
@@ -181,7 +181,8 @@ class Processor(object):
 
 
 if __name__ == "__main__":
-    text = "This is a sentence\ncut off in the middle because pdf."
+    # text = "This is a sentence\ncut off in the middle because pdf."
+    text = "Send me new image in .jpg format"
     print("Input String:\n{}".format(text))
     p = Processor(text)
     processed_op = p.process()
