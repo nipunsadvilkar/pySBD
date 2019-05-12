@@ -115,7 +115,7 @@ TEST_CASES = [
     #     ["This is a sentence\ncut off in the middle because pdf."]),
     # requires clean=True
     # ("It was a cold \nnight in the city.",
-    #     ["It was a cold \nnight in the city."]),
+    #     ["It was a cold night in the city."]),
     # requires clean=True
     # (
     #     "features\ncontact manager\nevents, activities\n",
@@ -181,9 +181,20 @@ TEST_CASES = [
     #     ])
 ]
 
+TESTS_WITH_CLEAN = [("It was a cold \nnight in the city.",
+        ["It was a cold night in the city."])]
+
 
 @pytest.mark.parametrize('text,expected_sents', TEST_CASES)
 def test_en_sbd(text, expected_sents):
+    """SBD tests from Pragmatic Segmenter"""
+    seg = pySBD.Segmenter(text, clean=False)
+    segments = seg.segment()
+    assert segments == expected_sents
+
+
+@pytest.mark.parametrize('text,expected_sents', TESTS_WITH_CLEAN)
+def test_en_sbd_clean(text, expected_sents):
     """SBD tests from Pragmatic Segmenter"""
     seg = pySBD.Segmenter(text, clean=True)
     segments = seg.segment()
