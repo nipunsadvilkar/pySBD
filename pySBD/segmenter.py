@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from pySBD.languages import Language
-# from pySBD.lang.english import English
 from pySBD.processor import Processor
 from pySBD.cleaner import Cleaner
 
@@ -23,16 +22,21 @@ class Segmenter(object):
     def segment(self):
         if not self.text:
             return []
-        processor = Processor(self.text, language='en')
+        processor = Processor(self.text)
         segments = processor.process()
         return segments
 
 
 if __name__ == "__main__":
-    text = "Hello World. My name is Jonas."
-    # text = "\"Dinah'll miss me very much to-night, I should think!\" (Dinah was the cat.) \"I hope they'll remember her saucer of milk at tea-time. Dinah, my dear, I wish you were down here with me!\""
-    s = Segmenter(text)
-    print(s.segment())
-    sents = s.segment()
-    for s in sents:
-        print(s)
+    # text = "Hello World. My name is Jonas."
+    text = "It was a cold \nnight in the city."
+    # text = "features\ncontact manager\nevents, activities\n"
+    print("Input String:\n{}".format(text))
+    seg = Segmenter(text, clean=True)
+    segments = seg.segment()
+    print("\n################## Processing #######################\n")
+    print("Number of sentences: {}\n".format(len(segments)))
+    print("Sentences found:\n{}\n".format(segments))
+    print("\n################## Output #######################\n")
+    for ind, sent in enumerate(segments, start=1):
+        print("{} -> {}".format(ind, sent))
