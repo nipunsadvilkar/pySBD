@@ -11,10 +11,9 @@ class Segmenter(object):
         self.language = language
         self.language_module = Language.get_language_code(language)
         self.doc_type = doc_type
-        # self.clean = clean
+        self.clean = clean
         if clean:
-            self.cleaner = Cleaner(text)
-            self.text = self.cleaner.clean()
+            self.text = Cleaner(text).clean()
         else:
             self.text = text
 

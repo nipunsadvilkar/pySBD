@@ -1,5 +1,6 @@
 import pytest
-from pySBD.processor import Processor
+import pySBD
+# from pySBD.segmenter import Segmenter
 
 
 TEST_CASES = [
@@ -184,6 +185,6 @@ TEST_CASES = [
 @pytest.mark.parametrize('text,expected_sents', TEST_CASES)
 def test_en_sbd(text, expected_sents):
     """SBD tests from Pragmatic Segmenter"""
-    p = Processor(text)
-    op_sent = p.process()
-    assert op_sent == expected_sents
+    seg = pySBD.Segmenter(text, clean=True)
+    segments = seg.segment()
+    assert segments == expected_sents
