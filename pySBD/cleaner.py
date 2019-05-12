@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-# from pySBD.languages import Language
-# from pySBD.languages import Language
+import re
+from pySBD.rules import Text
+from pySBD.clean.rules import CleanRules as cr
 
 
 class Cleaner(object):
@@ -12,23 +13,38 @@ class Cleaner(object):
         self.doc_type = doc_type
 
     def clean(self):
-        raise NotImplementedError
-        # clean_rule_1 = remove_all_newlines(self.text)
-        # clean_rule_2 = replace_double_newlines(clean_rule_1)
-        # clean_rule_3 = replace_newlines(clean_rule_2)
-        # clean_rule_4 = replace_escaped_newlines(clean_rule_3)
-        # clean_rule_5 = remove_or_escape_html_tags(clean_rule_4)
-        # clean_rule_6 = replace_punctuation_in_brackets(clean_rule_5)
-        # clean_rule_7 = inlineformattingrule(clean_rule_6)
-        # clean_rule_8 = clean_quotations(clean_rule_7)
-        # clean_rule_9 = clean_table_of_contents(clean_rule_8)
-        # clean_rule_10 = check_for_no_space_in_between_sentences(clean_rule_9)
-        # clean_rule_11 = clean_consecutive_characters(clean_rule_10)
+        if not self.text:
+            return self.text
+        # raise NotImplementedError
+        self.remove_all_newlines()
+        # self.replace_double_newlines()
+        # self.replace_newlines()
+        # self.replace_escaped_newlines()
+        # # self.remove_or_escape_html_tags(clean_rule_4)
+        # self.replace_punctuation_in_brackets()
+        # # self.inlineformattingrule(clean_rule_6)
+        # self.clean_quotations()
+        # self.clean_table_of_contents()
+        # self.check_for_no_space_in_between_sentences()
+        # self.clean_consecutive_characters()
+        return self.text
 
     def remove_all_newlines(self):
-        raise NotImplementedError
-        # rm_all_newline_1 = remove_newline_in_middle_of_sentence(self)
-        # rm_newline_in_middle = remove_newline_in_middle_of_word(self)
-        # return rm_newline_in_middle
+        self.remove_newline_in_middle_of_sentence()
+        self.remove_newline_in_middle_of_word()
 
-    # def remove_newline_in_middle_of_sentence(self):
+    def remove_newline_in_middle_of_sentence(self):
+        def replace_w_blank(match):
+            match = match.group()
+            sub = re.sub(cr.NEWLINE_IN_MIDDLE_OF_SENTENCE_REGEX, '', match)
+            return sub
+        self.text = re.sub(r'(?:[^\.])*', replace_w_blank, self.text)
+
+    def remove_newline_in_middle_of_word(self):
+        self.text = Text(self.text).apply(cr.NewLineInMiddleOfWordRule)
+
+
+if __name__ == "__main__":
+    text = "It was a cold \nnight in the city."
+    c = Cleaner(text)
+    print(c.clean())
