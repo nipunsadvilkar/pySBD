@@ -207,3 +207,12 @@ def test_en_sbd_clean(text, expected_sents):
     seg = pySBD.Segmenter(text, clean=True)
     segments = seg.segment()
     assert segments == expected_sents
+
+
+def test_en_pdf_type():
+    text, expected_sents = (
+        "This is a sentence\ncut off in the middle because pdf.",
+            ["This is a sentence cut off in the middle because pdf."])
+    seg = pySBD.Segmenter(text, clean=True, doc_type='pdf')
+    segments = seg.segment()
+    assert segments == expected_sents
