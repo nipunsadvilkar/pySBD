@@ -16,7 +16,6 @@ class Cleaner(object):
     def clean(self):
         if not self.text:
             return self.text
-        # raise NotImplementedError
         self.remove_all_newlines()
         self.replace_double_newlines()
         self.replace_newlines()
@@ -90,14 +89,12 @@ class Cleaner(object):
                                         cr.ConsecutiveForwardSlashRule)
 
     def search_for_connected_sentences(self, word, txt, regex, rule):
-        # print(word)
         if not re.search(regex, word):
             return txt
         if any(k in word for k in cr.URL_EMAIL_KEYWORDS):
             return txt
-        if any(a in word.lower() for a in Abbreviation.ABBREVIATIONS):
+        if any(a in word for a in Abbreviation.ABBREVIATIONS):
             return txt
-        print(txt)
         new_word = Text(word).apply(rule)
         txt = re.sub(word, new_word, txt)
         return txt
@@ -106,7 +103,6 @@ class Cleaner(object):
         words = self.text.split(' ')
         for word in words:
             self.text = self.search_for_connected_sentences(word, self.text, cr.NO_SPACE_BETWEEN_SENTENCES_REGEX, cr.NoSpaceBetweenSentencesRule)
-            # print("####", word, self.text)
             self.text = self.search_for_connected_sentences(word, self.text, cr.NO_SPACE_BETWEEN_SENTENCES_DIGIT_REGEX, cr.NoSpaceBetweenSentencesDigitRule)
 
     def clean_consecutive_characters(self):
@@ -116,10 +112,7 @@ class Cleaner(object):
 
 
 if __name__ == "__main__":
-    # text = "It was a cold \nnight in the city."
     text = "Hello world.Today is Tuesday.Mr. Smith went to the store and bought 1,000.That is a lot."
     c = Cleaner(text)
-    # Hello world. Today is Tuesday. Mr. Smith went to the store and bought 1,000. That is a lot.
-    # text = "This is a sentence\ncut off in the middle because pdf."
-    # c = Cleaner(text, doc_type='pdf')
     print(c.clean())
+    # Hello world. Today is Tuesday. Mr. Smith went to the store and bought 1,000. That is a lot.
