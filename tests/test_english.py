@@ -181,8 +181,16 @@ TEST_CASES = [
     #     ])
 ]
 
-TESTS_WITH_CLEAN = [("It was a cold \nnight in the city.",
-        ["It was a cold night in the city."])]
+TESTS_WITH_CLEAN = [
+        ("It was a cold \nnight in the city.",
+            ["It was a cold night in the city."]),
+        ("features\ncontact manager\nevents, activities\n",
+            ["features", "contact manager", "events, activities"]),
+        ("Hello world.Today is Tuesday.Mr. Smith went to the store and bought 1,000.That is a lot.",
+            ["Hello world.", "Today is Tuesday.",
+                "Mr. Smith went to the store and bought 1,000.",
+                "That is a lot."])
+        ]
 
 
 @pytest.mark.parametrize('text,expected_sents', TEST_CASES)

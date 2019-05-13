@@ -13,7 +13,7 @@ class Segmenter(object):
         self.doc_type = doc_type
         self.clean = clean
         if clean:
-            self.text = Cleaner(text).clean()
+            self.text = Cleaner(text, doc_type=doc_type).clean()
         else:
             self.text = text
 
