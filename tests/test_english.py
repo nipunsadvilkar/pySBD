@@ -173,7 +173,21 @@ TESTS_WITH_CLEAN = [
         ("Hello world.Today is Tuesday.Mr. Smith went to the store and bought 1,000.That is a lot.",
             ["Hello world.", "Today is Tuesday.",
                 "Mr. Smith went to the store and bought 1,000.",
-                "That is a lot."])
+                "That is a lot."]),
+        ('I think Jun. is a great month, said Mr. Suzuki.',
+            ["I think Jun. is a great month, said Mr. Suzuki."]),
+        ('Jun. is a great month, said Mr. Suzuki.',
+            ["Jun. is a great month, said Mr. Suzuki."]),
+        ("I have 1.000.00. Yay $.50 and .50! That's 600.",
+            ["I have 1.000.00.", "Yay $.50 and .50!", "That's 600."]),
+        ('1.) This is a list item with a parens.',
+            ["1.) This is a list item with a parens."]),
+        ('1. This is a list item.',
+            ['1. This is a list item.']),
+        ('I live in the U.S.A. I went to J.C. Penney.',
+            ["I live in the U.S.A.", "I went to J.C. Penney."]),
+        ('His name is Alfred E. Sloan.',
+            ['His name is Alfred E. Sloan.'])
         ]
 
 PDF_TEST_DATA = [

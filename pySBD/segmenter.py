@@ -27,16 +27,14 @@ class Segmenter(object):
 
 if __name__ == "__main__":
     # text = "Hello World. My name is Jonas."
-    text = "• 9. Stop smoking \n• 10. Get some rest \n \nYou have the best chance of having a problem-free pregnancy and a healthy baby if you follow \na few simple guidelines:  \n\n1. Organise your pregnancy care early"
+    text = "I live in the U.S.A. I went to J.C. Penney."
     # text = "features\ncontact manager\nevents, activities\n"
     print("Input String:\n{}".format(text))
-    seg = Segmenter(text, clean=True, doc_type='pdf')
+    seg = Segmenter(text, clean=True)
     segments = seg.segment()
-    # print("\n################## Processing #######################\n")
-    # print("Number of sentences: {}\n".format(len(segments)))
-    # print("Sentences found:\n{}\n".format(segments))
-    # print("\n################## Output #######################\n")
-    # for ind, sent in enumerate(segments, start=1):
-    #     print("{} -> {}".format(ind, sent))
-
-    # "• 9∯ Stop smoking \r• 10∯ Get some rest \rYou have the best chance of having a problem-free pregnancy and a healthy baby if you follow a few simple guidelines:  \r1∯ Organise your pregnancy care early"
+    print("\n################## Processing #######################\n")
+    print("Number of sentences: {}\n".format(len(segments)))
+    print("Sentences found:\n{}\n".format(segments))
+    print("\n################## Output #######################\n")
+    for ind, sent in enumerate(segments, start=1):
+        print("{} -> {}".format(ind, sent))

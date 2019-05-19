@@ -7,16 +7,6 @@ from pySBD.lang.common.numbers import (Common, SingleLetterAbbreviationRules,
                                        AmPmRules)
 
 
-def replace_multi_period_abbreviations(txt):
-    mpa = re.findall(Common.MULTI_PERIOD_ABBREVIATION_REGEX, txt, flags=re.IGNORECASE)
-    if not mpa:
-        return txt
-    for each in mpa:
-        replacement = re.sub(re.escape(r'.'), '∯', each)
-        text = re.sub(re.escape(each), replacement, txt)
-    return text
-
-
 def replace_pre_number_abbr(txt, abbr):
     txt = re.sub(r'(?<=\s{abbr})\.(?=\s\d)|(?<=^{abbr})\.(?=\s\d)'.format(abbr=abbr.strip()), "∯", txt)
     txt = re.sub(r'(?<=\s{abbr})\.(?=\s+\()|(?<=^{abbr})\.(?=\s+\()'.format(abbr=abbr.strip()), "∯", txt)
@@ -54,10 +44,18 @@ class AbbreviationReplacer(object):
                                           Common.KommanditgesellschaftRule,
                                           *SingleLetterAbbreviationRules.All)
         self.text = self.search_for_abbreviations_in_string()
-        self.text = replace_multi_period_abbreviations(self.text)
+        self.replace_multi_period_abbreviations()
         self.text = Text(self.text).apply(*AmPmRules.All)
         self.text = replace_abbreviation_as_sentence_boundary(self.text)
         return self.text
+
+    def replace_multi_period_abbreviations(self):
+        mpa = re.findall(Common.MULTI_PERIOD_ABBREVIATION_REGEX, self.text, flags=re.IGNORECASE)
+        if not mpa:
+            return self.text
+        for each in mpa:
+            replacement = re.sub(re.escape(r'.'), '∯', each)
+            self.text = re.sub(each, replacement, self.text)
 
     def search_for_abbreviations_in_string(self):
         original = self.text
@@ -93,6 +91,5 @@ class AbbreviationReplacer(object):
 
 
 if __name__ == "__main__":
-    s = "I have lived in the U.S. for 20 years."
+    s = "I live in the U.S.A. I went to J.C. Penney."
     print(AbbreviationReplacer(s).replace())
-    # I have lived in the U∮S∯ for 20 years.
