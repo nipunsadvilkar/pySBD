@@ -68,52 +68,30 @@ class SingleLetterAbbreviationRules(object):
         SingleUpperCaseLetterAtStartOfLineRule, SingleUpperCaseLetterRule
     ]
 
-# class EllipsisRules(object):
-#     # Rubular: http://rubular.com/r/i60hCK81fz
-#     ThreeConsecutiveRule = Rule.new(/\.\.\.(?=\s+[A-Z])/, '☏.')
 
-#     # Rubular: http://rubular.com/r/Hdqpd90owl
-#     FourConsecutiveRule = Rule.new(/(?<=\S)\.{3}(?=\.\s[A-Z])/, 'ƪ')
+class Numbers(object):
+    # Rubular: http://rubular.com/r/oNyxBOqbyy
+    PeriodBeforeNumberRule = Rule(r'\.(?=\d)', '∯')
 
-#     # Rubular: http://rubular.com/r/YBG1dIHTRu
-#     ThreeSpaceRule = Rule.new(/(\s\.){3}\s/, '♟')
+    # Rubular: http://rubular.com/r/EMk5MpiUzt
+    NumberAfterPeriodBeforeLetterRule = Rule(r'(?<=\d)\.(?=\S)', '∯')
 
-#     # Rubular: http://rubular.com/r/2VvZ8wRbd8
-#     FourSpaceRule = Rule.new(/(?<= [a-z])(\.\s){3}\.(\z |$|\n)/, '♝')
+    # Rubular: http://rubular.com/r/rf4l1HjtjG
+    NewLineNumberPeriodSpaceLetterRule = Rule(r'(?<=\r\d)\.(?=(\s\S)|\))', '∯')
 
-#     OtherThreePeriodRule = Rule.new(/\.\.\./, 'ƪ')
+    # Rubular: http://rubular.com/r/HPa4sdc6b9
+    StartLineNumberPeriodRule = Rule(r'(?<=^\d)\.(?=(\s\S)|\))', '∯')
 
-#     All = [
-#         ThreeSpaceRule,
-#         FourSpaceRule,
-#         FourConsecutiveRule,
-#         ThreeConsecutiveRule,
-#         OtherThreePeriodRule
-#     ]
+    # Rubular: http://rubular.com/r/NuvWnKleFl
+    StartLineTwoDigitNumberPeriodRule = Rule(r'(?<=^\d\d)\.(?=(\s\S)|\))', '∯')
 
-# class Numbers(object):
-#     # Rubular: http://rubular.com/r/oNyxBOqbyy
-#     PeriodBeforeNumberRule = Rule.new( /\.(?=\d)/, '∯')
-
-#     # Rubular: http://rubular.com/r/EMk5MpiUzt
-#     NumberAfterPeriodBeforeLetterRule = Rule.new(/(?<=\d)\.(?=\S)/, '∯')
-
-#     # Rubular: http://rubular.com/r/rf4l1HjtjG
-#     NewLineNumberPeriodSpaceLetterRule = Rule.new(/(?<=\r\d)\.(?=(\s\S) |\))/, '∯')
-
-#     # Rubular: http://rubular.com/r/HPa4sdc6b9
-#     StartLineNumberPeriodRule=Rule.new(/(?<= ^\d)\.(?=(\s\S) |\))/, '∯')
-
-#     # Rubular: http://rubular.com/r/NuvWnKleFl
-#     StartLineTwoDigitNumberPeriodRule=Rule.new(/(?<= ^\d\d)\.(?= (\s\S) |\))/, '∯')
-
-#     All = [
-#         PeriodBeforeNumberRule,
-#         NumberAfterPeriodBeforeLetterRule,
-#         NewLineNumberPeriodSpaceLetterRule,
-#         StartLineNumberPeriodRule,
-#         StartLineTwoDigitNumberPeriodRule
-#         ]
+    All = [
+        PeriodBeforeNumberRule,
+        NumberAfterPeriodBeforeLetterRule,
+        NewLineNumberPeriodSpaceLetterRule,
+        StartLineNumberPeriodRule,
+        StartLineTwoDigitNumberPeriodRule
+        ]
 
 
 if __name__ == "__main__":

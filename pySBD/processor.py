@@ -12,7 +12,7 @@ from pySBD.lang.standard import (Standard, Abbreviation,
                                  DoublePunctuationRules,
                                  ExclamationPointRules, SubSymbolsRules,
                                  ReinsertEllipsisRules)
-from pySBD.lang.common.numbers import Common
+from pySBD.lang.common.numbers import Common, Numbers
 from pySBD.lang.common.ellipsis import EllipsisRules
 from pySBD.exclamation_words import ExclamationWords
 from pySBD.between_punctuation import BetweenPunctuation
@@ -35,14 +35,9 @@ class Processor(object):
         li = ListItemReplacer(self.text)
         self.text = li.add_line_break()
         self.text = AbbreviationReplacer(self.text).replace()
-        # text = replace_numbers(text)
+        self.replace_numbers()
         self.text = self.replace_continuous_punctuation()
         self.text = self.replace_periods_before_numeric_references()
-        print("##", repr(self.text))
-        # "• 9∯ Stop smoking \r• 10∯ Get some rest \rYou have the best chance of having a problem-free pregnancy and a healthy baby if you follow a few simple guidelines:  \r1∯ Organise your pregnancy care early"
-        # self.text = Text(self.text).apply(Abbreviation.WithMultiplePeriodsAndEmailRule,
-        #                                   Standard.GeoLocationRule,
-        #                                   Standard.FileFormatRule)
         self.text = Text(self.text).apply(Abbreviation.WithMultiplePeriodsAndEmailRule)
         self.text = Text(self.text).apply(Standard.GeoLocationRule)
         self.text = Text(self.text).apply(Standard.FileFormatRule)
@@ -154,9 +149,8 @@ class Processor(object):
         txt = self.sentence_boundary_punctuation(txt)
         return txt
 
-    def replace_numbers(self, txt):
-        # Numbers
-        raise NotImplementedError
+    def replace_numbers(self):
+        self.text = Text(self.text).apply(*Numbers.All)
 
     def abbreviations_replacer(self, txt):
         # AbbreviationReplacer
