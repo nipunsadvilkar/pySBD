@@ -38,12 +38,14 @@ class Processor(object):
         # text = replace_numbers(text)
         self.text = self.replace_continuous_punctuation()
         self.text = self.replace_periods_before_numeric_references()
-        self.text = Text(self.text).apply(Abbreviation.WithMultiplePeriodsAndEmailRule,
-                                          Standard.GeoLocationRule,
-                                          Standard.FileFormatRule)
-        # self.text = Text(self.text).apply(Abbreviation.WithMultiplePeriodsAndEmailRule)
-        # self.text = Text(self.text).apply(Standard.GeoLocationRule)
-        # self.text = Text(self.text).apply(Standard.FileFormatRule)
+        print("##", repr(self.text))
+        # "• 9∯ Stop smoking \r• 10∯ Get some rest \rYou have the best chance of having a problem-free pregnancy and a healthy baby if you follow a few simple guidelines:  \r1∯ Organise your pregnancy care early"
+        # self.text = Text(self.text).apply(Abbreviation.WithMultiplePeriodsAndEmailRule,
+        #                                   Standard.GeoLocationRule,
+        #                                   Standard.FileFormatRule)
+        self.text = Text(self.text).apply(Abbreviation.WithMultiplePeriodsAndEmailRule)
+        self.text = Text(self.text).apply(Standard.GeoLocationRule)
+        self.text = Text(self.text).apply(Standard.FileFormatRule)
         processed = self.split_into_segments()
         return processed
 

@@ -113,31 +113,34 @@ class ListItemReplacer(object):
     def scan_lists(self, regex1, regex2, replacement, strip=False):
         list_array = re.findall(regex1, self.text)
         list_array = list(map(int, list_array))
-        for ind, each in enumerate(list_array):
+        for ind, item in enumerate(list_array):
             # to avoid IndexError
             # ruby returns nil if index is out of range
-            if ind < len(list_array)-1:
-                if not ((each + 1) == list_array[ind + 1]) or \
-                    ((each - 1) == list_array[ind - 1]) or \
-                    ((each == 0) and (list_array[ind - 1] == 9)) or \
-                        ((each == 0) and (list_array[ind + 1] == 0)):
-                    continue
-            self.substitute_found_list_items(regex2, each, strip, replacement)
+            # print(ind, item, replacement)
+            if (ind < len(list_array) - 1) and (item + 1 == list_array[ind + 1]):
+                self.substitute_found_list_items(regex2, item, strip, replacement)
+            elif ind > 0:
+                if (((item - 1) == list_array[ind - 1]) or
+                    ((item == 0) and (list_array[ind - 1] == 9)) or
+                    ((item == 9) and (list_array[ind + 1] == 0))):
+                    self.substitute_found_list_items(regex2, item, strip, replacement)
+
 
     def substitute_found_list_items(self, regex, each, strip, replacement):
         list_array = re.findall(regex, self.text)
-        for ind, match in enumerate(list_array, start=1):
+        for match in list_array:
             stripped_match = str(match).strip()
             chomped_match = stripped_match if len(stripped_match) == 1 else stripped_match[:-1]
+            # print("~~~~~~~~~~", match, each, stripped_match, chomped_match)
             if str(each) == chomped_match:
+                # print("!!!!!!!!!!!!!", match, each, stripped_match, chomped_match)
                 self.text = re.sub(str(match), "{}{}".format(each, replacement), self.text)
-            else:
-                self.text = re.sub(str(match), "{}".format(match), self.text)
+            # print(repr(self.text))
 
     def add_line_breaks_for_numbered_list_with_periods(self):
-        if '♨' in self.text and not re.search(
-                '♨.+(\n|\r).+♨', self.text) and not re.search(
-                    r'for\s\d{1,2}♨\s[a-z]', self.text):
+        if ('♨' in self.text) and (not re.search(
+                '♨.+(\n|\r).+♨', self.text)) and (not re.search(
+                    r'for\s\d{1,2}♨\s[a-z]', self.text)):
             self.text = Text(self.text).apply(self.SpaceBetweenListItemsFirstRule,
                                     self.SpaceBetweenListItemsSecondRule)
 
@@ -236,16 +239,8 @@ class ListItemReplacer(object):
 
 
 if __name__ == "__main__":
-    # text = "a. The first item. b. The second item."
-    # OP # \ra∯ The first item. \rb∯ The second item.
-    # text = "a) ffegnog (b) fgegkl c)"
-    # OP # \ra) ffegnog &✂&b) fgegkl c)
-    # text = "1) The first item 2) The second item"
-    text = "Please turn to p. 55."
-    # OP # 1) The first item\r2) The second item
-    # text = "1.) The first item 2.) The second item"
-    # OP # '1∯) The first item\r2∯) The second item'
+    text = "• 9. Stop smoking \n• 10. Get some rest \n \nYou have the best chance of having a problem-free pregnancy and a healthy baby if you follow \na few simple guidelines:  \n\n1. Organise your pregnancy care early"
     li = ListItemReplacer(text)
     li.add_line_break()
-    # print(repr(li.text))
-    print(li.text)
+    print(repr(li.text))
+    # print(li.text)

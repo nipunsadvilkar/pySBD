@@ -17,7 +17,6 @@ class Segmenter(object):
         else:
             self.text = text
 
-    # TODO: Can be converted to a class method
     def segment(self):
         if not self.text:
             return []
@@ -39,3 +38,5 @@ if __name__ == "__main__":
     # print("\n################## Output #######################\n")
     # for ind, sent in enumerate(segments, start=1):
     #     print("{} -> {}".format(ind, sent))
+
+    # "• 9∯ Stop smoking \r• 10∯ Get some rest \rYou have the best chance of having a problem-free pregnancy and a healthy baby if you follow a few simple guidelines:  \r1∯ Organise your pregnancy care early"

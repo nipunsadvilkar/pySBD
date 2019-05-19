@@ -112,7 +112,7 @@ class Cleaner(object):
 
 
 if __name__ == "__main__":
-    text = "Hello world.Today is Tuesday.Mr. Smith went to the store and bought 1,000.That is a lot."
+    # text = "Hello world.Today is Tuesday.Mr. Smith went to the store and bought 1,000.That is a lot."
+    text = "• 9. Stop smoking \n• 10. Get some rest \n \nYou have the best chance of having a problem-free pregnancy and a healthy baby if you follow \na few simple guidelines:  \n\n1. Organise your pregnancy care early"
     c = Cleaner(text)
     print(c.clean())
-    # Hello world. Today is Tuesday. Mr. Smith went to the store and bought 1,000. That is a lot.
