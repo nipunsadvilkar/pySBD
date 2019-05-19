@@ -241,7 +241,17 @@ TESTS_WITH_CLEAN = [
             ["Rolls-Royce Motor Cars Inc. said it expects its U.S. sales to remain steady at about 1,200 cars in 1990.", "'So what if you miss 50 tanks somewhere?' asks Rep. Norman Dicks (D., Wash.), a member of the House group that visited the talks in Vienna.", "Later, he recalls the words of his Marxist mentor: 'The people! Theft! The holy fire!'"]),
         ("He climbed Mt. Fuji.", ["He climbed Mt. Fuji."]),
         ("He speaks !Xũ, !Kung, ǃʼOǃKung, !Xuun, !Kung-Ekoka, ǃHu, ǃKhung, ǃKu, ǃung, ǃXo, ǃXû, ǃXung, ǃXũ, and !Xun.",
-            ["He speaks !Xũ, !Kung, ǃʼOǃKung, !Xuun, !Kung-Ekoka, ǃHu, ǃKhung, ǃKu, ǃung, ǃXo, ǃXû, ǃXung, ǃXũ, and !Xun."])
+            ["He speaks !Xũ, !Kung, ǃʼOǃKung, !Xuun, !Kung-Ekoka, ǃHu, ǃKhung, ǃKu, ǃung, ǃXo, ǃXû, ǃXung, ǃXũ, and !Xun."]),
+        ("Test strange period．Does it segment correctly．",
+            ["Test strange period．", "Does it segment correctly．"]),
+        ("<h2 class=\"lined\">Hello</h2>\n<p>This is a test. Another test.</p>\n<div class=\"center\"><p>\n<img src=\"/images/content/example.jpg\">\n</p></div>",
+            ["Hello", "This is a test.", "Another test."]),
+        ("This sentence ends with the psuedo-number x10. This one with the psuedo-number %3.00. One last sentence.",
+            ["This sentence ends with the psuedo-number x10.", "This one with the psuedo-number %3.00.", "One last sentence."]),
+        ("Testing mixed numbers Jahr10. And another 0.3 %11. That's weird.",
+            ["Testing mixed numbers Jahr10.", "And another 0.3 %11.", "That's weird."]),
+        ("Were Jane and co. at the party?",
+            ["Were Jane and co. at the party?"])
         ]
 
 PDF_TEST_DATA = [
