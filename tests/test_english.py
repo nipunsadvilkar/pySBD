@@ -203,7 +203,21 @@ TESTS_WITH_CLEAN = [
         ("See our additional services section or contact us for pricing\n. Pricing Additionl Info",
             ["See our additional services section or contact us for pricing.", "Pricing Additionl Info"]),
         ("I have 600. How many do you have?",
-            ["I have 600.", "How many do you have?"])
+            ["I have 600.", "How many do you have?"]),
+        # modified original sents in pragmatic_segmenter are:
+        # ["Introduction"]
+        ("\n3\n\nIntroduction\n\n", ["3", "Introduction"]),
+        ("\nW\nA\nRN\nI\nNG\n", ["WARNING"]),
+        # modified original sents in pragmatic_segmenter are:
+        # ["WARNING", "AVERTISEMENT"]
+        ("\n\n\nW\nA\nRN\nI\nNG\n \n/\n \nA\nV\nE\nR\nT\nI\nS\nE\nM\nE\nNT\n",
+            ["WARNING", "/", "AVERTISEMENT"]),
+        ('"Help yourself, sweetie," shouted Candy and gave her the cookie.',
+            ["\"Help yourself, sweetie,\" shouted Candy and gave her the cookie."]),
+        ("Until its release, a generic mechanism was known, where the sear keeps the hammer in back position, and when one pulls the trigger, the sear slips out of hammer’s notches, the hammer falls initiating \na shot.",
+            ["Until its release, a generic mechanism was known, where the sear keeps the hammer in back position, and when one pulls the trigger, the sear slips out of hammer’s notches, the hammer falls initiating a shot."]),
+        ("This is a test. Until its release, a generic mechanism was known, where the sear keeps the hammer in back position, and when one pulls the trigger, the sear slips out of hammer’s notches, the hammer falls initiating \na shot.",
+            ["This is a test.", "Until its release, a generic mechanism was known, where the sear keeps the hammer in back position, and when one pulls the trigger, the sear slips out of hammer’s notches, the hammer falls initiating a shot."])
         ]
 
 PDF_TEST_DATA = [
