@@ -78,6 +78,10 @@ class Cleaner(object):
         self.text = re.sub(r'\[(?:[^\]])*\]', replace_punct, self.text)
 
     def clean_quotations(self):
+        # method added explicitly
+        # pragmatic-segmenter applies thhis method
+        # at different location
+        self.text = re.sub('`', "'", self.text)
         self.text = Text(self.text).apply(
                                         cr.QuotationsFirstRule,
                                         cr.QuotationsSecondRule)

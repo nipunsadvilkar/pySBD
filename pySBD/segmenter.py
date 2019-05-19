@@ -26,7 +26,7 @@ class Segmenter(object):
 
 
 if __name__ == "__main__":
-    text = "See our additional services section or contact us for pricing\n.\n\n\nPricing Additionl Info\n"
+    text = "Rolls-Royce Motor Cars Inc. said it expects its U.S. sales to remain steady at about 1,200 cars in 1990. `So what if you miss 50 tanks somewhere?' asks Rep. Norman Dicks (D., Wash.), a member of the House group that visited the talks in Vienna. Later, he recalls the words of his Marxist mentor: `The people! Theft! The holy fire!'"
     print("Input String:\n{}".format(text))
     seg = Segmenter(text, clean=True)
     segments = seg.segment()

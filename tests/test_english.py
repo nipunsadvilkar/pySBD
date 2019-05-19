@@ -217,7 +217,31 @@ TESTS_WITH_CLEAN = [
         ("Until its release, a generic mechanism was known, where the sear keeps the hammer in back position, and when one pulls the trigger, the sear slips out of hammer’s notches, the hammer falls initiating \na shot.",
             ["Until its release, a generic mechanism was known, where the sear keeps the hammer in back position, and when one pulls the trigger, the sear slips out of hammer’s notches, the hammer falls initiating a shot."]),
         ("This is a test. Until its release, a generic mechanism was known, where the sear keeps the hammer in back position, and when one pulls the trigger, the sear slips out of hammer’s notches, the hammer falls initiating \na shot.",
-            ["This is a test.", "Until its release, a generic mechanism was known, where the sear keeps the hammer in back position, and when one pulls the trigger, the sear slips out of hammer’s notches, the hammer falls initiating a shot."])
+            ["This is a test.", "Until its release, a generic mechanism was known, where the sear keeps the hammer in back position, and when one pulls the trigger, the sear slips out of hammer’s notches, the hammer falls initiating a shot."]),
+        ("This was because it was an offensive weapon, designed to fight at a distance up to 400 yd \n( 365.8 m ).",
+            ["This was because it was an offensive weapon, designed to fight at a distance up to 400 yd ( 365.8 m )."]),
+        ("“Are demonstrations are evidence of the public anger and frustration at opaque environmental management and decision-making?” Others yet say: \"Should we be scared about these 'protests'?\"",
+            ["“Are demonstrations are evidence of the public anger and frustration at opaque environmental management and decision-making?”", "Others yet say: \"Should we be scared about these 'protests'?\""]),
+        ("www.testurl.Awesome.com", ["www.testurl.Awesome.com"]),
+        ("http://testurl.Awesome.com", ["http://testurl.Awesome.com"]),
+        ("St. Michael's Church in is a church.", ["St. Michael's Church in is a church."]),
+        ("JFK Jr.'s book is on sale.", ["JFK Jr.'s book is on sale."]),
+        ("This is e.g. Mr. Smith, who talks slowly... And this is another sentence.",
+            ["This is e.g. Mr. Smith, who talks slowly...", "And this is another sentence."]),
+        ("Leave me alone!, he yelled. I am in the U.S. Army. Charles (Ind.) said he.",
+            ["Leave me alone!, he yelled.", "I am in the U.S. Army.", "Charles (Ind.) said he."]),
+        ("This is the U.S. Senate my friends. <em>Yes.</em> <em>It is</em>!",
+            ["This is the U.S. Senate my friends.", "Yes.", "It is!"]),
+        ("Send it to P.O. box 6554", ["Send it to P.O. box 6554"]),
+        ("There were 500 cases in the U.S. The U.S. Commission asked the U.S. Government to give their opinion on the issue.",
+            ["There were 500 cases in the U.S.", "The U.S. Commission asked the U.S. Government to give their opinion on the issue."]),
+        ("CELLULAR COMMUNICATIONS INC. sold 1,550,000 common shares at $21.75 each yesterday, according to lead underwriter L.F. Rothschild & Co. (cited from WSJ 05/29/1987)",
+            ["CELLULAR COMMUNICATIONS INC. sold 1,550,000 common shares at $21.75 each yesterday, according to lead underwriter L.F. Rothschild & Co. (cited from WSJ 05/29/1987)"]),
+        ("Rolls-Royce Motor Cars Inc. said it expects its U.S. sales to remain steady at about 1,200 cars in 1990. `So what if you miss 50 tanks somewhere?' asks Rep. Norman Dicks (D., Wash.), a member of the House group that visited the talks in Vienna. Later, he recalls the words of his Marxist mentor: `The people! Theft! The holy fire!'",
+            ["Rolls-Royce Motor Cars Inc. said it expects its U.S. sales to remain steady at about 1,200 cars in 1990.", "'So what if you miss 50 tanks somewhere?' asks Rep. Norman Dicks (D., Wash.), a member of the House group that visited the talks in Vienna.", "Later, he recalls the words of his Marxist mentor: 'The people! Theft! The holy fire!'"]),
+        ("He climbed Mt. Fuji.", ["He climbed Mt. Fuji."]),
+        ("He speaks !Xũ, !Kung, ǃʼOǃKung, !Xuun, !Kung-Ekoka, ǃHu, ǃKhung, ǃKu, ǃung, ǃXo, ǃXû, ǃXung, ǃXũ, and !Xun.",
+            ["He speaks !Xũ, !Kung, ǃʼOǃKung, !Xuun, !Kung-Ekoka, ǃHu, ǃKhung, ǃKu, ǃung, ǃXo, ǃXû, ǃXung, ǃXũ, and !Xun."])
         ]
 
 PDF_TEST_DATA = [
