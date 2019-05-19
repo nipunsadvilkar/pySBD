@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import pytest
 import pySBD
-# from pySBD.segmenter import Segmenter
 
 
 TEST_CASES = [
@@ -47,8 +46,7 @@ TEST_CASES = [
          [
              "At 5 a.m. Mr. Smith went to the bank.",
              "He left the bank at 6 P.M.", "Mr. Smith then went to the store."
-         ],
-    marks=pytest.mark.xfail),
+         ], marks=pytest.mark.xfail),
     ("She has $100.00 in her bag.", ["She has $100.00 in her bag."]),
     ("She has $100.00. It is in her bag.", ["She has $100.00.", "It is in her bag."]),
     ("He teaches science (He previously worked for 5 years as an engineer.) at the local University.",
@@ -187,7 +185,15 @@ TESTS_WITH_CLEAN = [
         ('I live in the U.S.A. I went to J.C. Penney.',
             ["I live in the U.S.A.", "I went to J.C. Penney."]),
         ('His name is Alfred E. Sloan.',
-            ['His name is Alfred E. Sloan.'])
+            ['His name is Alfred E. Sloan.']),
+        ('Q. What is his name? A. His name is Alfred E. Sloan.',
+            ['Q. What is his name?', 'A. His name is Alfred E. Sloan.']),
+        ('Today is 11.18.2014.', ['Today is 11.18.2014.']),
+        ('I need you to find 3 items, e.g. a hat, a coat, and a bag.',
+            ['I need you to find 3 items, e.g. a hat, a coat, and a bag.']),
+        ("The game is the Giants vs. the Tigers at 10 p.m. I'm going are you?",
+            ["The game is the Giants vs. the Tigers at 10 p.m.", "I'm going are you?"]),
+        ('He is no. 5, the shortstop.', ['He is no. 5, the shortstop.'])
         ]
 
 PDF_TEST_DATA = [
