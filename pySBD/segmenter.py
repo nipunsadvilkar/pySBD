@@ -13,7 +13,7 @@ class Segmenter(object):
         self.doc_type = doc_type
         self.clean = clean
         if clean:
-            self.text = Cleaner(text, doc_type=doc_type).clean()
+            self.text = Cleaner(self.text, doc_type=doc_type).clean()
         else:
             self.text = text
 
@@ -28,14 +28,14 @@ class Segmenter(object):
 
 if __name__ == "__main__":
     # text = "Hello World. My name is Jonas."
-    text = "It was a cold \nnight in the city."
+    text = "• 9. Stop smoking \n• 10. Get some rest \n \nYou have the best chance of having a problem-free pregnancy and a healthy baby if you follow \na few simple guidelines:  \n\n1. Organise your pregnancy care early"
     # text = "features\ncontact manager\nevents, activities\n"
     print("Input String:\n{}".format(text))
-    seg = Segmenter(text, clean=True)
+    seg = Segmenter(text, clean=True, doc_type='pdf')
     segments = seg.segment()
-    print("\n################## Processing #######################\n")
-    print("Number of sentences: {}\n".format(len(segments)))
-    print("Sentences found:\n{}\n".format(segments))
-    print("\n################## Output #######################\n")
-    for ind, sent in enumerate(segments, start=1):
-        print("{} -> {}".format(ind, sent))
+    # print("\n################## Processing #######################\n")
+    # print("Number of sentences: {}\n".format(len(segments)))
+    # print("Sentences found:\n{}\n".format(segments))
+    # print("\n################## Output #######################\n")
+    # for ind, sent in enumerate(segments, start=1):
+    #     print("{} -> {}".format(ind, sent))

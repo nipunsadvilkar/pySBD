@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytest
 import pySBD
+# from pySBD.segmenter import Segmenter
 
 
 TEST_CASES = [
@@ -41,13 +42,13 @@ TEST_CASES = [
     ("I have lived in the U.S. for 20 years.",
         ["I have lived in the U.S. for 20 years."]),
     # Most difficult sentence to crack
-    # (
-    #     "At 5 a.m. Mr. Smith went to the bank. He left the bank at 6 P.M. Mr. Smith then went to the store.",
-    #     [
-    #         "At 5 a.m. Mr. Smith went to the bank.",
-    #         "He left the bank at 6 P.M.", "Mr. Smith then went to the store."
-    #     ],
-    # ),
+    pytest.param(
+         "At 5 a.m. Mr. Smith went to the bank. He left the bank at 6 P.M. Mr. Smith then went to the store.",
+         [
+             "At 5 a.m. Mr. Smith went to the bank.",
+             "He left the bank at 6 P.M.", "Mr. Smith then went to the store."
+         ],
+    marks=pytest.mark.xfail),
     ("She has $100.00 in her bag.", ["She has $100.00 in her bag."]),
     ("She has $100.00. It is in her bag.", ["She has $100.00.", "It is in her bag."]),
     ("He teaches science (He previously worked for 5 years as an engineer.) at the local University.",
