@@ -126,20 +126,16 @@ class Processor(object):
         return len(txt) == 0
 
     def check_for_punctuation(self, txt):
-        # if any(re.search(re.escape(r'{}'.format(p)), txt)
-        #        for p in Standard.Punctuations):
         if any(p in txt for p in Standard.Punctuations):
             sents = self.process_text(txt)
             return sents
         else:
-            return txt
+            # NOTE: next steps of check_for_punctuation will unpack this list
+            return [txt]
 
     def process_text(self, txt):
-        # if not any(p in txt[-1] for p in Standard.Punctuations):
         if txt[-1] not in Standard.Punctuations:
-            # "Hello .World" -> "Hello .Worldȸ"
             txt += 'ȸ'
-        # work for Yahoo! company -> work for Yahoo&ᓴ& company
         txt = ExclamationWords.apply_rules(txt)
         txt = BetweenPunctuation(txt).replace()
         txt = Text(txt).apply(*DoublePunctuationRules.All,

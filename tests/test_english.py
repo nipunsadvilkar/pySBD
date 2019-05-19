@@ -193,7 +193,17 @@ TESTS_WITH_CLEAN = [
             ['I need you to find 3 items, e.g. a hat, a coat, and a bag.']),
         ("The game is the Giants vs. the Tigers at 10 p.m. I'm going are you?",
             ["The game is the Giants vs. the Tigers at 10 p.m.", "I'm going are you?"]),
-        ('He is no. 5, the shortstop.', ['He is no. 5, the shortstop.'])
+        ('He is no. 5, the shortstop.', ['He is no. 5, the shortstop.']),
+        ("Remove long strings of dots........please.", ["Remove long strings of dots please."]),
+        ("See our additional services section or contact us for pricing\n.\n\n\nPricing Additionl Info\n",
+            ["See our additional services section or contact us for pricing.", "Pricing Additionl Info"]),
+        ("As payment for 1. above, pay us a commission fee of 0 yen and for 2. above, no fee will be paid.",
+            ["As payment for 1. above, pay us a commission fee of 0 yen and for 2. above, no fee will be paid."]),
+        ("Git rid of   unnecessary white space.", ["Git rid of unnecessary white space."]),
+        ("See our additional services section or contact us for pricing\n. Pricing Additionl Info",
+            ["See our additional services section or contact us for pricing.", "Pricing Additionl Info"]),
+        ("I have 600. How many do you have?",
+            ["I have 600.", "How many do you have?"])
         ]
 
 PDF_TEST_DATA = [

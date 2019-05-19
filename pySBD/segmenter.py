@@ -26,9 +26,7 @@ class Segmenter(object):
 
 
 if __name__ == "__main__":
-    # text = "Hello World. My name is Jonas."
-    text = "I live in the U.S.A. I went to J.C. Penney."
-    # text = "features\ncontact manager\nevents, activities\n"
+    text = "See our additional services section or contact us for pricing\n.\n\n\nPricing Additionl Info\n"
     print("Input String:\n{}".format(text))
     seg = Segmenter(text, clean=True)
     segments = seg.segment()
