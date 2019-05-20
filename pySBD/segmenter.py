@@ -26,7 +26,7 @@ class Segmenter(object):
 
 
 if __name__ == "__main__":
-    text = "Rolls-Royce Motor Cars Inc. said it expects its U.S. sales to remain steady at about 1,200 cars in 1990. `So what if you miss 50 tanks somewhere?' asks Rep. Norman Dicks (D., Wash.), a member of the House group that visited the talks in Vienna. Later, he recalls the words of his Marxist mentor: `The people! Theft! The holy fire!'"
+    text = "Header 1.2; Attachment Z\n\n\td. Compliance Log – Volume 12 \n\tAttachment A\n\n\te. Additional Logistics Data\n\tSection 10"
     print("Input String:\n{}".format(text))
     seg = Segmenter(text, clean=True)
     segments = seg.segment()
@@ -36,3 +36,8 @@ if __name__ == "__main__":
     print("\n################## Output #######################\n")
     for ind, sent in enumerate(segments, start=1):
         print("{} -> {}".format(ind, sent))
+    # Header 1.2; Attachment Z
+    # d. Compliance Log – Volume 12
+    # Attachment A
+    # e. Additional Logistics Data
+    # Section 10

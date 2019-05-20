@@ -63,6 +63,7 @@ class Processor(object):
             Text(s).apply(*SubSymbolsRules.All)
             for s in new_sents
         ]
+
         post_process_sents = [self.post_process_segments(s) for s in sents]
         # TODO: Refactor to flatten and remove None and empty lists
         # remove any empty or null values
@@ -75,7 +76,6 @@ class Processor(object):
                     sents.append(l)
             else:
                 sents.append(s)
-
         sents = [
             Text(s).apply(Standard.SubSingleQuoteRule)
             for s in sents
@@ -86,7 +86,7 @@ class Processor(object):
         if len(txt) > 2 and re.search(r'\A[a-zA-Z]*\Z', txt):
             return txt
         if self.consecutive_underscore(txt) or len(txt) < 2:
-            return txt
+            pass
         txt = Text(txt).apply(*ReinsertEllipsisRules.All,
                               Standard.ExtraWhiteSpaceRule)
         if re.search(Common.QUOTATION_AT_END_OF_SENTENCE_REGEX, txt):
@@ -177,7 +177,7 @@ class Processor(object):
 
 if __name__ == "__main__":
     # text = "This is a sentence\ncut off in the middle because pdf."
-    text = "Send me new image in .jpg format"
+    text = "Header 1.2; Attachment Z\n\n\td. Compliance Log – Volume 12 \n\tAttachment A\n\n\te. Additional Logistics Data\n\tSection 10"
     print("Input String:\n{}".format(text))
     p = Processor(text)
     processed_op = p.process()

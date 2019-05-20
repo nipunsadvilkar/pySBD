@@ -93,31 +93,23 @@ TESTS_WITH_CLEAN = [
         ("Were Jane and co. at the party?",
             ["Were Jane and co. at the party?"]),
         ("St. Michael's Church is on 5th st. near the light.",
-        ["St. Michael's Church is on 5th st. near the light."])
-        ,
+            ["St. Michael's Church is on 5th st. near the light."]),
         ("Let's ask Jane and co. They should know.",
-        ["Let's ask Jane and co.", "They should know."])
-        ,
+            ["Let's ask Jane and co.", "They should know."]),
         ("He works at Yahoo! and Y!J.",
-        ["He works at Yahoo! and Y!J."])
-        ,
+            ["He works at Yahoo! and Y!J."]),
         ('The Scavenger Hunt ends on Dec. 31st, 2011.',
-        ['The Scavenger Hunt ends on Dec. 31st, 2011.'])
-        ,
+            ['The Scavenger Hunt ends on Dec. 31st, 2011.']),
         ("Putter King Scavenger Hunt Trophy\n(6 3/4\" Engraved Crystal Trophy - Picture Coming Soon)\nThe Putter King team will judge the scavenger hunt and all decisions will be final.  The scavenger hunt is open to anyone and everyone.  The scavenger hunt ends on Dec. 31st, 2011.",
-        ["Putter King Scavenger Hunt Trophy", "(6 3/4\" Engraved Crystal Trophy - Picture Coming Soon)", "The Putter King team will judge the scavenger hunt and all decisions will be final.", "The scavenger hunt is open to anyone and everyone.", "The scavenger hunt ends on Dec. 31st, 2011."])
-        ,
+            ["Putter King Scavenger Hunt Trophy", "(6 3/4\" Engraved Crystal Trophy - Picture Coming Soon)", "The Putter King team will judge the scavenger hunt and all decisions will be final.", "The scavenger hunt is open to anyone and everyone.", "The scavenger hunt ends on Dec. 31st, 2011."]),
         ("Unauthorized modifications, alterations or installations of or to this equipment are prohibited and are in violation of AR 750-10. Any such unauthorized modifications, alterations or installations could result in death, injury or damage to the equipment.",
-        ["Unauthorized modifications, alterations or installations of or to this equipment are prohibited and are in violation of AR 750-10.", "Any such unauthorized modifications, alterations or installations could result in death, injury or damage to the equipment."])
-        # ("Header 1.2; Attachment Z\n\n\td. Compliance Log – Volume 12 \n\tAttachment A\n\n\te. Additional Logistics Data\n\tSection 10",
-        # ["Header 1.2; Attachment Z", "d. Compliance Log – Volume 12", "Attachment A", "e. Additional Logistics Data", "Section 10"])
-        ,
-        # ("a.) The first item b.) The second item c.) The third list item",
-        # ["a.) The first item", "b.) The second item", "c.) The third list item"])
-        # ,
+            ["Unauthorized modifications, alterations or installations of or to this equipment are prohibited and are in violation of AR 750-10.", "Any such unauthorized modifications, alterations or installations could result in death, injury or damage to the equipment."]),
+        ("Header 1.2; Attachment Z\n\n\td. Compliance Log – Volume 12 \n\tAttachment A\n\n\te. Additional Logistics Data\n\tSection 10",
+            ["Header 1.2; Attachment Z", "d. Compliance Log – Volume 12", "Attachment A", "e. Additional Logistics Data", "Section 10"]),
+        ("a.) The first item b.) The second item c.) The third list item",
+            ["a.) The first item", "b.) The second item", "c.) The third list item"]),
         # ("a) The first item b) The second item c) The third list item",
-        # ["a) The first item", "b) The second item", "c) The third list item"])
-        # ,
+        #     ["a) The first item", "b) The second item", "c) The third list item"]),
         # ("Hello Wolrd. Here is a secret code AS750-10. Another sentence. Finally, this. 1. The first item 2. The second item 3. The third list item 4. Hello 5. Hello 6. Hello 7. Hello 8. Hello 9. Hello 10. Hello 11. Hello",
         # ["Hello Wolrd.", "Here is a secret code AS750-10.", "Another sentence.", "Finally, this.", "1. The first item", "2. The second item", "3. The third list item", "4. Hello", "5. Hello", "6. Hello", "7. Hello", "8. Hello", "9. Hello", "10. Hello", "11. Hello"])
         # ,
