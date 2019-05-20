@@ -66,7 +66,7 @@ class AbbreviationReplacer(object):
                 continue
             abbrev_match = re.findall(
                 r'(?:^|\s|\r|\n){}'.format(stripped), original,
-                re.IGNORECASE)
+                flags=re.IGNORECASE)
             if not abbrev_match:
                 continue
             next_word_start = r"(?<={" + str(re.escape(stripped)) + "} ).{1}"

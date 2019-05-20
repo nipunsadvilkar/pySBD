@@ -125,17 +125,13 @@ class ListItemReplacer(object):
                     ((item == 9) and (list_array[ind + 1] == 0))):
                     self.substitute_found_list_items(regex2, item, strip, replacement)
 
-
     def substitute_found_list_items(self, regex, each, strip, replacement):
         list_array = re.findall(regex, self.text)
         for match in list_array:
             stripped_match = str(match).strip()
             chomped_match = stripped_match if len(stripped_match) == 1 else stripped_match[:-1]
-            # print("~~~~~~~~~~", match, each, stripped_match, chomped_match)
             if str(each) == chomped_match:
-                # print("!!!!!!!!!!!!!", match, each, stripped_match, chomped_match)
                 self.text = re.sub(str(match), "{}{}".format(each, replacement), self.text)
-            # print(repr(self.text))
 
     def add_line_breaks_for_numbered_list_with_periods(self):
         if ('♨' in self.text) and (not re.search(
@@ -170,7 +166,7 @@ class ListItemReplacer(object):
 
         txt = re.sub(self.ALPHABETICAL_LIST_LETTERS_AND_PERIODS_REGEX,
                      partial(replace_letter_period, val=a),
-                     self.text, re.IGNORECASE)
+                     self.text, flags=re.IGNORECASE)
         return txt
 
     def replace_alphabet_list_parens(self, a):
@@ -193,9 +189,10 @@ class ListItemReplacer(object):
                 else:
                     return match
 
+        # Make it cases-insensitive
         txt = re.sub(self.EXTRACT_ALPHABETICAL_LIST_LETTERS_REGEX,
                      partial(replace_alphabet_paren, val=a),
-                     self.text, re.IGNORECASE)
+                     self.text, flags=re.IGNORECASE)
         return txt
 
     def replace_correct_alphabet_list(self, a, parens):
