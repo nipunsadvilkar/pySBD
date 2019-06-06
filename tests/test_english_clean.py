@@ -170,7 +170,39 @@ TESTS_WITH_CLEAN = [
         ("\"It's a good thing that the water is really calm,\" I answered ironically.",
             ["\"It's a good thing that the water is really calm,\" I answered ironically."]),
         ("December 31, 1988. Hello world. It's great! \nBorn April 05, 1989.",
-            ["December 31, 1988.", "Hello world.", "It's great!", "Born April 05, 1989."])
+            ["December 31, 1988.", "Hello world.", "It's great!", "Born April 05, 1989."]),
+
+        ####################
+        # add big text test#
+        ####################
+        ("\"Dear, dear! How queer everything is to-day! And yesterday things went on just as usual. _Was_ I the same when I got up this morning? But if I'm not the same, the next question is, 'Who in the world am I?' Ah, _that's_ the great puzzle!\"",
+            ["\"Dear, dear! How queer everything is to-day! And yesterday things went on just as usual. _Was_ I the same when I got up this morning? But if I'm not the same, the next question is, 'Who in the world am I?' Ah, _that's_ the great puzzle!\""]),
+        # ("Two began, in a low voice, \"Why, the fact is, you see, Miss, this here ought to have been a _red_ rose-tree, and we put a white one in by mistake; and, if the Queen was to find it out, we should all have our heads cut off, you know. So you see, Miss, we're doing our best, afore she comes, to--\" At this moment, Five, who had been anxiously looking across the garden, called out, \"The Queen! The Queen!\" and the three gardeners instantly threw themselves flat upon their faces.",
+        #     ["Two began, in a low voice, \"Why, the fact is, you see, Miss, this here ought to have been a _red_ rose-tree, and we put a white one in by mistake; and, if the Queen was to find it out, we should all have our heads cut off, you know. So you see, Miss, we're doing our best, afore she comes, to--\"", "At this moment, Five, who had been anxiously looking across the garden, called out, \"The Queen! The Queen!\" and the three gardeners instantly threw themselves flat upon their faces."]),
+        ("\"Dinah'll miss me very much to-night, I should think!\" (Dinah was the cat.) \"I hope they'll remember her saucer of milk at tea-time. Dinah, my dear, I wish you were down here with me!\"",
+            ["\"Dinah'll miss me very much to-night, I should think!\"", "(Dinah was the cat.)", "\"I hope they'll remember her saucer of milk at tea-time. Dinah, my dear, I wish you were down here with me!\""]),
+        ("Hello. 'This is a test of single quotes.' A new sentence.",
+            ["Hello.", "'This is a test of single quotes.'", "A new sentence."]),
+        # ("[A sentence in square brackets.]", ["[A sentence in square brackets.]"]),
+        # ("(iii) List item number 3.", ["(iii) List item number 3."])
+
+        # ("(iii) List item number 3.",
+        #     ["(iii) List item number 3."])
+
+        # ("Unbelievable??!?!", ["Unbelievable??!?!"]),
+        ("This abbreviation f.e. means for example.",
+            ["This abbreviation f.e. means for example."]),
+        ("The med. staff here is very kind.",
+            ["The med. staff here is very kind."]),
+        ("What did you order btw., she wondered.",
+            ["What did you order btw., she wondered."]),
+        ("SEC. 1262 AUTHORIZATION OF APPROPRIATIONS.",
+            ["SEC. 1262 AUTHORIZATION OF APPROPRIATIONS."]),
+        ("a", ["a"]),
+        ("I wrote this in the 'nineties.  It has four sentences.  This is the third, isn't it?  And this is the last",
+            ["I wrote this in the 'nineties.", "It has four sentences.", "This is the third, isn't it?", "And this is the last"]),
+        ("I wrote this in the ’nineties.  It has four sentences.  This is the third, isn't it?  And this is the last",
+            ["I wrote this in the ’nineties.", "It has four sentences.", "This is the third, isn't it?", "And this is the last"])
         ]
 
 PDF_TEST_DATA = [

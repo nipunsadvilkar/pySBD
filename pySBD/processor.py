@@ -109,8 +109,10 @@ class Processor(object):
     def replace_continuous_punctuation(self):
         def continuous_puncs_replace(match):
             match = match.group()
-            sub1 = re.sub('!', '&ᓴ&', match)
-            sub2 = re.sub('?', '&ᓴ&', sub1)
+            # sub1 = re.sub('\\!', '&ᓴ&', match)
+            # sub2 = re.sub('\\?', '&ᓴ&', sub1)
+            sub1 = re.sub(re.escape('!'), '&ᓴ&', match)
+            sub2 = re.sub(re.escape('?'), '&ᓴ&', sub1)
             return sub2
         return re.sub(Common.CONTINUOUS_PUNCTUATION_REGEX,
                       continuous_puncs_replace, self.text)
