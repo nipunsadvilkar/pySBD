@@ -204,43 +204,6 @@ TESTS_WITH_CLEAN = [
         ("I wrote this in the ’nineties.  It has four sentences.  This is the third, isn't it?  And this is the last",
             ["I wrote this in the ’nineties.", "It has four sentences.", "This is the third, isn't it?", "And this is the last"]),
 
-        # set clean=False
-        ("He has Ph.D.-level training", ["He has Ph.D.-level training"]),
-        # set clean=False
-        # ("He has Ph.D. level training", ["He has Ph.D. level training"])
-
-        # set clean=False
-        ("I will be paid Rs. 16720/- in total for the time spent and the inconvenience caused to me, only after completion of all aspects of the study.",
-            ["I will be paid Rs. 16720/- in total for the time spent and the inconvenience caused to me, only after completion of all aspects of the study."]),
-
-        # set clean=False
-        ("If I decide to withdraw from the study for other reasons, I will be paid only up to the extent of my participation amount according to the approved procedure of Apotex BEC. If I complete all aspects in Period 1, I will be paid Rs. 3520 and if I complete all aspects in Period 1 and Period 2, I will be paid Rs. 7790 and if I complete all aspects in Period 1, Period 2 and Period 3, I will be paid Rs. 12060 at the end of the study.",
-            ["If I decide to withdraw from the study for other reasons, I will be paid only up to the extent of my participation amount according to the approved procedure of Apotex BEC.", "If I complete all aspects in Period 1, I will be paid Rs. 3520 and if I complete all aspects in Period 1 and Period 2, I will be paid Rs. 7790 and if I complete all aspects in Period 1, Period 2 and Period 3, I will be paid Rs. 12060 at the end of the study."]),
-
-        # set clean=False
-        ("After completion of each Period, I will be paid an advance amount of rs. 1000 and this amount will be deducted from my final study compensation.",
-            ["After completion of each Period, I will be paid an advance amount of rs. 1000 and this amount will be deducted from my final study compensation."]),
-
-        # set clean=False
-        ("Mix it, put it in the oven, and -- voila! -- you have cake.",
-            ["Mix it, put it in the oven, and -- voila! -- you have cake."]),
-
-        # set clean=False
-        ("Some can be -- if I may say so? -- a bit questionable.",
-            ["Some can be -- if I may say so? -- a bit questionable."]),
-
-        # set clean=False
-        ("What do you see? - Posted like silent sentinels all around the town, stand thousands upon thousands of mortal men fixed in ocean reveries.",
-            ["What do you see?", "- Posted like silent sentinels all around the town, stand thousands upon thousands of mortal men fixed in ocean reveries."]),
-
-        # set clean=False
-        ("In placebo-controlled studies of all uses of Tracleer, marked decreases in hemoglobin (>15% decrease from baseline resulting in values <11 g/ dL) were observed in 6% of Tracleer-treated patients and 3% of placebo-treated patients. Bosentan is highly bound (>98%) to plasma proteins, mainly albumin.",
-            ["In placebo-controlled studies of all uses of Tracleer, marked decreases in hemoglobin (>15% decrease from baseline resulting in values <11 g/ dL) were observed in 6% of Tracleer-treated patients and 3% of placebo-treated patients.", "Bosentan is highly bound (>98%) to plasma proteins, mainly albumin."]),
-
-        # set clean=False
-        ("The parties to this Agreement are PragmaticSegmenterExampleCompanyA Inc. (“Company A”), and PragmaticSegmenterExampleCompanyB Inc. (“Company B”).",
-            ["The parties to this Agreement are PragmaticSegmenterExampleCompanyA Inc. (“Company A”), and PragmaticSegmenterExampleCompanyB Inc. (“Company B”)."]),
-
         ("Unlike the abbreviations i.e. and e.g., viz. is used to indicate a detailed description of something stated before.",
             ["Unlike the abbreviations i.e. and e.g., viz. is used to indicate a detailed description of something stated before."]),
 
@@ -285,6 +248,51 @@ PDF_TEST_DATA = [
         ["Either the well was very deep, or she fell very slowly, for she had plenty of time as she went down to look about her and to wonder what was going to happen next.", "First, she tried to look down and make out what she was coming to, but it was too dark to see anything; then she looked at the sides of the well, and noticed that they were filled with cupboards and book-shelves; here and there she saw maps and pictures hung upon pegs.", "She took down a jar from one of the shelves as she passed; it was labelled 'ORANGE MARMALADE', but to her great disappointment it was empty: she did not like to drop the jar for fear of killing somebody, so managed to put it into one of the cupboards as she fell past it.", "'Well!' thought Alice to herself, 'after such a fall as this, I shall think nothing of tumbling down stairs! How brave they'll all think me at home! Why, I wouldn't say anything about it, even if I fell off the top of the house!' (Which was very likely true.)"])
         ]
 
+TESTS_WO_CLEAN = [
+        ("He has Ph.D.-level training", ["He has Ph.D.-level training"]),
+
+        # set clean=False
+        ("He has Ph.D. level training", ["He has Ph.D. level training"]),
+
+        # set clean=False
+        ("I will be paid Rs. 16720/- in total for the time spent and the inconvenience caused to me, only after completion of all aspects of the study.",
+            ["I will be paid Rs. 16720/- in total for the time spent and the inconvenience caused to me, only after completion of all aspects of the study."]),
+
+        # set clean=False
+        ("If I decide to withdraw from the study for other reasons, I will be paid only up to the extent of my participation amount according to the approved procedure of Apotex BEC. If I complete all aspects in Period 1, I will be paid Rs. 3520 and if I complete all aspects in Period 1 and Period 2, I will be paid Rs. 7790 and if I complete all aspects in Period 1, Period 2 and Period 3, I will be paid Rs. 12060 at the end of the study.",
+            ["If I decide to withdraw from the study for other reasons, I will be paid only up to the extent of my participation amount according to the approved procedure of Apotex BEC.", "If I complete all aspects in Period 1, I will be paid Rs. 3520 and if I complete all aspects in Period 1 and Period 2, I will be paid Rs. 7790 and if I complete all aspects in Period 1, Period 2 and Period 3, I will be paid Rs. 12060 at the end of the study."]),
+
+        # set clean=False
+        ("After completion of each Period, I will be paid an advance amount of rs. 1000 and this amount will be deducted from my final study compensation.",
+            ["After completion of each Period, I will be paid an advance amount of rs. 1000 and this amount will be deducted from my final study compensation."]),
+
+        # set clean=False
+        ("Mix it, put it in the oven, and -- voila! -- you have cake.",
+            ["Mix it, put it in the oven, and -- voila! -- you have cake."]),
+
+        # set clean=False
+        ("Some can be -- if I may say so? -- a bit questionable.",
+            ["Some can be -- if I may say so? -- a bit questionable."]),
+
+        # set clean=False
+        ("What do you see? - Posted like silent sentinels all around the town, stand thousands upon thousands of mortal men fixed in ocean reveries.",
+            ["What do you see?", "- Posted like silent sentinels all around the town, stand thousands upon thousands of mortal men fixed in ocean reveries."]),
+
+        # set clean=False
+        ("In placebo-controlled studies of all uses of Tracleer, marked decreases in hemoglobin (>15% decrease from baseline resulting in values <11 g/ dL) were observed in 6% of Tracleer-treated patients and 3% of placebo-treated patients. Bosentan is highly bound (>98%) to plasma proteins, mainly albumin.",
+            ["In placebo-controlled studies of all uses of Tracleer, marked decreases in hemoglobin (>15% decrease from baseline resulting in values <11 g/ dL) were observed in 6% of Tracleer-treated patients and 3% of placebo-treated patients.", "Bosentan is highly bound (>98%) to plasma proteins, mainly albumin."]),
+
+        # set clean=False
+        ("The parties to this Agreement are PragmaticSegmenterExampleCompanyA Inc. (“Company A”), and PragmaticSegmenterExampleCompanyB Inc. (“Company B”).",
+            ["The parties to this Agreement are PragmaticSegmenterExampleCompanyA Inc. (“Company A”), and PragmaticSegmenterExampleCompanyB Inc. (“Company B”)."])
+        ]
+
+@pytest.mark.parametrize('text,expected_sents', TESTS_WITH_CLEAN)
+def test_en_sbd_clean(text, expected_sents):
+    """SBD tests from Pragmatic Segmenter"""
+    seg = pySBD.Segmenter(text, clean=True)
+    segments = seg.segment()
+    assert segments == expected_sents
 
 @pytest.mark.parametrize('text,expected_sents', PDF_TEST_DATA)
 def test_en_pdf_type(text, expected_sents):
@@ -292,10 +300,9 @@ def test_en_pdf_type(text, expected_sents):
     segments = seg.segment()
     assert segments == expected_sents
 
-
-@pytest.mark.parametrize('text,expected_sents', TESTS_WITH_CLEAN)
-def test_en_sbd_clean(text, expected_sents):
-    """SBD tests from Pragmatic Segmenter"""
-    seg = pySBD.Segmenter(text, clean=True)
+@pytest.mark.parametrize('text,expected_sents', TESTS_WO_CLEAN)
+def test_en_sbd_wo_clean(text, expected_sents):
+    """SBD tests from Pragmatic Segmenter without cleaning"""
+    seg = pySBD.Segmenter(text, clean=False)
     segments = seg.segment()
     assert segments == expected_sents
