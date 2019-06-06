@@ -126,12 +126,19 @@ class ListItemReplacer(object):
                     self.substitute_found_list_items(regex2, item, strip, replacement)
 
     def substitute_found_list_items(self, regex, each, strip, replacement):
-        list_array = re.findall(regex, self.text)
-        for match in list_array:
-            stripped_match = str(match).strip()
-            chomped_match = stripped_match if len(stripped_match) == 1 else stripped_match[:-1]
+
+        def replace_item(match, val=None, strip=False, repl='♨'):
+            match = match.group()
+            if strip:
+                match = str(match).strip()
+            chomped_match = match if len(match) == 1 else match[:-1]
             if str(each) == chomped_match:
-                self.text = re.sub(str(match), "{}{}".format(each, replacement), self.text)
+                return "{}{}".format(each, replacement)
+            else:
+                return str(match)
+
+        self.text = re.sub(regex, partial(replace_item, val=each,
+                           strip=strip, repl=replacement), self.text)
 
     def add_line_breaks_for_numbered_list_with_periods(self):
         if ('♨' in self.text) and (not re.search(

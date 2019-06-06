@@ -26,7 +26,7 @@ class Segmenter(object):
 
 
 if __name__ == "__main__":
-    text = "a) The first item b) The second item c) The third list item"
+    text = "Hello Wolrd. Here is a secret code AS750-10. Another sentence. Finally, this. 1. The first item 2. The second item 3. The third list item 4. Hello 5. Hello 6. Hello 7. Hello 8. Hello 9. Hello 10. Hello 11. Hello"
     print("Input String:\n{}".format(text))
     seg = Segmenter(text, clean=True)
     segments = seg.segment()

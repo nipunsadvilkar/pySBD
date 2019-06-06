@@ -115,7 +115,7 @@ class Processor(object):
             sub2 = re.sub(re.escape('?'), '&ᓴ&', sub1)
             return sub2
         return re.sub(Common.CONTINUOUS_PUNCTUATION_REGEX,
-                      continuous_puncs_replace, self.text)
+                        continuous_puncs_replace, self.text)
 
     def replace_periods_before_numeric_references(self):
         # https://github.com/diasks2/pragmatic_segmenter/commit/d9ec1a352aff92b91e2e572c30bb9561eb42c703
