@@ -183,9 +183,9 @@ TESTS_WITH_CLEAN = [
 
         ("[A sentence in square brackets.]", ["[A sentence in square brackets.]"]),
 
-        # ("(iii) List item number 3.", ["(iii) List item number 3."]),
-        # ("(iii) List item number 3.",
-        #     ["(iii) List item number 3."]),
+        ("(iii) List item number 3.", ["(iii) List item number 3."]),
+        ("(iii) List item number 3.",
+            ["(iii) List item number 3."]),
         # ("Unbelievable??!?!", ["Unbelievable??!?!"]),
 
         ("This abbreviation f.e. means for example.",
