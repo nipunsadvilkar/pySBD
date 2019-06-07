@@ -144,30 +144,24 @@ TESTS_WITH_CLEAN = [
             ["a) here it is", "b) another", "c) one more", "They went to the store.", "w) hello",  "x) hello",  "y) hello"]),
         ("Hello World. \\ r \\ nHello.",
             ["Hello World.", "Hello."]),
-
         ("The nurse gave him the i.v. in his vein. She gave him the i.v. It was a great I.V. that she gave him. She gave him the I.V. It was night.",
             ["The nurse gave him the i.v. in his vein.", "She gave him the i.v.", "It was a great I.V. that she gave him.", "She gave him the I.V.", "It was night."]),
-
         ("(i) Hello world. \n(ii) Hello world.\n(iii) Hello world.\n(iv) Hello world.\n(v) Hello world.\n(vi) Hello world.",
             ["(i) Hello world.", "(ii) Hello world.", "(iii) Hello world.", "(iv) Hello world.", "(v) Hello world.", "(vi) Hello world."]),
         ("i) Hello world. \nii) Hello world.\niii) Hello world.\niv) Hello world.\nv) Hello world.\nvi) Hello world.",
             ["i) Hello world.", "ii) Hello world.", "iii) Hello world.", "iv) Hello world.", "v) Hello world.", "vi) Hello world."]),
-
-        # ("(a) Hello world. (b) Hello world. (c) Hello world. (d) Hello world. (e) Hello world.\n(f) Hello world.",
-        #     ["(a) Hello world.", "(b) Hello world.", "(c) Hello world.", "(d) Hello world.", "(e) Hello world.", "(f) Hello world."]),
-
+        ("(a) Hello world. (b) Hello world. (c) Hello world. (d) Hello world. (e) Hello world.\n(f) Hello world.",
+            ["(a) Hello world.", "(b) Hello world.", "(c) Hello world.", "(d) Hello world.", "(e) Hello world.", "(f) Hello world."]),
         ("(A) Hello world. \n(B) Hello world.\n(C) Hello world.\n(D) Hello world.\n(E) Hello world.\n(F) Hello world.",
             ["(A) Hello world.", "(B) Hello world.", "(C) Hello world.", "(D) Hello world.", "(E) Hello world.", "(F) Hello world."]),
         ("A) Hello world. \nB) Hello world.\nC) Hello world.\nD) Hello world.\nE) Hello world.\nF) Hello world.",
             ["A) Hello world.", "B) Hello world.", "C) Hello world.", "D) Hello world.", "E) Hello world.", "F) Hello world."]),
         ("The GmbH & Co. KG is a limited partnership with, typically, the sole general partner being a limited liability company.",
             ["The GmbH & Co. KG is a limited partnership with, typically, the sole general partner being a limited liability company."]),
-
-        # ("[?][footnoteRef:6] This is a footnote.",
-        #     ["[?][footnoteRef:6] This is a footnote."]),
-        # ("[15:  12:32]  [16:  firma? 13:28]",
-        #     ["[15:  12:32]  [16:  firma? 13:28]"]),
-
+        ("[?][footnoteRef:6] This is a footnote.",
+            ["[?][footnoteRef:6] This is a footnote."]),
+        ("[15:  12:32]  [16:  firma? 13:28]",
+            ["[15:  12:32]  [16:  firma? 13:28]"]),
         ("\"It's a good thing that the water is really calm,\" I answered ironically.",
             ["\"It's a good thing that the water is really calm,\" I answered ironically."]),
         ("December 31, 1988. Hello world. It's great! \nBorn April 05, 1989.",

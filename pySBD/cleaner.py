@@ -72,7 +72,7 @@ class Cleaner(object):
         def replace_punct(match):
             match = match.group()
             if '?' in match:
-                sub = re.sub(r'?', '&ᓷ&', match)
+                sub = re.sub(re.escape('?'), '&ᓷ&', match)
                 return sub
             return match
         self.text = re.sub(r'\[(?:[^\]])*\]', replace_punct, self.text)
