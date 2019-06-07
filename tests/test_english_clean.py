@@ -198,34 +198,26 @@ TESTS_WITH_CLEAN = [
             ["I wrote this in the 'nineties.", "It has four sentences.", "This is the third, isn't it?", "And this is the last"]),
         ("I wrote this in the ’nineties.  It has four sentences.  This is the third, isn't it?  And this is the last",
             ["I wrote this in the ’nineties.", "It has four sentences.", "This is the third, isn't it?", "And this is the last"]),
-
         ("Unlike the abbreviations i.e. and e.g., viz. is used to indicate a detailed description of something stated before.",
             ["Unlike the abbreviations i.e. and e.g., viz. is used to indicate a detailed description of something stated before."]),
-
         ("For example, ‘dragonswort… is said that it should be grown in dragon’s blood. It grows at the tops of mountains where there are groves of trees, chiefly in holy places and in the country that is called Apulia’ (translated by Anne Van Arsdall, in Medieval Herbal Remedies: The Old English Herbarium and Anglo-Saxon Medicine p. 154). The Herbal also includes lore about other plants, such as the mandrake.",
             ["For example, ‘dragonswort… is said that it should be grown in dragon’s blood. It grows at the tops of mountains where there are groves of trees, chiefly in holy places and in the country that is called Apulia’ (translated by Anne Van Arsdall, in Medieval Herbal Remedies: The Old English Herbarium and Anglo-Saxon Medicine p. 154).", "The Herbal also includes lore about other plants, such as the mandrake."]),
-
         ("Here’s the - ahem - official citation: Baker, C., Anderson, Kenneth, Martin, James, & Palen, Leysia. Modeling Open Source Software Communities, ProQuest Dissertations and Theses.",
             ["Here’s the - ahem - official citation: Baker, C., Anderson, Kenneth, Martin, James, & Palen, Leysia.", "Modeling Open Source Software Communities, ProQuest Dissertations and Theses."]),
-
         ("These include images of various modes of transport and members of the team, all available in .jpeg format. Images can be downloaded from our website. We also offer archives as .zip files.",
             ["These include images of various modes of transport and members of the team, all available in .jpeg format.", "Images can be downloaded from our website.", "We also offer archives as .zip files."]),
-
         ("Saint Maximus (died 250) is a Christian saint and martyr.[1] The emperor Decius published a decree ordering the veneration of busts of the deified emperors.",
             ["Saint Maximus (died 250) is a Christian saint and martyr.[1]", "The emperor Decius published a decree ordering the veneration of busts of the deified emperors."]),
-
-        # ("Differing agendas can potentially create an understanding gap in a consultation.11 12 Take the example of one of the most common presentations in ill health: the common cold.",
-        #     ["Differing agendas can potentially create an understanding gap in a consultation.11 12", "Take the example of one of the most common presentations in ill health: the common cold."]),
-        # ("Daniel Kahneman popularised the concept of fast and slow thinking: the distinction between instinctive (type 1 thinking) and reflective, analytical cognition (type 2).10 This model relates to doctors achieving a balance between efficiency and effectiveness.",
-        #     ["Daniel Kahneman popularised the concept of fast and slow thinking: the distinction between instinctive (type 1 thinking) and reflective, analytical cognition (type 2).10", "This model relates to doctors achieving a balance between efficiency and effectiveness."]),
-
+        ("Differing agendas can potentially create an understanding gap in a consultation.11 12 Take the example of one of the most common presentations in ill health: the common cold.",
+            ["Differing agendas can potentially create an understanding gap in a consultation.11 12", "Take the example of one of the most common presentations in ill health: the common cold."]),
+        ("Daniel Kahneman popularised the concept of fast and slow thinking: the distinction between instinctive (type 1 thinking) and reflective, analytical cognition (type 2).10 This model relates to doctors achieving a balance between efficiency and effectiveness.",
+            ["Daniel Kahneman popularised the concept of fast and slow thinking: the distinction between instinctive (type 1 thinking) and reflective, analytical cognition (type 2).10", "This model relates to doctors achieving a balance between efficiency and effectiveness."]),
         ("Its traditional use[1] is well documented in the ethnobotanical literature [2–11]. Leaves, buds, tar and essential oils are used to treat a wide spectrum of diseases.",
             ["Its traditional use[1] is well documented in the ethnobotanical literature [2–11].", "Leaves, buds, tar and essential oils are used to treat a wide spectrum of diseases."]),
-
-        # ("Thus increasing the desire for political reform both in Lancashire and in the country at large.[7][8] This was a serious misdemeanour,[16] encouraging them to declare the assembly illegal as soon as it was announced on 31 July.[17][18] The radicals sought a second opinion on the meeting's legality.",
-        #     ["Thus increasing the desire for political reform both in Lancashire and in the country at large.[7][8]", "This was a serious misdemeanour,[16] encouraging them to declare the assembly illegal as soon as it was announced on 31 July.[17][18]", "The radicals sought a second opinion on the meeting's legality."]),
-        # ("The table in (4) is a sample from the Wall Street Journal (1987).1 According to the distribution all the pairs given in (4) count as candidates for abbreviations.",
-        #     [ "The table in (4) is a sample from the Wall Street Journal (1987).1", "According to the distribution all the pairs given in (4) count as candidates for abbreviations."])
+        ("Thus increasing the desire for political reform both in Lancashire and in the country at large.[7][8] This was a serious misdemeanour,[16] encouraging them to declare the assembly illegal as soon as it was announced on 31 July.[17][18] The radicals sought a second opinion on the meeting's legality.",
+            ["Thus increasing the desire for political reform both in Lancashire and in the country at large.[7][8]", "This was a serious misdemeanour,[16] encouraging them to declare the assembly illegal as soon as it was announced on 31 July.[17][18]", "The radicals sought a second opinion on the meeting's legality."]),
+        ("The table in (4) is a sample from the Wall Street Journal (1987).1 According to the distribution all the pairs given in (4) count as candidates for abbreviations.",
+            [ "The table in (4) is a sample from the Wall Street Journal (1987).1", "According to the distribution all the pairs given in (4) count as candidates for abbreviations."])
         ]
 
 PDF_TEST_DATA = [
