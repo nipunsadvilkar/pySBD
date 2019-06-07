@@ -91,5 +91,5 @@ class AbbreviationReplacer(object):
 
 
 if __name__ == "__main__":
-    s = "I live in the U.S.A. I went to J.C. Penney."
+    s = "Here’s the - ahem - official citation: Baker, C., Anderson, Kenneth, Martin, James, & Palen, Leysia."
     print(AbbreviationReplacer(s).replace())

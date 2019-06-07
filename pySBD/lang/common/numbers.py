@@ -62,7 +62,7 @@ class SingleLetterAbbreviationRules(object):
     SingleUpperCaseLetterAtStartOfLineRule = Rule(r"(?<=^[A-Z])\.(?=\s)", '∯')
 
     # Rubular: http://rubular.com/r/gitvf0YWH4
-    SingleUpperCaseLetterRule = Rule(r"(?<=\s[A-Z])\.(?=\s)", '∯')
+    SingleUpperCaseLetterRule = Rule(r"(?<=\s[A-Z])\.(?=,?\s)", '∯')
 
     All = [
         SingleUpperCaseLetterAtStartOfLineRule, SingleUpperCaseLetterRule

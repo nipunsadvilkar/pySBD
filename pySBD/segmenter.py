@@ -26,8 +26,8 @@ class Segmenter(object):
 
 
 if __name__ == "__main__":
-    text = "Unbelievable??!?!"
-    # ["Unbelievable??!?!"]),
+    text = "Here’s the - ahem - official citation: Baker, C., Anderson, Kenneth, Martin, James, & Palen, Leysia. Modeling Open Source Software Communities, ProQuest Dissertations and Theses."
+    # ["Here’s the - ahem - official citation: Baker, C., Anderson, Kenneth, Martin, James, & Palen, Leysia.", "Modeling Open Source Software Communities, ProQuest Dissertations and Theses."]),
     print("Input String:\n{}".format(text))
     seg = Segmenter(text, clean=True)
     segments = seg.segment()
