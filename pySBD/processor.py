@@ -63,7 +63,6 @@ class Processor(object):
             Text(s).apply(*SubSymbolsRules.All)
             for s in new_sents
         ]
-
         post_process_sents = [self.post_process_segments(s) for s in sents]
         # TODO: Refactor to flatten and remove None and empty lists
         # remove any empty or null values

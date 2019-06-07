@@ -148,8 +148,8 @@ TESTS_WITH_CLEAN = [
         ("The nurse gave him the i.v. in his vein. She gave him the i.v. It was a great I.V. that she gave him. She gave him the I.V. It was night.",
             ["The nurse gave him the i.v. in his vein.", "She gave him the i.v.", "It was a great I.V. that she gave him.", "She gave him the I.V.", "It was night."]),
 
-        # ("(i) Hello world. \n(ii) Hello world.\n(iii) Hello world.\n(iv) Hello world.\n(v) Hello world.\n(vi) Hello world.",
-        #     ["(i) Hello world.", "(ii) Hello world.", "(iii) Hello world.", "(iv) Hello world.", "(v) Hello world.", "(vi) Hello world."]),
+        ("(i) Hello world. \n(ii) Hello world.\n(iii) Hello world.\n(iv) Hello world.\n(v) Hello world.\n(vi) Hello world.",
+            ["(i) Hello world.", "(ii) Hello world.", "(iii) Hello world.", "(iv) Hello world.", "(v) Hello world.", "(vi) Hello world."]),
         ("i) Hello world. \nii) Hello world.\niii) Hello world.\niv) Hello world.\nv) Hello world.\nvi) Hello world.",
             ["i) Hello world.", "ii) Hello world.", "iii) Hello world.", "iv) Hello world.", "v) Hello world.", "vi) Hello world."]),
 

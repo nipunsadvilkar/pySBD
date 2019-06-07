@@ -69,7 +69,7 @@ class SubSymbolsRules(object):
     MixedDoubleQQ = Rule(r'☇', '??')
     MixedDoubleEQ = Rule(r'☈', '!?')
     MixedDoubleEE = Rule(r'☄', '!!')
-    LeftParens = Rule(r'&✂&', '(r')
+    LeftParens = Rule(r'&✂&', '(')
     RightParens = Rule(r'&⌬&', ')')
     TemporaryEndingPunctutation = Rule(r'ȸ', '')
     Newline = Rule(r'ȹ', "\n")

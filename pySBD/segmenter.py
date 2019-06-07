@@ -26,7 +26,7 @@ class Segmenter(object):
 
 
 if __name__ == "__main__":
-    text = "The nurse gave him the i.v. in his vein. She gave him the i.v. It was a great I.V. that she gave him. She gave him the I.V. It was night."
+    text = "(i) Hello world. \n(ii) Hello world.\n(iii) Hello world.\n(iv) Hello world.\n(v) Hello world.\n(vi) Hello world."
     print("Input String:\n{}".format(text))
     seg = Segmenter(text, clean=True)
     segments = seg.segment()
