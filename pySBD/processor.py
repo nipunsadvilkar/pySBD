@@ -111,7 +111,7 @@ class Processor(object):
             # sub1 = re.sub('\\!', '&ᓴ&', match)
             # sub2 = re.sub('\\?', '&ᓴ&', sub1)
             sub1 = re.sub(re.escape('!'), '&ᓴ&', match)
-            sub2 = re.sub(re.escape('?'), '&ᓴ&', sub1)
+            sub2 = re.sub(re.escape('?'), '&ᓷ&', sub1)
             return sub2
         return re.sub(Common.CONTINUOUS_PUNCTUATION_REGEX,
                         continuous_puncs_replace, self.text)

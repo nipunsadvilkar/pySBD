@@ -180,14 +180,11 @@ TESTS_WITH_CLEAN = [
             ["\"Dinah'll miss me very much to-night, I should think!\"", "(Dinah was the cat.)", "\"I hope they'll remember her saucer of milk at tea-time. Dinah, my dear, I wish you were down here with me!\""]),
         ("Hello. 'This is a test of single quotes.' A new sentence.",
             ["Hello.", "'This is a test of single quotes.'", "A new sentence."]),
-
         ("[A sentence in square brackets.]", ["[A sentence in square brackets.]"]),
-
         ("(iii) List item number 3.", ["(iii) List item number 3."]),
         ("(iii) List item number 3.",
             ["(iii) List item number 3."]),
-        # ("Unbelievable??!?!", ["Unbelievable??!?!"]),
-
+        ("Unbelievable??!?!", ["Unbelievable??!?!"]),
         ("This abbreviation f.e. means for example.",
             ["This abbreviation f.e. means for example."]),
         ("The med. staff here is very kind.",
