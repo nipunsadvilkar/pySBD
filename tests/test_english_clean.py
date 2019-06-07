@@ -217,7 +217,14 @@ TESTS_WITH_CLEAN = [
         ("Thus increasing the desire for political reform both in Lancashire and in the country at large.[7][8] This was a serious misdemeanour,[16] encouraging them to declare the assembly illegal as soon as it was announced on 31 July.[17][18] The radicals sought a second opinion on the meeting's legality.",
             ["Thus increasing the desire for political reform both in Lancashire and in the country at large.[7][8]", "This was a serious misdemeanour,[16] encouraging them to declare the assembly illegal as soon as it was announced on 31 July.[17][18]", "The radicals sought a second opinion on the meeting's legality."]),
         ("The table in (4) is a sample from the Wall Street Journal (1987).1 According to the distribution all the pairs given in (4) count as candidates for abbreviations.",
-            [ "The table in (4) is a sample from the Wall Street Journal (1987).1", "According to the distribution all the pairs given in (4) count as candidates for abbreviations."])
+            [ "The table in (4) is a sample from the Wall Street Journal (1987).1", "According to the distribution all the pairs given in (4) count as candidates for abbreviations."]),
+        ("""About Me...............................................................................................5
+Chapter 2 ...................................................................... 6
+Three Weeks Later............................................................................ 7
+Better Eating........................................................................................ 8
+What's the Score?.............................................................. 9
+How To Calculate the Score................... 16-17""",
+        ["About Me", "Chapter 2", "Three Weeks Later", "Better Eating", "What's the Score?", "How To Calculate the Score"])
         ]
 
 PDF_TEST_DATA = [
