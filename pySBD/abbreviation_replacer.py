@@ -28,7 +28,7 @@ def replace_period_of_abbr(txt, abbr):
 def replace_abbreviation_as_sentence_boundary(txt):
     for word in SENTENCE_STARTERS:
         escaped = re.escape(word)
-        regex = r"(U∯S|U\.S|U∯K|E∯U|E\.U|U∯S∯A|U\.S\.A|I|i.v)∯(?=\s{}\s)".format(escaped)
+        regex = r"(U∯S|U\.S|U∯K|E∯U|E\.U|U∯S∯A|U\.S\.A|I|i.v|I.V)∯(?=\s{}\s)".format(escaped)
         txt = re.sub(regex, '\\1.', txt)
     return txt
 
