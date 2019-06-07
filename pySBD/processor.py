@@ -108,8 +108,6 @@ class Processor(object):
     def replace_continuous_punctuation(self):
         def continuous_puncs_replace(match):
             match = match.group()
-            # sub1 = re.sub('\\!', '&ᓴ&', match)
-            # sub2 = re.sub('\\?', '&ᓴ&', sub1)
             sub1 = re.sub(re.escape('!'), '&ᓴ&', match)
             sub2 = re.sub(re.escape('?'), '&ᓷ&', sub1)
             return sub2
@@ -119,7 +117,7 @@ class Processor(object):
     def replace_periods_before_numeric_references(self):
         # https://github.com/diasks2/pragmatic_segmenter/commit/d9ec1a352aff92b91e2e572c30bb9561eb42c703
         return re.sub(Common.NUMBERED_REFERENCE_REGEX,
-                      r"∯\\2\r\\7", self.text)
+                      r"∯\2\r\7", self.text)
 
     def consecutive_underscore(self, txt):
         # Rubular: http://rubular.com/r/fTF2Ff3WBL

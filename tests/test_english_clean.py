@@ -211,8 +211,8 @@ TESTS_WITH_CLEAN = [
         ("These include images of various modes of transport and members of the team, all available in .jpeg format. Images can be downloaded from our website. We also offer archives as .zip files.",
             ["These include images of various modes of transport and members of the team, all available in .jpeg format.", "Images can be downloaded from our website.", "We also offer archives as .zip files."]),
 
-        # ("Saint Maximus (died 250) is a Christian saint and martyr.[1] The emperor Decius published a decree ordering the veneration of busts of the deified emperors.",
-        #     ["Saint Maximus (died 250) is a Christian saint and martyr.[1]", "The emperor Decius published a decree ordering the veneration of busts of the deified emperors."]),
+        ("Saint Maximus (died 250) is a Christian saint and martyr.[1] The emperor Decius published a decree ordering the veneration of busts of the deified emperors.",
+            ["Saint Maximus (died 250) is a Christian saint and martyr.[1]", "The emperor Decius published a decree ordering the veneration of busts of the deified emperors."]),
 
         # ("Differing agendas can potentially create an understanding gap in a consultation.11 12 Take the example of one of the most common presentations in ill health: the common cold.",
         #     ["Differing agendas can potentially create an understanding gap in a consultation.11 12", "Take the example of one of the most common presentations in ill health: the common cold."]),

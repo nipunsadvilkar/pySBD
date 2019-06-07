@@ -24,7 +24,7 @@ class Common(object):
 
     # https://rubular.com/r/UkumQaILKbkeyc
     # https://github.com/diasks2/pragmatic_segmenter/commit/d9ec1a352aff92b91e2e572c30bb9561eb42c703
-    NUMBERED_REFERENCE_REGEX = r'(?<=[^\\d\\s])(\\.|∯)((\\[(\\d{1,3},?\\s?-?\\s?)*\\b\\d{1,3}\\])+|((\\d{1,3}\\s?)*\\d{1,3}))(\\s)(?=[A-Z])'
+    NUMBERED_REFERENCE_REGEX = r'(?<=[^\d\s])(\.|∯)((\[(\d{1,3},?\s?-?\s?)*\b\d{1,3}\])+|((\d{1,3}\s?)*\d{1,3}))(\s)(?=[A-Z])'
 
     # # Rubular: http://rubular.com/r/yqa4Rit8EY
     PossessiveAbbreviationRule = Rule(r"\.(?='s\s)|\.(?='s$)|\.(?='s\Z)", '∯')
