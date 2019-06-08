@@ -27,7 +27,7 @@ class Segmenter(object):
 
 if __name__ == "__main__":
     text = "Saint Maximus (died 250) is a Christian saint and martyr.[1] The emperor Decius published a decree ordering the veneration of busts of the deified emperors."
-            # ["Saint Maximus (died 250) is a Christian saint and martyr.[1]", "The emperor Decius published a decree ordering the veneration of busts of the deified emperors."
+    # ["Saint Maximus (died 250) is a Christian saint and martyr.[1]", "The emperor Decius published a decree ordering the veneration of busts of the deified emperors."
     print("Input String:\n{}".format(text))
     seg = Segmenter(text, clean=True)
     segments = seg.segment()
