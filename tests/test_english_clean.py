@@ -4,6 +4,16 @@ import pySBD
 
 
 TESTS_WITH_CLEAN = [
+        ("Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, 'and what is the use of a book,' thought Alice 'without pictures or conversations?'\nSo she was considering in her own mind (as well as she could, for the hot day made her feel very sleepy and stupid), whether the pleasure of making a daisy-chain would be worth the trouble of getting up and picking the daisies, when suddenly a White Rabbit with pink eyes ran close by her.",
+            ["Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, 'and what is the use of a book,' thought Alice 'without pictures or conversations?'", "So she was considering in her own mind (as well as she could, for the hot day made her feel very sleepy and stupid), whether the pleasure of making a daisy-chain would be worth the trouble of getting up and picking the daisies, when suddenly a White Rabbit with pink eyes ran close by her."]),
+        ("'Well!' thought Alice to herself, 'after such a fall as this, I shall think nothing of tumbling down stairs! How brave they'll all think me at home! Why, I wouldn't say anything about it, even if I fell off the top of the house!' (Which was very likely true.)",
+            ["'Well!' thought Alice to herself, 'after such a fall as this, I shall think nothing of tumbling down stairs! How brave they'll all think me at home! Why, I wouldn't say anything about it, even if I fell off the top of the house!' (Which was very likely true.)"]),
+        ("Down, down, down. Would the fall NEVER come to an ! 'I wonder how many miles I've fallen by this time?' she said aloud.",
+            ["Down, down, down.", "Would the fall NEVER come to an !", "'I wonder how many miles I've fallen by this time?' she said aloud."]),
+        ("Either the well was very deep, or she fell very slowly, for she had plenty of time as she went down to look about her and to wonder what was going to happen next. First, she tried to look down and make out what she was coming to, but it was too dark to see anything; then she looked at the sides of the well, and noticed that they were filled with cupboards and book-shelves; here and there she saw maps and pictures hung upon pegs. She took down a jar from one of the shelves as she passed; it was labelled 'ORANGE MARMALADE', but to her great disappointment it was empty: she did not like to drop the jar for fear of killing somebody, so managed to put it into one of the cupboards as she fell past it. 'Well!' thought Alice to herself, 'after such a fall as this, I shall think nothing of tumbling down stairs! How brave they'll all think me at home! Why, I wouldn't say anything about it, even if I fell off the top of the house!' (Which was very likely true.)",
+            ["Either the well was very deep, or she fell very slowly, for she had plenty of time as she went down to look about her and to wonder what was going to happen next.", "First, she tried to look down and make out what she was coming to, but it was too dark to see anything; then she looked at the sides of the well, and noticed that they were filled with cupboards and book-shelves; here and there she saw maps and pictures hung upon pegs.", "She took down a jar from one of the shelves as she passed; it was labelled 'ORANGE MARMALADE', but to her great disappointment it was empty: she did not like to drop the jar for fear of killing somebody, so managed to put it into one of the cupboards as she fell past it.", "'Well!' thought Alice to herself, 'after such a fall as this, I shall think nothing of tumbling down stairs! How brave they'll all think me at home! Why, I wouldn't say anything about it, even if I fell off the top of the house!' (Which was very likely true.)"]),
+        ('A minute is a unit of measurement of time or of angle. The minute is a unit of time equal to 1/60th of an hour or 60 seconds by 1. In the UTC time scale, a minute occasionally has 59 or 61 seconds; see leap second. The minute is not an SI unit; however, it is accepted for use with SI units. The symbol for minute or minutes is min. The fact that an hour contains 60 minutes is probably due to influences from the Babylonians, who used a base-60 or sexagesimal counting system. Colloquially, a min. may also refer to an indefinite amount of time substantially longer than the standardized length.',
+            ["A minute is a unit of measurement of time or of angle.", "The minute is a unit of time equal to 1/60th of an hour or 60 seconds by 1.", "In the UTC time scale, a minute occasionally has 59 or 61 seconds; see leap second.", "The minute is not an SI unit; however, it is accepted for use with SI units.", "The symbol for minute or minutes is min.", "The fact that an hour contains 60 minutes is probably due to influences from the Babylonians, who used a base-60 or sexagesimal counting system.", "Colloquially, a min. may also refer to an indefinite amount of time substantially longer than the standardized length."]),
         ("It was a cold \nnight in the city.",
             ["It was a cold night in the city."]),
         ("features\ncontact manager\nevents, activities\n",
@@ -12,6 +22,13 @@ TESTS_WITH_CLEAN = [
             ["Hello world.", "Today is Tuesday.",
                 "Mr. Smith went to the store and bought 1,000.",
                 "That is a lot."]),
+        ("""About Me...............................................................................................5
+        Chapter 2 ...................................................................... 6
+        Three Weeks Later............................................................................ 7
+        Better Eating........................................................................................ 8
+        What's the Score?.............................................................. 9
+        How To Calculate the Score................... 16-17""",
+            ["About Me", "Chapter 2", "Three Weeks Later", "Better Eating", "What's the Score?", "How To Calculate the Score"]),
         ('I think Jun. is a great month, said Mr. Suzuki.',
             ["I think Jun. is a great month, said Mr. Suzuki."]),
         ('Jun. is a great month, said Mr. Suzuki.',
@@ -44,11 +61,13 @@ TESTS_WITH_CLEAN = [
             ["See our additional services section or contact us for pricing.", "Pricing Additionl Info"]),
         ("I have 600. How many do you have?",
             ["I have 600.", "How many do you have?"]),
-        # modified original sents in pragmatic_segmenter are:
+        # modified
+        # original sents in pragmatic_segmenter are:
         # ["Introduction"]
         ("\n3\n\nIntroduction\n\n", ["3", "Introduction"]),
         ("\nW\nA\nRN\nI\nNG\n", ["WARNING"]),
-        # modified original sents in pragmatic_segmenter are:
+        # modified
+        # original sents in pragmatic_segmenter are:
         # ["WARNING", "AVERTISEMENT"]
         ("\n\n\nW\nA\nRN\nI\nNG\n \n/\n \nA\nV\nE\nR\nT\nI\nS\nE\nM\nE\nNT\n",
             ["WARNING", "/", "AVERTISEMENT"]),
@@ -217,15 +236,8 @@ TESTS_WITH_CLEAN = [
         ("Thus increasing the desire for political reform both in Lancashire and in the country at large.[7][8] This was a serious misdemeanour,[16] encouraging them to declare the assembly illegal as soon as it was announced on 31 July.[17][18] The radicals sought a second opinion on the meeting's legality.",
             ["Thus increasing the desire for political reform both in Lancashire and in the country at large.[7][8]", "This was a serious misdemeanour,[16] encouraging them to declare the assembly illegal as soon as it was announced on 31 July.[17][18]", "The radicals sought a second opinion on the meeting's legality."]),
         ("The table in (4) is a sample from the Wall Street Journal (1987).1 According to the distribution all the pairs given in (4) count as candidates for abbreviations.",
-            [ "The table in (4) is a sample from the Wall Street Journal (1987).1", "According to the distribution all the pairs given in (4) count as candidates for abbreviations."]),
-        ("""About Me...............................................................................................5
-Chapter 2 ...................................................................... 6
-Three Weeks Later............................................................................ 7
-Better Eating........................................................................................ 8
-What's the Score?.............................................................. 9
-How To Calculate the Score................... 16-17""",
-        ["About Me", "Chapter 2", "Three Weeks Later", "Better Eating", "What's the Score?", "How To Calculate the Score"])
-        ]
+            [ "The table in (4) is a sample from the Wall Street Journal (1987).1", "According to the distribution all the pairs given in (4) count as candidates for abbreviations."])
+    ]
 
 PDF_TEST_DATA = [
     ("This is a sentence\ncut off in the middle because pdf.",
