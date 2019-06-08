@@ -1,5 +1,6 @@
 # pySBD: Python Sentence Boundary Disambiguation (SBD)
 
+[![Build Status](https://travis-ci.org/nipunsadvilkar/pySBD.svg?branch=master)](https://travis-ci.org/nipunsadvilkar/pySBD)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](https://github.com/nipunsadvilkar/pySBD/blob/master/LICENSE)
 
 pySBD - python Sentence Boundary Disambiguation (SBD) - is a rule-based sentence boundary detection module that works out-of-the-box across many languages.
