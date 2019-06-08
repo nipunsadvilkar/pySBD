@@ -113,31 +113,37 @@ class ListItemReplacer(object):
     def scan_lists(self, regex1, regex2, replacement, strip=False):
         list_array = re.findall(regex1, self.text)
         list_array = list(map(int, list_array))
-        for ind, each in enumerate(list_array):
+        for ind, item in enumerate(list_array):
             # to avoid IndexError
             # ruby returns nil if index is out of range
-            if ind < len(list_array)-1:
-                if not ((each + 1) == list_array[ind + 1]) or \
-                    ((each - 1) == list_array[ind - 1]) or \
-                    ((each == 0) and (list_array[ind - 1] == 9)) or \
-                        ((each == 0) and (list_array[ind + 1] == 0)):
-                    continue
-            self.substitute_found_list_items(regex2, each, strip, replacement)
+            # print(ind, item, replacement)
+            if (ind < len(list_array) - 1) and (item + 1 == list_array[ind + 1]):
+                self.substitute_found_list_items(regex2, item, strip, replacement)
+            elif ind > 0:
+                if (((item - 1) == list_array[ind - 1]) or
+                    ((item == 0) and (list_array[ind - 1] == 9)) or
+                    ((item == 9) and (list_array[ind + 1] == 0))):
+                    self.substitute_found_list_items(regex2, item, strip, replacement)
 
     def substitute_found_list_items(self, regex, each, strip, replacement):
-        list_array = re.findall(regex, self.text)
-        for ind, match in enumerate(list_array, start=1):
-            stripped_match = str(match).strip()
-            chomped_match = stripped_match if len(stripped_match) == 1 else stripped_match[:-1]
+
+        def replace_item(match, val=None, strip=False, repl='♨'):
+            match = match.group()
+            if strip:
+                match = str(match).strip()
+            chomped_match = match if len(match) == 1 else match[:-1]
             if str(each) == chomped_match:
-                self.text = re.sub(str(match), "{}{}".format(each, replacement), self.text)
+                return "{}{}".format(each, replacement)
             else:
-                self.text = re.sub(str(match), "{}".format(match), self.text)
+                return str(match)
+
+        self.text = re.sub(regex, partial(replace_item, val=each,
+                           strip=strip, repl=replacement), self.text)
 
     def add_line_breaks_for_numbered_list_with_periods(self):
-        if '♨' in self.text and not re.search(
-                '♨.+(\n|\r).+♨', self.text) and not re.search(
-                    r'for\s\d{1,2}♨\s[a-z]', self.text):
+        if ('♨' in self.text) and (not re.search(
+                '♨.+(\n|\r).+♨', self.text)) and (not re.search(
+                    r'for\s\d{1,2}♨\s[a-z]', self.text)):
             self.text = Text(self.text).apply(self.SpaceBetweenListItemsFirstRule,
                                     self.SpaceBetweenListItemsSecondRule)
 
@@ -145,7 +151,6 @@ class ListItemReplacer(object):
         self.scan_lists(
             self.NUMBERED_LIST_PARENS_REGEX, self.NUMBERED_LIST_PARENS_REGEX, '☝')
         self.scan_lists(self.NUMBERED_LIST_PARENS_REGEX, self.NUMBERED_LIST_PARENS_REGEX, '☝')
-        # print(repr(self.text))
 
     def add_line_breaks_for_numbered_list_with_parens(self):
         if '☝' in self.text and not re.search("☝.+\n.+☝|☝.+\r.+☝", self.text):
@@ -168,7 +173,7 @@ class ListItemReplacer(object):
 
         txt = re.sub(self.ALPHABETICAL_LIST_LETTERS_AND_PERIODS_REGEX,
                      partial(replace_letter_period, val=a),
-                     self.text, re.IGNORECASE)
+                     self.text, flags=re.IGNORECASE)
         return txt
 
     def replace_alphabet_list_parens(self, a):
@@ -179,7 +184,6 @@ class ListItemReplacer(object):
 
         def replace_alphabet_paren(match, val=None):
             match = match.group()
-            # print(match, val)
             if '(' in match:
                 match_wo_paren = match.strip('(')
                 if match_wo_paren == val:
@@ -192,9 +196,10 @@ class ListItemReplacer(object):
                 else:
                     return match
 
+        # Make it cases-insensitive
         txt = re.sub(self.EXTRACT_ALPHABETICAL_LIST_LETTERS_REGEX,
                      partial(replace_alphabet_paren, val=a),
-                     self.text, re.IGNORECASE)
+                     self.text, flags=re.IGNORECASE)
         return txt
 
     def replace_correct_alphabet_list(self, a, parens):
@@ -207,9 +212,9 @@ class ListItemReplacer(object):
     def last_array_item_replacement(self, a, i, alphabet, list_array, parens):
         if (len(alphabet) == 0) & (len(list_array) == 0) or (
                 list_array[i - 1] not in alphabet) or (a not in alphabet):
-            return a
+            return self.text
         if abs(alphabet.index(list_array[i - 1]) - alphabet.index(a)) != 1:
-            return a
+            return self.text
         result = self.replace_correct_alphabet_list(a, parens)
         return result
 
@@ -217,10 +222,10 @@ class ListItemReplacer(object):
         if (len(alphabet) == 0) & (len(list_array) == 0) or (
                 list_array[i - 1] not in alphabet) or (a not in alphabet) or (
                     list_array[i + 1] not in alphabet):
-            return a
+            return self.text
         if alphabet.index(list_array[i + 1]) - alphabet.index(a) != 1 and \
                 abs(alphabet.index(list_array[i - 1]) - alphabet.index(a)) != 1:
-            return a
+            return self.text
         result = self.replace_correct_alphabet_list(a, parens)
         return result
 
@@ -228,7 +233,6 @@ class ListItemReplacer(object):
         list_array = re.findall(regex, self.text)
         alphabet = self.ROMAN_NUMERALS if roman_numeral else self.LATIN_NUMERALS
         list_array = [i for i in list_array if i in alphabet]
-        # print(list_array)
         for ind, each in enumerate(list_array):
             if ind == len(list_array) - 1:
                 self.text = self.last_array_item_replacement(each, ind, alphabet, list_array, parens)
@@ -239,15 +243,8 @@ class ListItemReplacer(object):
 
 
 if __name__ == "__main__":
-    # text = "a. The first item. b. The second item."
-    # OP # \ra∯ The first item. \rb∯ The second item.
-    # text = "a) ffegnog (b) fgegkl c)"
-    # OP # \ra) ffegnog &✂&b) fgegkl c)
-    text = "1) The first item 2) The second item"
-    # OP # 1) The first item\r2) The second item
-    # text = "1.) The first item 2.) The second item"
-    # OP # '1∯) The first item\r2∯) The second item'
+    text = "• 9. Stop smoking \n• 10. Get some rest \n \nYou have the best chance of having a problem-free pregnancy and a healthy baby if you follow \na few simple guidelines:  \n\n1. Organise your pregnancy care early"
     li = ListItemReplacer(text)
     li.add_line_break()
     print(repr(li.text))
-    print(li.text)
+    # print(li.text)

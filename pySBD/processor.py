@@ -1,22 +1,18 @@
 # -*- coding: utf-8 -*-
 import re
-# from pySBD import punctuation_replacer
-# from pySBD import between_punctuation
+import os
 from pySBD.rules import Text
 from pySBD.lists_item_replacer import ListItemReplacer
-# from pySBD import abbreviation_replacer
-# from pySBD import exclamation_words
 from pySBD.languages import Language
-from pySBD.lang.standard import (Standard, DoublePunctuationRules,
+from pySBD.lang.standard import (Standard, Abbreviation,
+                                 DoublePunctuationRules,
                                  ExclamationPointRules, SubSymbolsRules,
                                  ReinsertEllipsisRules)
-from pySBD.lang.common.numbers import Common
+from pySBD.lang.common.numbers import Common, Numbers
 from pySBD.lang.common.ellipsis import EllipsisRules
 from pySBD.exclamation_words import ExclamationWords
 from pySBD.between_punctuation import BetweenPunctuation
-import os
-
-os.linesep = '\r'
+from pySBD.abbreviation_replacer import AbbreviationReplacer
 
 
 class Processor(object):
@@ -28,29 +24,26 @@ class Processor(object):
 
     def process(self):
         if not self.text:
+            # return empty list?
             return self.text
         li = ListItemReplacer(self.text)
         self.text = li.add_line_break()
-        # print(repr(self.text))
-        # self.text = self.text.replace('\r', '\r')
-        # text = replace_abbreviation(text)
-        # text = replace_numbers(text)
-        # text = replace_continuous_punctuation(text)
-        # Abbreviations.WithMultiplePeriodsAndEmailRule
-        # GeoLocationRule
-        # FileFormatRule
-        self.replace_periods_before_numeric_references()
+        self.text = AbbreviationReplacer(self.text).replace()
+        self.replace_numbers()
+        self.text = self.replace_continuous_punctuation()
+        self.text = self.replace_periods_before_numeric_references()
+        self.text = Text(self.text).apply(Abbreviation.WithMultiplePeriodsAndEmailRule)
+        self.text = Text(self.text).apply(Standard.GeoLocationRule)
+        self.text = Text(self.text).apply(Standard.FileFormatRule)
         processed = self.split_into_segments()
         return processed
 
     def split_into_segments(self):
-        self.check_for_parens_between_quotes(self.text)
-        # print(repr(self.text))
+        self.check_for_parens_between_quotes()
         sents = self.text.split('\r')
         # remove empty and none values
         # https://stackoverflow.com/questions/3845423/remove-empty-strings-from-a-list-of-strings
         sents = list(filter(None, sents))
-        print(sents)
         # https://stackoverflow.com/questions/4698493/can-i-add-custom-methods-attributes-to-built-in-python-types
         sents = [
             Text(s).apply(Standard.SingleNewLineRule, *EllipsisRules.All)
@@ -60,14 +53,22 @@ class Processor(object):
         # flatten list of list of sentences
         if any(isinstance(s, list) for s in new_sents):
             new_sents = [s for sents in new_sents for s in sents]
-
         sents = [
             Text(s).apply(*SubSymbolsRules.All)
             for s in new_sents
         ]
         post_process_sents = [self.post_process_segments(s) for s in sents]
+        # TODO: Refactor to flatten and remove None and empty lists
         # remove any empty or null values
-        sents = [s for s in post_process_sents if s]
+        sents = []
+        for s in post_process_sents:
+            if not s:
+                continue
+            if isinstance(s, list):
+                for l in s:
+                    sents.append(l)
+            else:
+                sents.append(s)
         sents = [
             Text(s).apply(Standard.SubSingleQuoteRule)
             for s in sents
@@ -78,10 +79,9 @@ class Processor(object):
         if len(txt) > 2 and re.search(r'\A[a-zA-Z]*\Z', txt):
             return txt
         if self.consecutive_underscore(txt) or len(txt) < 2:
-            txt = Text(txt).apply(*ReinsertEllipsisRules.All,
-                                  Standard.ExtraWhiteSpaceRule)
-            return txt
-
+            pass
+        txt = Text(txt).apply(*ReinsertEllipsisRules.All,
+                              Standard.ExtraWhiteSpaceRule)
         if re.search(Common.QUOTATION_AT_END_OF_SENTENCE_REGEX, txt):
             txt = re.split(
                 Common.SPLIT_SPACE_QUOTATION_AT_END_OF_SENTENCE_REGEX, txt)
@@ -90,25 +90,28 @@ class Processor(object):
             txt = txt.replace('\n', '')
             return txt.strip()
 
-    def check_for_parens_between_quotes(self, txt):
+    def check_for_parens_between_quotes(self):
         def paren_replace(match):
             match = match.group()
-            sub1 = re.sub(r'\s(?=\()', r'\r', match)
-            sub2 = re.sub(r'(?<=\))\s', r'\r', sub1)
+            sub1 = re.sub(r'\s(?=\()', '\r', match)
+            sub2 = re.sub(r'(?<=\))\s', '\r', sub1)
             return sub2
-        # TODO: return Text class inherited from str
-        # should have .apply method
-        return re.sub(Common.PARENS_BETWEEN_DOUBLE_QUOTES_REGEX,
-                      paren_replace, txt)
+        self.text = re.sub(Common.PARENS_BETWEEN_DOUBLE_QUOTES_REGEX,
+                      paren_replace, self.text)
 
-    def replace_continuous_punctuation(self, txt):
-        # CONTINUOUS_PUNCTUATION_REGEX
-        raise NotImplementedError
+    def replace_continuous_punctuation(self):
+        def continuous_puncs_replace(match):
+            match = match.group()
+            sub1 = re.sub(re.escape('!'), '&ᓴ&', match)
+            sub2 = re.sub(re.escape('?'), '&ᓷ&', sub1)
+            return sub2
+        return re.sub(Common.CONTINUOUS_PUNCTUATION_REGEX,
+                        continuous_puncs_replace, self.text)
 
     def replace_periods_before_numeric_references(self):
         # https://github.com/diasks2/pragmatic_segmenter/commit/d9ec1a352aff92b91e2e572c30bb9561eb42c703
         return re.sub(Common.NUMBERED_REFERENCE_REGEX,
-                      r"∯\\2\r\\7", self.text)
+                      r"∯\2\r\7", self.text)
 
     def consecutive_underscore(self, txt):
         # Rubular: http://rubular.com/r/fTF2Ff3WBL
@@ -116,20 +119,16 @@ class Processor(object):
         return len(txt) == 0
 
     def check_for_punctuation(self, txt):
-        # if any(re.search(re.escape(r'{}'.format(p)), txt)
-        #        for p in Standard.Punctuations):
         if any(p in txt for p in Standard.Punctuations):
             sents = self.process_text(txt)
             return sents
         else:
-            return txt
+            # NOTE: next steps of check_for_punctuation will unpack this list
+            return [txt]
 
     def process_text(self, txt):
-        # if not any(p in txt[-1] for p in Standard.Punctuations):
         if txt[-1] not in Standard.Punctuations:
-            # "Hello .World" -> "Hello .Worldȸ"
             txt += 'ȸ'
-        # work for Yahoo! company -> work for Yahoo&ᓴ& company
         txt = ExclamationWords.apply_rules(txt)
         txt = BetweenPunctuation(txt).replace()
         txt = Text(txt).apply(*DoublePunctuationRules.All,
@@ -139,9 +138,8 @@ class Processor(object):
         txt = self.sentence_boundary_punctuation(txt)
         return txt
 
-    def replace_numbers(self, txt):
-        # Numbers
-        raise NotImplementedError
+    def replace_numbers(self):
+        self.text = Text(self.text).apply(*Numbers.All)
 
     def abbreviations_replacer(self, txt):
         # AbbreviationReplacer
@@ -171,10 +169,7 @@ class Processor(object):
 
 
 if __name__ == "__main__":
-    # text = "\"Dinah'll miss me very much to-night, I should think!\" (Dinah was the cat.) \"I hope they'll remember her saucer of milk at tea-time. Dinah, my dear, I wish you were down here with me!\""
-    # text = "My name is Jonas E. Smith."
-    # text = "1) The first item 2) The second item"
-    text = 'What is your name? My name is Jonas.'
+    text = "Header 1.2; Attachment Z\n\n\td. Compliance Log – Volume 12 \n\tAttachment A\n\n\te. Additional Logistics Data\n\tSection 10"
     print("Input String:\n{}".format(text))
     p = Processor(text)
     processed_op = p.process()
@@ -183,12 +178,3 @@ if __name__ == "__main__":
     print(processed_op)
     for e in processed_op:
         print(e)
-# output after check_for_punctuation
-# "\"Dinah&⎋&ll miss me very much to-night, I should think&ᓴ&\"ȸ"
-# "(Dinah was the cat∯)ȸ"
-# "\"I hope they&⎋&ll remember her saucer of milk at tea-time∯ Dinah, my dear, I wish you were down here with me&ᓴ&\"ȸ"
-
-# After SubSymbolsRules.all
-# "\"Dinah&⎋&ll miss me very much to-night, I should think!\""
-# "(Dinah was the cat.)"
-# "\"I hope they&⎋&ll remember her saucer of milk at tea-time. Dinah, my dear, I wish you were down here with me!\""

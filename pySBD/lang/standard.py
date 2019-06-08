@@ -29,9 +29,9 @@ class Abbreviation(object):
     NUMBER_ABBREVIATIONS = ['art', 'ext', 'no', 'nos', 'p', 'pp']
 
 
-class Abbreviations(object):
+    # Part of "Abbreviations" ruby module
     # Rubular: http://rubular.com/r/EUbZCNfgei
-    WithMultiplePeriodsAndEmailRule = Rule(r'(\w)(\.)(\w)', '\1∮\3')
+    WithMultiplePeriodsAndEmailRule = Rule(r'(\w)(\.)(\w)', '\\1∮\\3')
 
 
 class DoublePunctuationRules(object):
@@ -69,7 +69,7 @@ class SubSymbolsRules(object):
     MixedDoubleQQ = Rule(r'☇', '??')
     MixedDoubleEQ = Rule(r'☈', '!?')
     MixedDoubleEE = Rule(r'☄', '!!')
-    LeftParens = Rule(r'&✂&', '(r')
+    LeftParens = Rule(r'&✂&', '(')
     RightParens = Rule(r'&⌬&', ')')
     TemporaryEndingPunctutation = Rule(r'ȸ', '')
     Newline = Rule(r'ȹ', "\n")
@@ -90,5 +90,4 @@ class ReinsertEllipsisRules(object):
            SubTwoConsecutivePeriod, SubOnePeriod]
 
 
-class AbbreviationReplacer(object):
-    SENTENCE_STARTERS = "A Being Did For He How However I In It Millions More She That The There They We What When Where Who Why".split(" ")
+SENTENCE_STARTERS = "A Being Did For He How However I In It Millions More She That The There They We What When Where Who Why".split(" ")
