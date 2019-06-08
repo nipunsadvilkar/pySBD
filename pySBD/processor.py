@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
 import re
 import os
-# from pySBD import punctuation_replacer
-# from pySBD import between_punctuation
 from pySBD.rules import Text
 from pySBD.lists_item_replacer import ListItemReplacer
-# from pySBD import abbreviation_replacer
-# from pySBD import exclamation_words
 from pySBD.languages import Language
 from pySBD.lang.standard import (Standard, Abbreviation,
                                  DoublePunctuationRules,
@@ -17,8 +13,6 @@ from pySBD.lang.common.ellipsis import EllipsisRules
 from pySBD.exclamation_words import ExclamationWords
 from pySBD.between_punctuation import BetweenPunctuation
 from pySBD.abbreviation_replacer import AbbreviationReplacer
-
-# os.linesep = '\r'
 
 
 class Processor(object):
@@ -175,7 +169,6 @@ class Processor(object):
 
 
 if __name__ == "__main__":
-    # text = "This is a sentence\ncut off in the middle because pdf."
     text = "Header 1.2; Attachment Z\n\n\td. Compliance Log – Volume 12 \n\tAttachment A\n\n\te. Additional Logistics Data\n\tSection 10"
     print("Input String:\n{}".format(text))
     p = Processor(text)
