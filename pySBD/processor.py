@@ -39,18 +39,29 @@ class Processor(object):
         return processed
 
     def rm_none_flatten(self, sents):
+        """Remove None values and unpack list of list sents
+
+        Parameters
+        ----------
+        sents : list
+            list of sentences
+
+        Returns
+        -------
+        list
+            unpacked and None removed list of sents
+        """
         sents = list(filter(None, sents))
-        if any(isinstance(s, list) for s in sents):
-            new_sents = []
-            for s in sents:
-                if isinstance(s, list):
-                    for i in s:
-                        new_sents.append(i)
-                else:
-                    new_sents.append(s)
-            return new_sents
-        else:
+        if not any(isinstance(s, list) for s in sents):
             return sents
+        new_sents = []
+        for sent in sents:
+            if isinstance(sent, list):
+                for s in sent:
+                    new_sents.append(s)
+            else:
+                new_sents.append(sent)
+        return new_sents
 
     def split_into_segments(self):
         self.check_for_parens_between_quotes()
@@ -61,20 +72,20 @@ class Processor(object):
             Text(s).apply(Standard.SingleNewLineRule, *EllipsisRules.All)
             for s in sents
         ]
-        new_sents = [self.check_for_punctuation(s) for s in sents]
+        sents = [self.check_for_punctuation(s) for s in sents]
         # flatten list of list of sentences
-        new_sents = self.rm_none_flatten(new_sents)
+        sents = self.rm_none_flatten(sents)
         sents = [
             Text(s).apply(*SubSymbolsRules.All)
-            for s in new_sents
-        ]
-        post_process_sents = [self.post_process_segments(s) for s in sents]
-        sents = self.rm_none_flatten(post_process_sents)
-        sents = [
-            Text(s).apply(Standard.SubSingleQuoteRule)
             for s in sents
         ]
-        return sents
+        post_process_sents = [self.post_process_segments(s) for s in sents]
+        post_process_sents = self.rm_none_flatten(post_process_sents)
+        post_process_sents = [
+            Text(s).apply(Standard.SubSingleQuoteRule)
+            for s in post_process_sents
+        ]
+        return post_process_sents
 
     def post_process_segments(self, txt):
         if len(txt) > 2 and re.search(r'\A[a-zA-Z]*\Z', txt):
