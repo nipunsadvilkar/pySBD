@@ -30,45 +30,46 @@ class Processor(object):
         self.text = li.add_line_break()
         self.text = AbbreviationReplacer(self.text).replace()
         self.replace_numbers()
-        self.text = self.replace_continuous_punctuation()
-        self.text = self.replace_periods_before_numeric_references()
+        self.replace_continuous_punctuation()
+        self.replace_periods_before_numeric_references()
         self.text = Text(self.text).apply(Abbreviation.WithMultiplePeriodsAndEmailRule)
         self.text = Text(self.text).apply(Standard.GeoLocationRule)
         self.text = Text(self.text).apply(Standard.FileFormatRule)
         processed = self.split_into_segments()
         return processed
 
+    def rm_none_flatten(self, sents):
+        sents = list(filter(None, sents))
+        if any(isinstance(s, list) for s in sents):
+            new_sents = []
+            for s in sents:
+                if isinstance(s, list):
+                    for i in s:
+                        new_sents.append(i)
+                else:
+                    new_sents.append(s)
+            return new_sents
+        else:
+            return sents
+
     def split_into_segments(self):
         self.check_for_parens_between_quotes()
         sents = self.text.split('\r')
         # remove empty and none values
-        # https://stackoverflow.com/questions/3845423/remove-empty-strings-from-a-list-of-strings
-        sents = list(filter(None, sents))
-        # https://stackoverflow.com/questions/4698493/can-i-add-custom-methods-attributes-to-built-in-python-types
+        sents = self.rm_none_flatten(sents)
         sents = [
             Text(s).apply(Standard.SingleNewLineRule, *EllipsisRules.All)
             for s in sents
         ]
         new_sents = [self.check_for_punctuation(s) for s in sents]
         # flatten list of list of sentences
-        if any(isinstance(s, list) for s in new_sents):
-            new_sents = [s for sents in new_sents for s in sents]
+        new_sents = self.rm_none_flatten(new_sents)
         sents = [
             Text(s).apply(*SubSymbolsRules.All)
             for s in new_sents
         ]
         post_process_sents = [self.post_process_segments(s) for s in sents]
-        # TODO: Refactor to flatten and remove None and empty lists
-        # remove any empty or null values
-        sents = []
-        for s in post_process_sents:
-            if not s:
-                continue
-            if isinstance(s, list):
-                for l in s:
-                    sents.append(l)
-            else:
-                sents.append(s)
+        sents = self.rm_none_flatten(post_process_sents)
         sents = [
             Text(s).apply(Standard.SubSingleQuoteRule)
             for s in sents
@@ -105,12 +106,12 @@ class Processor(object):
             sub1 = re.sub(re.escape('!'), '&ᓴ&', match)
             sub2 = re.sub(re.escape('?'), '&ᓷ&', sub1)
             return sub2
-        return re.sub(Common.CONTINUOUS_PUNCTUATION_REGEX,
+        self.text = re.sub(Common.CONTINUOUS_PUNCTUATION_REGEX,
                         continuous_puncs_replace, self.text)
 
     def replace_periods_before_numeric_references(self):
         # https://github.com/diasks2/pragmatic_segmenter/commit/d9ec1a352aff92b91e2e572c30bb9561eb42c703
-        return re.sub(Common.NUMBERED_REFERENCE_REGEX,
+        self.text = re.sub(Common.NUMBERED_REFERENCE_REGEX,
                       r"∯\2\r\7", self.text)
 
     def consecutive_underscore(self, txt):

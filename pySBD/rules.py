@@ -19,7 +19,21 @@ class Rule(object):
 
 
 class Text(str):
+    """Extending str functionality to apply regex rules
 
+    https://stackoverflow.com/questions/4698493/can-i-add-custom-methods-attributes-to-built-in-python-types
+
+    Parameters
+    ----------
+    str : str
+        string content
+
+    Returns
+    -------
+    str
+        input as it is if rule pattern doesnt match
+        else replacing found pattern with replacement chars
+    """
     def apply(self, *rules):
         for each_r in rules:
             self = re.sub(each_r.pattern, each_r.replacement, self)
