@@ -13,7 +13,6 @@ from setuptools import find_packages, setup, Command
 
 root = os.path.abspath(os.path.dirname(__file__))
 
-
 with io.open(os.path.join(root, "pySBD", "about.py"), encoding="utf8") as f:
     about = {}
     exec(f.read(), about)
@@ -21,16 +20,6 @@ with io.open(os.path.join(root, "pySBD", "about.py"), encoding="utf8") as f:
 # Import the README and use it as the long-description.
 with io.open(os.path.join(root, 'README.md'), encoding='utf-8') as f:
     long_description = '\n' + f.read()
-
-
-# Package meta-data.
-NAME = about['__title__']
-DESCRIPTION = about['__version__']
-URL = 'https://github.com/me/myproject'
-EMAIL = 'me@example.com'
-AUTHOR = 'Awesome Soul'
-REQUIRES_PYTHON = '>=3.6.0'
-VERSION = about['__version__']
 
 
 class UploadCommand(Command):
