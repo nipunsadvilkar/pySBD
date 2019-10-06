@@ -13,7 +13,7 @@ from setuptools import find_packages, setup, Command
 
 root = os.path.abspath(os.path.dirname(__file__))
 
-with io.open(os.path.join(root, "pySBD", "about.py"), encoding="utf8") as f:
+with io.open(os.path.join(root, "pysbd", "about.py"), encoding="utf8") as f:
     about = {}
     exec(f.read(), about)
 
@@ -60,7 +60,7 @@ class UploadCommand(Command):
 
 
 setup(
-    name='pySBD',
+    name='pysbd',
     version=about['__version__'],
     description=about['__summary__'],
     long_description=long_description,

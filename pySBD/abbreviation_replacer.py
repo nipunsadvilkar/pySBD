@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import re
-from pySBD.rules import Text
+from pysbd.rules import Text
 # TODO: SENTENCE_STARTERS should be lang specific
-from pySBD.lang.standard import Abbreviation, SENTENCE_STARTERS
-from pySBD.lang.common.numbers import (Common, SingleLetterAbbreviationRules,
+from pysbd.lang.standard import Abbreviation, SENTENCE_STARTERS
+from pysbd.lang.common.numbers import (Common, SingleLetterAbbreviationRules,
                                        AmPmRules)
 
 

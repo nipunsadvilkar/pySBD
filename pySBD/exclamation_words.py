@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
-from pySBD.punctuation_replacer import replace_punctuation
+from pysbd.punctuation_replacer import replace_punctuation
 
 
 class ExclamationWords(object):

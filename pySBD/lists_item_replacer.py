@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import string
 import re
-from pySBD.rules import Rule, Text
+from pysbd.rules import Rule, Text
 from functools import partial
 
 

@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 import re
 import os
-from pySBD.rules import Text
-from pySBD.lists_item_replacer import ListItemReplacer
-from pySBD.languages import Language
-from pySBD.lang.standard import (Standard, Abbreviation,
+from pysbd.rules import Text
+from pysbd.lists_item_replacer import ListItemReplacer
+from pysbd.languages import Language
+from pysbd.lang.standard import (Standard, Abbreviation,
                                  DoublePunctuationRules,
                                  ExclamationPointRules, SubSymbolsRules,
                                  ReinsertEllipsisRules)
-from pySBD.lang.common.numbers import Common, Numbers
-from pySBD.lang.common.ellipsis import EllipsisRules
-from pySBD.exclamation_words import ExclamationWords
-from pySBD.between_punctuation import BetweenPunctuation
-from pySBD.abbreviation_replacer import AbbreviationReplacer
+from pysbd.lang.common.numbers import Common, Numbers
+from pysbd.lang.common.ellipsis import EllipsisRules
+from pysbd.exclamation_words import ExclamationWords
+from pysbd.between_punctuation import BetweenPunctuation
+from pysbd.abbreviation_replacer import AbbreviationReplacer
 
 
 class Processor(object):

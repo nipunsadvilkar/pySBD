@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from pySBD.lang.common.numbers import Common
-from pySBD.cleaner import Cleaner
-# from pySBD.abbreviation_replacer import AbbreviationReplacer
+from pysbd.lang.common.numbers import Common
+from pysbd.cleaner import Cleaner
+# from pysbd.abbreviation_replacer import AbbreviationReplacer
 
 
 class English(Common):

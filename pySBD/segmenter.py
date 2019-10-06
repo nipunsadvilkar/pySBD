@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from pySBD.languages import Language
-from pySBD.processor import Processor
-from pySBD.cleaner import Cleaner
+from pysbd.languages import Language
+from pysbd.processor import Processor
+from pysbd.cleaner import Cleaner
 
 
 class Segmenter(object):
