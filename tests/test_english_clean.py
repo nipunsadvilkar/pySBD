@@ -832,20 +832,20 @@ TESTS_WO_CLEAN = [
 @pytest.mark.parametrize('text,expected_sents', TESTS_WITH_CLEAN)
 def test_en_sbd_clean(text, expected_sents):
     """SBD tests from Pragmatic Segmenter needs clean:true"""
-    seg = pySBD.Segmenter(text, clean=True)
-    segments = seg.segment()
+    seg = pySBD.Segmenter(language="en", clean=True)
+    segments = seg.segment(text)
     assert segments == expected_sents
 
 @pytest.mark.parametrize('text,expected_sents', PDF_TEST_DATA)
 def test_en_pdf_type(text, expected_sents):
     """SBD tests from Pragmatic Segmenter for doctype:pdf"""
-    seg = pySBD.Segmenter(text, clean=True, doc_type='pdf')
-    segments = seg.segment()
+    seg = pySBD.Segmenter(language="en", clean=True, doc_type='pdf')
+    segments = seg.segment(text)
     assert segments == expected_sents
 
 @pytest.mark.parametrize('text,expected_sents', TESTS_WO_CLEAN)
 def test_en_sbd_wo_clean(text, expected_sents):
     """SBD tests from Pragmatic Segmenter without clean:true"""
-    seg = pySBD.Segmenter(text, clean=False)
-    segments = seg.segment()
+    seg = pySBD.Segmenter(language="en", clean=False)
+    segments = seg.segment(text)
     assert segments == expected_sents

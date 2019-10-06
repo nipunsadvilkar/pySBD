@@ -167,6 +167,6 @@ RULES_TEST_CASES = [
 @pytest.mark.parametrize('text,expected_sents', RULES_TEST_CASES)
 def test_en_sbd(text, expected_sents):
     """SBD tests from Pragmatic Segmenter"""
-    seg = pySBD.Segmenter(text, clean=False)
-    segments = seg.segment()
+    seg = pySBD.Segmenter(language="en", clean=False)
+    segments = seg.segment(text)
     assert segments == expected_sents

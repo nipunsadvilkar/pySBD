@@ -70,6 +70,7 @@ setup(
     url=about["__uri__"],
     packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
     install_requires=[],
+    python_requires='>=3',
     include_package_data=True,
     license=about["__license__"],
     classifiers=[
