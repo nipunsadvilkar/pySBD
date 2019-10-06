@@ -16,10 +16,10 @@ This project is a direct port of ruby gem - [Pragmatic Segmenter](https://github
 
 -   Currently pySBD supports only English language. Support for more languages will be released soon.
 
-``` {.python}
-import pySBD
+```python
+import pysbd
 text = "Hello World. My name is Jonas."
-seg = pySBD.Segmenter(language="en", clean=False)
+seg = pysbd.Segmenter(language="en", clean=False)
 print(seg.segment(text))
 # ['Hello World.', 'My name is Jonas.']
 ```
@@ -34,6 +34,6 @@ If you find a text that is incorrectly segmented using pySBD, please submit an i
 4.  Push to the branch (`git push origin my-new-feature`)
 5.  Create a new Pull Request
 
-# Credit
+## Credit
 
 This project wouldn't be possible without the great work done by [Pragmatic Segmenter](https://github.com/diasks2/pragmatic_segmenter) team.
