@@ -14,7 +14,7 @@ class Rule(object):
         self.replacement = replacement
 
     def __repr__(self):
-        return '<{} pattern={} and replacement={}>'.format(
+        return '<{} pattern="{}" and replacement="{}">'.format(
             self.__class__.__name__, self.pattern, self.replacement)
 
 
@@ -39,11 +39,6 @@ class Text(str):
             self = re.sub(each_r.pattern, each_r.replacement, self)
             # print(self, each_r)
         return self
-
-
-def sample_segment(s, expected_s):
-    return expected_s
-
 
 if __name__ == "__main__":
     SubstituteListPeriodRule = Rule('♨', '∯')

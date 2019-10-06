@@ -12,14 +12,12 @@ class Segmenter(object):
         self.language_module = Language.get_language_code(language)
         self.doc_type = doc_type
         self.clean = clean
-        if clean:
-            self.text = Cleaner(self.text, doc_type=doc_type).clean()
-        else:
-            self.text = text
 
     def segment(self):
         if not self.text:
             return []
+        if self.clean:
+            self.text = Cleaner(self.text, doc_type=self.doc_type).clean()
         processor = Processor(self.text)
         segments = processor.process()
         return segments

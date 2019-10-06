@@ -32,9 +32,9 @@ class Processor(object):
         self.replace_numbers()
         self.replace_continuous_punctuation()
         self.replace_periods_before_numeric_references()
-        self.text = Text(self.text).apply(Abbreviation.WithMultiplePeriodsAndEmailRule)
-        self.text = Text(self.text).apply(Standard.GeoLocationRule)
-        self.text = Text(self.text).apply(Standard.FileFormatRule)
+        self.text = Text(self.text).apply(
+            Abbreviation.WithMultiplePeriodsAndEmailRule,
+            Standard.GeoLocationRule, Standard.FileFormatRule)
         processed = self.split_into_segments()
         return processed
 
