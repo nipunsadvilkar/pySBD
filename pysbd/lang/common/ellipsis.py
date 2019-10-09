@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from pySBD.rules import Rule
+from pysbd.rules import Rule
 
 
 class EllipsisRules(object):

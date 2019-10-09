@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from pySBD.lang.standard import Standard
-from pySBD.lang.english import English
+from pysbd.lang.standard import Standard
+from pysbd.lang.english import English
 
 LANGUAGE_CODES = {'en': English}
 

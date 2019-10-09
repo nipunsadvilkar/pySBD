@@ -14,22 +14,31 @@ class Rule(object):
         self.replacement = replacement
 
     def __repr__(self):
-        return '<{} pattern={} and replacement={}>'.format(
+        return '<{} pattern="{}" and replacement="{}">'.format(
             self.__class__.__name__, self.pattern, self.replacement)
 
 
 class Text(str):
+    """Extending str functionality to apply regex rules
 
+    https://stackoverflow.com/questions/4698493/can-i-add-custom-methods-attributes-to-built-in-python-types
+
+    Parameters
+    ----------
+    str : str
+        string content
+
+    Returns
+    -------
+    str
+        input as it is if rule pattern doesnt match
+        else replacing found pattern with replacement chars
+    """
     def apply(self, *rules):
         for each_r in rules:
             self = re.sub(each_r.pattern, each_r.replacement, self)
             # print(self, each_r)
         return self
-
-
-def sample_segment(s, expected_s):
-    return expected_s
-
 
 if __name__ == "__main__":
     SubstituteListPeriodRule = Rule('♨', '∯')

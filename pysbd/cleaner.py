@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import re
-from pySBD.rules import Text
-from pySBD.clean.rules import PDF, HTML, CleanRules as cr
-from pySBD.lang.standard import Abbreviation
+from pysbd.rules import Text
+from pysbd.clean.rules import PDF, HTML, CleanRules as cr
+from pysbd.lang.standard import Abbreviation
 
 
 class Cleaner(object):
