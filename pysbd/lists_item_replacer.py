@@ -122,7 +122,7 @@ class ListItemReplacer(object):
             elif ind > 0:
                 if (((item - 1) == list_array[ind - 1]) or
                     ((item == 0) and (list_array[ind - 1] == 9)) or
-                    ((item == 9) and (list_array[ind + 1] == 0))):
+                    ((item == 9) and (list_array[ind - 1] == 0))):
                     self.substitute_found_list_items(regex2, item, strip, replacement)
 
     def substitute_found_list_items(self, regex, each, strip, replacement):

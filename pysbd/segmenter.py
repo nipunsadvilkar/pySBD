@@ -23,7 +23,7 @@ class Segmenter(object):
 
 
 if __name__ == "__main__":
-    text = "Saint Maximus (died 250) is a Christian saint and martyr.[1] The emperor Decius published a decree ordering the veneration of busts of the deified emperors."
+    text = "This new form of generalized PDF in (9) is generic and suitable for all the fading models presented in Table I withbranches MRC reception. In section III, (9) will be used in the derivations of the unified ABER and ACC expression."
     # ["Saint Maximus (died 250) is a Christian saint and martyr.[1]", "The emperor Decius published a decree ordering the veneration of busts of the deified emperors."
     print("Input String:\n{}".format(text))
     seg = Segmenter(language="en", clean=True)
