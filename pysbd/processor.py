@@ -22,7 +22,7 @@ class Processor(object):
         self.language_module = Language.get_language_code(language)
         self.text = text
 
-    def process(self):
+    def process(self, char_span=False):
         if not self.text:
             # return empty list?
             return self.text
@@ -35,7 +35,7 @@ class Processor(object):
         self.text = Text(self.text).apply(
             Abbreviation.WithMultiplePeriodsAndEmailRule,
             Standard.GeoLocationRule, Standard.FileFormatRule)
-        processed = self.split_into_segments()
+        processed = self.split_into_segments(char_span=char_span)
         return processed
 
     def rm_none_flatten(self, sents):
@@ -51,6 +51,7 @@ class Processor(object):
         list
             unpacked and None removed list of sents
         """
+        # import ipdb; ipdb.set_trace()
         sents = list(filter(None, sents))
         if not any(isinstance(s, list) for s in sents):
             return sents
@@ -63,7 +64,7 @@ class Processor(object):
                 new_sents.append(sent)
         return new_sents
 
-    def split_into_segments(self):
+    def split_into_segments(self, char_span=False):
         self.check_for_parens_between_quotes()
         sents = self.text.split('\r')
         # remove empty and none values
@@ -72,9 +73,10 @@ class Processor(object):
             Text(s).apply(Standard.SingleNewLineRule, *EllipsisRules.All)
             for s in sents
         ]
-        sents = [self.check_for_punctuation(s) for s in sents]
+        sents_w_spans = [self.check_for_punctuation(s) for s in sents]
         # flatten list of list of sentences
-        sents = self.rm_none_flatten(sents)
+        sents_w_spans = self.rm_none_flatten(sents_w_spans)
+        sents, start, end = list(zip(*sents_w_spans))
         sents = [
             Text(s).apply(*SubSymbolsRules.All)
             for s in sents
@@ -85,7 +87,11 @@ class Processor(object):
             Text(s).apply(Standard.SubSingleQuoteRule)
             for s in post_process_sents
         ]
-        return post_process_sents
+        if char_span:
+            sentences_w_spans = list(zip(post_process_sents, start, end))
+            return sentences_w_spans
+        else:
+            return post_process_sents
 
     def post_process_segments(self, txt):
         if len(txt) > 2 and re.search(r'\A[a-zA-Z]*\Z', txt):
@@ -136,7 +142,7 @@ class Processor(object):
             return sents
         else:
             # NOTE: next steps of check_for_punctuation will unpack this list
-            return [txt]
+            return [(txt, 0, len(txt))]
 
     def process_text(self, txt):
         if txt[-1] not in Standard.Punctuations:
@@ -176,7 +182,9 @@ class Processor(object):
         if hasattr(self.language_module, 'ReplaceNonSentenceBoundaryCommaRule'):
             txt = Text(txt).apply(
                 self.language_module.ReplaceNonSentenceBoundaryCommaRule)
-        txt = re.findall(Common.SENTENCE_BOUNDARY_REGEX, txt)
+        # import ipdb; ipdb.set_trace()
+        # txt = re.findall(Common.SENTENCE_BOUNDARY_REGEX, txt)
+        txt = [(m.group(), m.start(), m.end()) for m in re.finditer(Common.SENTENCE_BOUNDARY_REGEX, txt)]
         return txt
 
 

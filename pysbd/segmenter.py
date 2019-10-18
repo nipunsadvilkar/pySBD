@@ -6,11 +6,12 @@ from pysbd.cleaner import Cleaner
 
 class Segmenter(object):
 
-    def __init__(self, language="en", clean=False, doc_type=None):
+    def __init__(self, language="en", clean=False, doc_type=None, char_span=False):
         self.language = language
         self.language_module = Language.get_language_code(language)
         self.clean = clean
         self.doc_type = doc_type
+        self.char_span = char_span
 
     def segment(self, text):
         if not text:
@@ -18,15 +19,15 @@ class Segmenter(object):
         if self.clean:
             text = Cleaner(text, doc_type=self.doc_type).clean()
         processor = Processor(text)
-        segments = processor.process()
+        segments = processor.process(char_span=self.char_span)
         return segments
 
 
 if __name__ == "__main__":
-    text = "This new form of generalized PDF in (9) is generic and suitable for all the fading models presented in Table I withbranches MRC reception. In section III, (9) will be used in the derivations of the unified ABER and ACC expression."
-    # ["Saint Maximus (died 250) is a Christian saint and martyr.[1]", "The emperor Decius published a decree ordering the veneration of busts of the deified emperors."
+    text = "My name is Jonas E. Smith.      Please turn to p. 55."
     print("Input String:\n{}".format(text))
-    seg = Segmenter(language="en", clean=True)
+    seg = Segmenter(language="en", clean=True, char_span=True)
+    # seg = Segmenter(language="en", clean=True, char_span=False)
     segments = seg.segment(text)
     print("\n################## Processing #######################\n")
     print("Number of sentences: {}\n".format(len(segments)))
