@@ -129,7 +129,7 @@ class ListItemReplacer(object):
             match = match.group()
             if strip:
                 match = str(match).strip()
-            chomped_match = match if len(match) == 1 else match.strip('.[)')
+            chomped_match = match if len(match) == 1 else match.strip('.])')
             print(each, match, chomped_match)
             if str(each) == chomped_match:
                 return "{}{}".format(each, replacement)
