@@ -18,10 +18,10 @@ This project is a direct port of ruby gem - [Pragmatic Segmenter](https://github
 
 ```python
 import pysbd
-text = "Hello World. My name is Jonas."
+text = "My name is Jonas E. Smith. Please turn to p. 55."
 seg = pysbd.Segmenter(language="en", clean=False)
 print(seg.segment(text))
-# ['Hello World.', 'My name is Jonas.']
+# ['My name is Jonas E. Smith.', 'Please turn to p. 55.']
 ```
 
 ## Contributing
