@@ -50,12 +50,11 @@ class AbbreviationReplacer(object):
         return self.text
 
     def replace_multi_period_abbreviations(self):
-        mpa = re.findall(Common.MULTI_PERIOD_ABBREVIATION_REGEX, self.text, flags=re.IGNORECASE)
-        if not mpa:
-            return self.text
-        for each in mpa:
-            replacement = re.sub(re.escape(r'.'), '∯', each)
-            self.text = re.sub(each, replacement, self.text)
+        def mpa_replace(match):
+            match = match.group()
+            match = re.sub(re.escape(r'.'), '∯', match)
+            return match
+        self.text = re.sub(Common.MULTI_PERIOD_ABBREVIATION_REGEX, mpa_replace, self.text, flags=re.IGNORECASE)
 
     def search_for_abbreviations_in_string(self):
         original = self.text
@@ -76,7 +75,10 @@ class AbbreviationReplacer(object):
         return self.text
 
     def scan_for_replacements(self, txt, am, ind, char_array):
-        char = char_array[ind] if char_array else ''
+        try:
+            char = char_array[ind]
+        except IndexError:
+            char = ''
         prepositive = Abbreviation.PREPOSITIVE_ABBREVIATIONS
         number_abbr = Abbreviation.NUMBER_ABBREVIATIONS
         upper = str(char).isupper()

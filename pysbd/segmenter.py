@@ -24,7 +24,7 @@ class Segmenter(object):
 
 
 if __name__ == "__main__":
-    text = "My name is Jonas E. Smith.      Please turn to p. 55."
+    text = "My name is Jonas E. Smith. Please turn to p. 55."
     print("Input String:\n{}".format(text))
     seg = Segmenter(language="en", clean=True, char_span=True)
     # seg = Segmenter(language="en", clean=True, char_span=False)
