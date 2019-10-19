@@ -60,7 +60,6 @@ class ListItemReplacer(object):
         self.format_roman_numeral_lists()
         self.format_numbered_list_with_periods()
         self.format_numbered_list_with_parens()
-        # print('###', repr(self.text))
         return self.text
 
     def replace_parens(self):
@@ -116,8 +115,7 @@ class ListItemReplacer(object):
         for ind, item in enumerate(list_array):
             # to avoid IndexError
             # ruby returns nil if index is out of range
-            # print(ind, item, replacement)
-            if (ind < len(list_array) - 1) and (item + 1 == list_array[ind + 1]):
+            if (ind < len(list_array) - 1 and item + 1 == list_array[ind + 1]):
                 self.substitute_found_list_items(regex2, item, strip, replacement)
             elif ind > 0:
                 if (((item - 1) == list_array[ind - 1]) or
@@ -131,7 +129,8 @@ class ListItemReplacer(object):
             match = match.group()
             if strip:
                 match = str(match).strip()
-            chomped_match = match if len(match) == 1 else match[:-1]
+            chomped_match = match if len(match) == 1 else match.strip('.])')
+            print(each, match, chomped_match)
             if str(each) == chomped_match:
                 return "{}{}".format(each, replacement)
             else:

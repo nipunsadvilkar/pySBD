@@ -95,7 +95,5 @@ class BetweenPunctuation(object):
 
 
 if __name__ == "__main__":
-    # text = "Hello .World 'This is great.' you work for Google"
-    text = "\"Dinah'll miss me very much to-night, I should think!\""
+    text = "Random walk models (Skellam, 1951;Turchin, 1998) received a lot of attention"
     print(BetweenPunctuation(text).replace())
-    # "Dinah&⎋&ll miss me very much to-night, I should think&ᓴ&"
