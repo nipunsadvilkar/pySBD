@@ -130,7 +130,6 @@ class ListItemReplacer(object):
             if strip:
                 match = str(match).strip()
             chomped_match = match if len(match) == 1 else match.strip('.])')
-            print(each, match, chomped_match)
             if str(each) == chomped_match:
                 return "{}{}".format(each, replacement)
             else:
@@ -246,4 +245,3 @@ if __name__ == "__main__":
     li = ListItemReplacer(text)
     li.add_line_break()
     print(repr(li.text))
-    # print(li.text)
