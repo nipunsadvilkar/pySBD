@@ -37,15 +37,12 @@ class Text(str):
     def apply(self, *rules):
         for each_r in rules:
             self = re.sub(each_r.pattern, each_r.replacement, self)
-            # print(self, each_r)
         return self
 
 if __name__ == "__main__":
     SubstituteListPeriodRule = Rule('♨', '∯')
     StdRule = Rule(r'∯', r'∯♨')
     more_rules = [Rule(r'∯♨', r'∯∯∯∯'), Rule(r'∯∯∯∯', '♨♨')]
-    # Text("I. abcd ♨ acnjfe").apply(SubstituteListPeriodRule, StdRule)
     sample_text = Text("I. abcd ♨ acnjfe")
     output = sample_text.apply(SubstituteListPeriodRule, StdRule, *more_rules)
     print(output)
-    # I. abcd $ acnjfe
