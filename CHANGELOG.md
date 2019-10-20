@@ -17,3 +17,7 @@
 -   🐛 Fix & ♻️refactor `replace_multi_period_abbreviations` - \#30
 -   🐛 Fix `abbreviation_replacer` - \#31
 -   ✅ Add regression tests for issues
+
+# v0.1.4
+
+-   ✨ ✅ Handle intermittent punctuations - \#34
