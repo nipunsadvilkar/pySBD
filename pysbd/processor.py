@@ -15,14 +15,27 @@ from pysbd.between_punctuation import BetweenPunctuation
 from pysbd.abbreviation_replacer import AbbreviationReplacer
 
 
+class TextSpan(object):
+
+    def __init__(self, sent, start, end):
+        self.sent = sent
+        self.start = start
+        self.end = end
+
+    def __repr__(self):
+        return "{0}(sent='{1}', start={2}, end={3})".format(
+            self.__class__.__name__, self.sent, self.start, self.end)
+
+
 class Processor(object):
 
-    def __init__(self, text, language='common'):
+    def __init__(self, text, language='common', char_span=False):
         self.language = language
         self.language_module = Language.get_language_code(language)
         self.text = text
+        self.char_span = char_span
 
-    def process(self, char_span=False):
+    def process(self):
         if not self.text:
             # return empty list?
             return self.text
@@ -35,7 +48,7 @@ class Processor(object):
         self.text = Text(self.text).apply(
             Abbreviation.WithMultiplePeriodsAndEmailRule,
             Standard.GeoLocationRule, Standard.FileFormatRule)
-        processed = self.split_into_segments(char_span=char_span)
+        processed = self.split_into_segments()
         return processed
 
     def rm_none_flatten(self, sents):
@@ -51,7 +64,6 @@ class Processor(object):
         list
             unpacked and None removed list of sents
         """
-        # import ipdb; ipdb.set_trace()
         sents = list(filter(None, sents))
         if not any(isinstance(s, list) for s in sents):
             return sents
@@ -64,7 +76,20 @@ class Processor(object):
                 new_sents.append(sent)
         return new_sents
 
-    def split_into_segments(self, char_span=False):
+    def sentences_with_char_spans(self, sents_w_spans, postp_sents):
+        new_sents_spans = []
+        tmp_offset = 0
+        for sent_w_span, postp_sent in zip(sents_w_spans, postp_sents):
+            sent, start, end = sent_w_span
+            post_len = len(postp_sent) if postp_sent else len(sent)
+            if start == 0:
+                new_sents_spans.append((postp_sent, 0, post_len))
+            else:
+                new_sents_spans.append((postp_sent, tmp_offset, tmp_offset + post_len))
+            tmp_offset = tmp_offset + post_len
+        return new_sents_spans
+
+    def split_into_segments(self):
         self.check_for_parens_between_quotes()
         sents = self.text.split('\r')
         # remove empty and none values
@@ -74,32 +99,45 @@ class Processor(object):
             for s in sents
         ]
         sents_w_spans = [self.check_for_punctuation(s) for s in sents]
+        print(sents_w_spans)
         # flatten list of list of sentences
         sents_w_spans = self.rm_none_flatten(sents_w_spans)
-        sents, start, end = list(zip(*sents_w_spans))
-        sents = [
-            Text(s).apply(*SubSymbolsRules.All)
-            for s in sents
-        ]
-        post_process_sents = [self.post_process_segments(s) for s in sents]
-        post_process_sents = self.rm_none_flatten(post_process_sents)
-        post_process_sents = [
-            Text(s).apply(Standard.SubSingleQuoteRule)
-            for s in post_process_sents
-        ]
-        if char_span:
-            sentences_w_spans = list(zip(post_process_sents, start, end))
-            return sentences_w_spans
-        else:
+        new_spans = []
+        for s in sents_w_spans:
+            tmp_char_start = s.start
+            s.sent = Text(s.sent).apply(*SubSymbolsRules.All)
+            post_process_sent = self.post_process_segments(s.sent)
+            if post_process_sent and isinstance(post_process_sent, str):
+                s.sent = post_process_sent
+                new_spans.append(s)
+            elif isinstance(post_process_sent, list):
+                for se in post_process_sent:
+                    new_spans.append(TextSpan(se, tmp_char_start, tmp_char_start + len(se)))
+                    tmp_char_start += len(se)
+        post_process_sents = self.rm_none_flatten(new_spans)
+        for ps in post_process_sents:
+            ps.sent = Text(ps.sent).apply(Standard.SubSingleQuoteRule)
+        if self.char_span:
             return post_process_sents
+        else:
+            return [s.sent for s in post_process_sents]
 
     def post_process_segments(self, txt):
         if len(txt) > 2 and re.search(r'\A[a-zA-Z]*\Z', txt):
             return txt
-        if self.consecutive_underscore(txt) or len(txt) < 2:
+
+        # below condition present in pragmatic segmenter
+        # dont know significance of it yet.
+        # if self.consecutive_underscore(txt) or len(txt) < 2:
+        #     return txt
+
+        if re.match(r'\t', txt):
             pass
-        txt = Text(txt).apply(*ReinsertEllipsisRules.All,
-                              Standard.ExtraWhiteSpaceRule)
+        # TODO:
+        # Decide on keeping or removing Standard.ExtraWhiteSpaceRule
+        # txt = Text(txt).apply(*ReinsertEllipsisRules.All,
+        #                       Standard.ExtraWhiteSpaceRule)
+        txt = Text(txt).apply(*ReinsertEllipsisRules.All)
         if re.search(Common.QUOTATION_AT_END_OF_SENTENCE_REGEX, txt):
             txt = re.split(
                 Common.SPLIT_SPACE_QUOTATION_AT_END_OF_SENTENCE_REGEX, txt)
@@ -142,7 +180,8 @@ class Processor(object):
             return sents
         else:
             # NOTE: next steps of check_for_punctuation will unpack this list
-            return [(txt, 0, len(txt))]
+            return TextSpan(txt, 0, len(txt))
+            # return [txt]
 
     def process_text(self, txt):
         if txt[-1] not in Standard.Punctuations:
@@ -182,9 +221,11 @@ class Processor(object):
         if hasattr(self.language_module, 'ReplaceNonSentenceBoundaryCommaRule'):
             txt = Text(txt).apply(
                 self.language_module.ReplaceNonSentenceBoundaryCommaRule)
-        # import ipdb; ipdb.set_trace()
+        txt = [
+            TextSpan(m.group(), m.start(), m.end())
+            for m in re.finditer(Common.SENTENCE_BOUNDARY_REGEX, txt)
+            ]
         # txt = re.findall(Common.SENTENCE_BOUNDARY_REGEX, txt)
-        txt = [(m.group(), m.start(), m.end()) for m in re.finditer(Common.SENTENCE_BOUNDARY_REGEX, txt)]
         return txt
 
 

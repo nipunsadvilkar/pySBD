@@ -16,17 +16,20 @@ class Segmenter(object):
     def segment(self, text):
         if not text:
             return []
-        if self.clean:
+        if self.clean and self.char_span:
+            raise ValueError("char_span must be False if clean is True."
+                    " Since cleaning will modify original text.")
+        elif self.clean:
             text = Cleaner(text, doc_type=self.doc_type).clean()
-        processor = Processor(text)
-        segments = processor.process(char_span=self.char_span)
+        processor = Processor(text, char_span=self.char_span)
+        segments = processor.process()
         return segments
 
 
 if __name__ == "__main__":
     text = "My name is Jonas E. Smith. Please turn to p. 55."
     print("Input String:\n{}".format(text))
-    seg = Segmenter(language="en", clean=True, char_span=True)
+    seg = Segmenter(language="en", clean=False, char_span=True)
     # seg = Segmenter(language="en", clean=True, char_span=False)
     segments = seg.segment(text)
     print("\n################## Processing #######################\n")

@@ -81,10 +81,15 @@ class SubSymbolsRules(object):
 
 
 class ReinsertEllipsisRules(object):
-    SubThreeConsecutivePeriod = Rule(r'ƪ', '...')
-    SubThreeSpacePeriod = Rule(r'♟', ' . . . ')
-    SubFourSpacePeriod = Rule(r'♝', '. . . .')
-    SubTwoConsecutivePeriod = Rule(r'☏', '..')
+    # SubThreeConsecutivePeriod = Rule(r'ƪ', '...')
+    # SubThreeSpacePeriod = Rule(r'♟', ' . . . ')
+    # SubFourSpacePeriod = Rule(r'♝', '. . . .')
+    # SubTwoConsecutivePeriod = Rule(r'☏', '..')
+    # SubOnePeriod = Rule(r'∮', '.')
+    SubThreeConsecutivePeriod = Rule(r'ƪƪƪ', '...')
+    SubThreeSpacePeriod = Rule(r'♟♟♟♟♟♟♟', ' . . . ')
+    SubFourSpacePeriod = Rule(r'♝♝♝♝♝♝♝', '. . . .')
+    SubTwoConsecutivePeriod = Rule(r'☏☏', '..')
     SubOnePeriod = Rule(r'∮', '.')
     All = [SubThreeConsecutivePeriod, SubThreeSpacePeriod, SubFourSpacePeriod,
            SubTwoConsecutivePeriod, SubOnePeriod]
