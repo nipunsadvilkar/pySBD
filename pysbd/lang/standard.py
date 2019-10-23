@@ -81,11 +81,8 @@ class SubSymbolsRules(object):
 
 
 class ReinsertEllipsisRules(object):
-    # SubThreeConsecutivePeriod = Rule(r'ƪ', '...')
-    # SubThreeSpacePeriod = Rule(r'♟', ' . . . ')
-    # SubFourSpacePeriod = Rule(r'♝', '. . . .')
-    # SubTwoConsecutivePeriod = Rule(r'☏', '..')
-    # SubOnePeriod = Rule(r'∮', '.')
+    # below rules aren't similar to original rules of pragmatic segmenter
+    # modification: symbols replaced with same number of ellipses
     SubThreeConsecutivePeriod = Rule(r'ƪƪƪ', '...')
     SubThreeSpacePeriod = Rule(r'♟♟♟♟♟♟♟', ' . . . ')
     SubFourSpacePeriod = Rule(r'♝♝♝♝♝♝♝', '. . . .')

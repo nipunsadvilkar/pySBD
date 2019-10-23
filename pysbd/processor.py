@@ -18,6 +18,18 @@ from pysbd.abbreviation_replacer import AbbreviationReplacer
 class TextSpan(object):
 
     def __init__(self, sent, start, end):
+        """
+        Sentence text and its start & end character offsets within original text
+
+        Parameters
+        ----------
+        sent : str
+            Sentence text
+        start : int
+            start character offset of a sentence in original text
+        end : int
+            end character offset of a sentence in original text
+        """
         self.sent = sent
         self.start = start
         self.end = end
@@ -30,6 +42,18 @@ class TextSpan(object):
 class Processor(object):
 
     def __init__(self, text, language='common', char_span=False):
+        """Process a text - do pre and post processing - to get proper sentences
+
+        Parameters
+        ----------
+        text : str
+            Original text
+        language : str, optional
+            by default "common" i.e., english text preprocessing
+        char_span : bool, optional
+            Get start & end character offsets of each sentences
+            within original text, by default False
+        """
         self.language = language
         self.language_module = Language.get_language_code(language)
         self.text = text
@@ -76,19 +100,6 @@ class Processor(object):
                 new_sents.append(sent)
         return new_sents
 
-    def sentences_with_char_spans(self, sents_w_spans, postp_sents):
-        new_sents_spans = []
-        tmp_offset = 0
-        for sent_w_span, postp_sent in zip(sents_w_spans, postp_sents):
-            sent, start, end = sent_w_span
-            post_len = len(postp_sent) if postp_sent else len(sent)
-            if start == 0:
-                new_sents_spans.append((postp_sent, 0, post_len))
-            else:
-                new_sents_spans.append((postp_sent, tmp_offset, tmp_offset + post_len))
-            tmp_offset = tmp_offset + post_len
-        return new_sents_spans
-
     def split_into_segments(self):
         self.check_for_parens_between_quotes()
         sents = self.text.split('\r')
@@ -99,28 +110,28 @@ class Processor(object):
             for s in sents
         ]
         sents_w_spans = [self.check_for_punctuation(s) for s in sents]
-        print(sents_w_spans)
         # flatten list of list of sentences
         sents_w_spans = self.rm_none_flatten(sents_w_spans)
         new_spans = []
-        for s in sents_w_spans:
-            tmp_char_start = s.start
-            s.sent = Text(s.sent).apply(*SubSymbolsRules.All)
-            post_process_sent = self.post_process_segments(s.sent)
+        for sent_span in sents_w_spans:
+            if sent_span.sent.endswith('ȸ'):
+                sent_span.end = sent_span.end - 1
+            sent_span.sent = Text(sent_span.sent).apply(*SubSymbolsRules.All)
+            post_process_sent = self.post_process_segments(sent_span.sent)
             if post_process_sent and isinstance(post_process_sent, str):
-                s.sent = post_process_sent
-                new_spans.append(s)
+                sent_span.sent = post_process_sent
+                new_spans.append(sent_span)
             elif isinstance(post_process_sent, list):
-                for se in post_process_sent:
-                    new_spans.append(TextSpan(se, tmp_char_start, tmp_char_start + len(se)))
-                    tmp_char_start += len(se)
-        post_process_sents = self.rm_none_flatten(new_spans)
-        for ps in post_process_sents:
-            ps.sent = Text(ps.sent).apply(Standard.SubSingleQuoteRule)
+                tmp_char_start = sent_span.start
+                for pps in post_process_sent:
+                    new_spans.append(TextSpan(pps, tmp_char_start, tmp_char_start + len(pps)))
+                    tmp_char_start += len(pps)
+        for ns in new_spans:
+            ns.sent = Text(ns.sent).apply(Standard.SubSingleQuoteRule)
         if self.char_span:
-            return post_process_sents
+            return new_spans
         else:
-            return [s.sent for s in post_process_sents]
+            return [s.sent for s in new_spans]
 
     def post_process_segments(self, txt):
         if len(txt) > 2 and re.search(r'\A[a-zA-Z]*\Z', txt):
@@ -133,8 +144,10 @@ class Processor(object):
 
         if re.match(r'\t', txt):
             pass
+
         # TODO:
         # Decide on keeping or removing Standard.ExtraWhiteSpaceRule
+        # removed to retain original text spans
         # txt = Text(txt).apply(*ReinsertEllipsisRules.All,
         #                       Standard.ExtraWhiteSpaceRule)
         txt = Text(txt).apply(*ReinsertEllipsisRules.All)
@@ -225,7 +238,6 @@ class Processor(object):
             TextSpan(m.group(), m.start(), m.end())
             for m in re.finditer(Common.SENTENCE_BOUNDARY_REGEX, txt)
             ]
-        # txt = re.findall(Common.SENTENCE_BOUNDARY_REGEX, txt)
         return txt
 
 
