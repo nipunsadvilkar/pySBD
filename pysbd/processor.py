@@ -178,6 +178,8 @@ class Processor(object):
         if hasattr(self.language_module, 'ReplaceNonSentenceBoundaryCommaRule'):
             txt = Text(txt).apply(
                 self.language_module.ReplaceNonSentenceBoundaryCommaRule)
+        # retain exclamation mark if it is an ending character of a given text
+        txt = re.sub(r'&ᓴ&$', '!', txt)
         txt = re.findall(Common.SENTENCE_BOUNDARY_REGEX, txt)
         return txt
 
