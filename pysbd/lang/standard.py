@@ -39,6 +39,7 @@ class DoublePunctuationRules(object):
     SecondRule = Rule(r'!\?', '☈')
     ThirdRule = Rule(r'\?\?', '☇')
     ForthRule = Rule(r'!!', '☄')
+    DoublePunctuation = r'\?!|!\?|\?\?|!!'
     All = [FirstRule, SecondRule, ThirdRule, ForthRule]
 
 

@@ -201,8 +201,10 @@ class Processor(object):
             txt += 'ȸ'
         txt = ExclamationWords.apply_rules(txt)
         txt = BetweenPunctuation(txt).replace()
-        txt = Text(txt).apply(*DoublePunctuationRules.All,
-                              Standard.QuestionMarkInQuotationRule,
+        # handle text having only doublepunctuations
+        if not re.match(DoublePunctuationRules.DoublePunctuation, txt):
+            txt = Text(txt).apply(*DoublePunctuationRules.All)
+        txt = Text(txt).apply(Standard.QuestionMarkInQuotationRule,
                               *ExclamationPointRules.All)
         txt = ListItemReplacer(txt).replace_parens()
         txt = self.sentence_boundary_punctuation(txt)
@@ -234,6 +236,8 @@ class Processor(object):
         if hasattr(self.language_module, 'ReplaceNonSentenceBoundaryCommaRule'):
             txt = Text(txt).apply(
                 self.language_module.ReplaceNonSentenceBoundaryCommaRule)
+        # retain exclamation mark if it is an ending character of a given text
+        txt = re.sub(r'&ᓴ&$', '!', txt)
         txt = [
             TextSpan(m.group(), m.start(), m.end())
             for m in re.finditer(Common.SENTENCE_BOUNDARY_REGEX, txt)
