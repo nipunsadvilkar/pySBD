@@ -21,3 +21,8 @@
 # v0.1.4
 
 -   ✨ ✅ Handle intermittent punctuations - \#34
+
+# v0.1.5
+
+-   🐛 Handle text with only punctuations - \#36
+-   🐛 Handle exclamation marks at EOL- \#37
