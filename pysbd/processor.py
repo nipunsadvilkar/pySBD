@@ -143,8 +143,10 @@ class Processor(object):
             txt += 'ȸ'
         txt = ExclamationWords.apply_rules(txt)
         txt = BetweenPunctuation(txt).replace()
-        txt = Text(txt).apply(*DoublePunctuationRules.All,
-                              Standard.QuestionMarkInQuotationRule,
+        # handle text having only doublepunctuations
+        if not re.match(DoublePunctuationRules.DoublePunctuation, txt):
+            txt = Text(txt).apply(*DoublePunctuationRules.All)
+        txt = Text(txt).apply(Standard.QuestionMarkInQuotationRule,
                               *ExclamationPointRules.All)
         txt = ListItemReplacer(txt).replace_parens()
         txt = self.sentence_boundary_punctuation(txt)

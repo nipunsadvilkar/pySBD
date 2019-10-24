@@ -20,6 +20,7 @@ TEST_ISSUE_DATA = [
     ('#34', '..', ['..']),
     ('#34', '. . .', ['. . .']),
     ('#34', '! ! !', ['! ! !']),
+    ('#36', '??', ['??'])
 ]
 
 @pytest.mark.parametrize('issue_no,text,expected_sents', TEST_ISSUE_DATA)
