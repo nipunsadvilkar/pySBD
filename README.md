@@ -24,6 +24,8 @@ print(seg.segment(text))
 # ['My name is Jonas E. Smith.', 'Please turn to p. 55.']
 ```
 
+-   Use `pysbd` as a [spaCy](https://spacy.io/usage/processing-pipelines) pipeline component. (recommended) Please refer to example [pysbd\_as\_spacy\_component.py](https://github.com/nipunsadvilkar/pySBD/blob/master/examples/pysbd_as_spacy_component.py)
+
 ## Contributing
 
 If you find a text that is incorrectly segmented using pySBD, please submit an issue.
