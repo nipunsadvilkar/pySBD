@@ -26,3 +26,9 @@
 
 -   🐛 Handle text with only punctuations - \#36
 -   🐛 Handle exclamation marks at EOL- \#37
+
+# v0.2.0
+
+-   ✨Add `char_span` parameter (optional) to get sentence & its (start, end) char offsets from original text
+-   ✨pySBD as a spaCy component example
+-   🐛 Fix double question mark swallow bug - \#39
