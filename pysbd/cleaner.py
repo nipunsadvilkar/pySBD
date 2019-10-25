@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
-from pysbd.rules import Text
+from pysbd.utils import Text
 from pysbd.clean.rules import PDF, HTML, CleanRules as cr
 from pysbd.lang.standard import Abbreviation
 
@@ -10,7 +10,6 @@ class Cleaner(object):
     def __init__(self, text, language='common', doc_type=None):
         self.text = text
         self.language = language
-        # self.language_module = Language.get_language_code(language)
         self.doc_type = doc_type
 
     def clean(self):
@@ -116,7 +115,6 @@ class Cleaner(object):
 
 
 if __name__ == "__main__":
-    # text = "Hello world.Today is Tuesday.Mr. Smith went to the store and bought 1,000.That is a lot."
-    text = "• 9. Stop smoking \n• 10. Get some rest \n \nYou have the best chance of having a problem-free pregnancy and a healthy baby if you follow \na few simple guidelines:  \n\n1. Organise your pregnancy care early"
+    text = "Hello world.Today is Tuesday.Mr. Smith went to the store and bought 1,000.That is a lot."
     c = Cleaner(text)
     print(c.clean())

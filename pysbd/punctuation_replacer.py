@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
-from pysbd.rules import Rule, Text
+from pysbd.utils import Rule, Text
 
 
 class EscapeRegexReservedCharacters(object):

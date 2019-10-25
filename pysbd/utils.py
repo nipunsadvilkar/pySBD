@@ -2,10 +2,6 @@
 # -*- coding: utf-8 -*-
 import re
 
-# https://regex101.com/r/P1IWyb/1/
-NEWLINE_IN_MIDDLE_OF_SENTENCE_REGEX = r"(?<=\s)\n(?=([a-z]|\())"
-NEWLINE_IN_MIDDLE_OF_WORD_REGEX = r"\n(?=[a-zA-Z]{1,2}\\n)"
-
 
 class Rule(object):
 
@@ -38,6 +34,36 @@ class Text(str):
         for each_r in rules:
             self = re.sub(each_r.pattern, each_r.replacement, self)
         return self
+
+
+class TextSpan(object):
+
+    def __init__(self, sent, start, end):
+        """
+        Sentence text and its start & end character offsets within original text
+
+        Parameters
+        ----------
+        sent : str
+            Sentence text
+        start : int
+            start character offset of a sentence in original text
+        end : int
+            end character offset of a sentence in original text
+        """
+        self.sent = sent
+        self.start = start
+        self.end = end
+
+    def __repr__(self):
+        return "{0}(sent='{1}', start={2}, end={3})".format(
+            self.__class__.__name__, self.sent, self.start, self.end)
+
+    def __eq__(self, other):
+        if isinstance(self, other.__class__):
+            return self.sent == other.sent and self.start == other.start and self.end == self.end
+        return False
+
 
 if __name__ == "__main__":
     SubstituteListPeriodRule = Rule('♨', '∯')

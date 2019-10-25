@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
-from pysbd.rules import Rule
+from pysbd.utils import Rule
 
 
 class Common(object):

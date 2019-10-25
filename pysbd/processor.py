@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import re
 import os
-from pysbd.rules import Text
+from pysbd.utils import Text, TextSpan
 from pysbd.lists_item_replacer import ListItemReplacer
 from pysbd.languages import Language
 from pysbd.lang.standard import (Standard, Abbreviation,
@@ -17,10 +17,23 @@ from pysbd.abbreviation_replacer import AbbreviationReplacer
 
 class Processor(object):
 
-    def __init__(self, text, language='common'):
+    def __init__(self, text, language='common', char_span=False):
+        """Process a text - do pre and post processing - to get proper sentences
+
+        Parameters
+        ----------
+        text : str
+            Original text
+        language : str, optional
+            by default "common" i.e., english text preprocessing
+        char_span : bool, optional
+            Get start & end character offsets of each sentences
+            within original text, by default False
+        """
         self.language = language
         self.language_module = Language.get_language_code(language)
         self.text = text
+        self.char_span = char_span
 
     def process(self):
         if not self.text:
@@ -72,28 +85,48 @@ class Processor(object):
             Text(s).apply(Standard.SingleNewLineRule, *EllipsisRules.All)
             for s in sents
         ]
-        sents = [self.check_for_punctuation(s) for s in sents]
+        sents_w_spans = [self.check_for_punctuation(s) for s in sents]
         # flatten list of list of sentences
-        sents = self.rm_none_flatten(sents)
-        sents = [
-            Text(s).apply(*SubSymbolsRules.All)
-            for s in sents
-        ]
-        post_process_sents = [self.post_process_segments(s) for s in sents]
-        post_process_sents = self.rm_none_flatten(post_process_sents)
-        post_process_sents = [
-            Text(s).apply(Standard.SubSingleQuoteRule)
-            for s in post_process_sents
-        ]
-        return post_process_sents
+        sents_w_spans = self.rm_none_flatten(sents_w_spans)
+        new_spans = []
+        for sent_span in sents_w_spans:
+            if sent_span.sent.endswith('ȸ'):
+                sent_span.end = sent_span.end - 1
+            sent_span.sent = Text(sent_span.sent).apply(*SubSymbolsRules.All)
+            post_process_sent = self.post_process_segments(sent_span.sent)
+            if post_process_sent and isinstance(post_process_sent, str):
+                sent_span.sent = post_process_sent
+                new_spans.append(sent_span)
+            elif isinstance(post_process_sent, list):
+                tmp_char_start = sent_span.start
+                for pps in post_process_sent:
+                    new_spans.append(TextSpan(pps, tmp_char_start, tmp_char_start + len(pps)))
+                    tmp_char_start += len(pps)
+        for ns in new_spans:
+            ns.sent = Text(ns.sent).apply(Standard.SubSingleQuoteRule)
+        if self.char_span:
+            return new_spans
+        else:
+            return [s.sent for s in new_spans]
 
     def post_process_segments(self, txt):
         if len(txt) > 2 and re.search(r'\A[a-zA-Z]*\Z', txt):
             return txt
-        if self.consecutive_underscore(txt) or len(txt) < 2:
+
+        # below condition present in pragmatic segmenter
+        # dont know significance of it yet.
+        # if self.consecutive_underscore(txt) or len(txt) < 2:
+        #     return txt
+
+        if re.match(r'\t', txt):
             pass
-        txt = Text(txt).apply(*ReinsertEllipsisRules.All,
-                              Standard.ExtraWhiteSpaceRule)
+
+        # TODO:
+        # Decide on keeping or removing Standard.ExtraWhiteSpaceRule
+        # removed to retain original text spans
+        # txt = Text(txt).apply(*ReinsertEllipsisRules.All,
+        #                       Standard.ExtraWhiteSpaceRule)
+        txt = Text(txt).apply(*ReinsertEllipsisRules.All)
         if re.search(Common.QUOTATION_AT_END_OF_SENTENCE_REGEX, txt):
             txt = re.split(
                 Common.SPLIT_SPACE_QUOTATION_AT_END_OF_SENTENCE_REGEX, txt)
@@ -136,7 +169,8 @@ class Processor(object):
             return sents
         else:
             # NOTE: next steps of check_for_punctuation will unpack this list
-            return [txt]
+            return TextSpan(txt, 0, len(txt))
+            # return [txt]
 
     def process_text(self, txt):
         if txt[-1] not in Standard.Punctuations:
@@ -180,7 +214,10 @@ class Processor(object):
                 self.language_module.ReplaceNonSentenceBoundaryCommaRule)
         # retain exclamation mark if it is an ending character of a given text
         txt = re.sub(r'&ᓴ&$', '!', txt)
-        txt = re.findall(Common.SENTENCE_BOUNDARY_REGEX, txt)
+        txt = [
+            TextSpan(m.group(), m.start(), m.end())
+            for m in re.finditer(Common.SENTENCE_BOUNDARY_REGEX, txt)
+            ]
         return txt
 
 

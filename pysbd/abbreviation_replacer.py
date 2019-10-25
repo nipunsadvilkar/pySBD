@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
-from pysbd.rules import Text
+from pysbd.utils import Text
 # TODO: SENTENCE_STARTERS should be lang specific
 from pysbd.lang.standard import Abbreviation, SENTENCE_STARTERS
 from pysbd.lang.common.numbers import (Common, SingleLetterAbbreviationRules,
@@ -93,5 +93,5 @@ class AbbreviationReplacer(object):
 
 
 if __name__ == "__main__":
-    s = "Here’s the - ahem - official citation: Baker, C., Anderson, Kenneth, Martin, James, & Palen, Leysia."
+    s = "fig. ??"
     print(AbbreviationReplacer(s).replace())
