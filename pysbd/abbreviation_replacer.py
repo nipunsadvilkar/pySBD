@@ -93,5 +93,5 @@ class AbbreviationReplacer(object):
 
 
 if __name__ == "__main__":
-    s = "Here’s the - ahem - official citation: Baker, C., Anderson, Kenneth, Martin, James, & Palen, Leysia."
+    s = "fig. ??"
     print(AbbreviationReplacer(s).replace())
