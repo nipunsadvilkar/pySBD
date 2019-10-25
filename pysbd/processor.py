@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import re
 import os
-from pysbd.rules import Text
+from pysbd.utils import Text, TextSpan
 from pysbd.lists_item_replacer import ListItemReplacer
 from pysbd.languages import Language
 from pysbd.lang.standard import (Standard, Abbreviation,
@@ -13,30 +13,6 @@ from pysbd.lang.common.ellipsis import EllipsisRules
 from pysbd.exclamation_words import ExclamationWords
 from pysbd.between_punctuation import BetweenPunctuation
 from pysbd.abbreviation_replacer import AbbreviationReplacer
-
-
-class TextSpan(object):
-
-    def __init__(self, sent, start, end):
-        """
-        Sentence text and its start & end character offsets within original text
-
-        Parameters
-        ----------
-        sent : str
-            Sentence text
-        start : int
-            start character offset of a sentence in original text
-        end : int
-            end character offset of a sentence in original text
-        """
-        self.sent = sent
-        self.start = start
-        self.end = end
-
-    def __repr__(self):
-        return "{0}(sent='{1}', start={2}, end={3})".format(
-            self.__class__.__name__, self.sent, self.start, self.end)
 
 
 class Processor(object):

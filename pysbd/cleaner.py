@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
-from pysbd.rules import Text
+from pysbd.utils import Text
 from pysbd.clean.rules import PDF, HTML, CleanRules as cr
 from pysbd.lang.standard import Abbreviation
 

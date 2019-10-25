@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from pysbd.rules import Rule
+from pysbd.utils import Rule
 
 
 class CleanRules(object):
