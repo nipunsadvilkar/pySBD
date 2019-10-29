@@ -88,4 +88,7 @@ setup(
     cmdclass={
         'upload': UploadCommand,
     },
+    entry_points={
+        "spacy_factories": ["pysbd = pysbd.utils:PySBDFactory"]
+    }
 )
