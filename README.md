@@ -31,7 +31,7 @@ print(seg.segment(text))
 
 ```python
 import spacy
-from pysbd.util import PySBDFactory
+from pysbd.utils import PySBDFactory
 
 nlp = spacy.blank('en')
 
