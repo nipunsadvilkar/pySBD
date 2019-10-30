@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import re
+import pysbd
 
 
 class Rule(object):
@@ -63,6 +64,26 @@ class TextSpan(object):
         if isinstance(self, other.__class__):
             return self.sent == other.sent and self.start == other.start and self.end == self.end
         return False
+
+
+class PySBDFactory(object):
+    """pysbd as a spacy component through entrypoints"""
+
+    def __init__(self, nlp, language='en', clean=False, char_span=True):
+        self.nlp = nlp
+        self.seg = pysbd.Segmenter(language=language, clean=clean,
+                                   char_span=char_span)
+
+    def __call__(self, doc):
+        sents_char_spans = self.seg.segment(doc.text)
+        char_spans = [doc.char_span(sent_span.start, sent_span.end)
+                      for sent_span in sents_char_spans]
+        start_token_ids = [span[0].idx for span in char_spans if span
+                           is not None]
+        for token in doc:
+            token.is_sent_start = (True if token.idx
+                                   in start_token_ids else False)
+        return doc
 
 
 if __name__ == "__main__":
