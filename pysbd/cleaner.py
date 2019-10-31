@@ -99,7 +99,7 @@ class Cleaner(object):
         if any(a in word for a in Abbreviation.ABBREVIATIONS):
             return txt
         new_word = Text(word).apply(rule)
-        txt = re.sub(word, new_word, txt)
+        txt = re.sub(re.escape(word), new_word, txt)
         return txt
 
     def check_for_no_space_in_between_sentences(self):
