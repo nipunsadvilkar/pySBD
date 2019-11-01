@@ -32,3 +32,11 @@
 -   ✨Add `char_span` parameter (optional) to get sentence & its (start, end) char offsets from original text
 -   ✨pySBD as a spaCy component example
 -   🐛 Fix double question mark swallow bug - \#39
+
+# v0.2.1
+
+-   ✨pySBD as a spaCy component through entrypoints
+
+# v0.2.2
+
+-   🐛 Fix unbalanced parenthesis - \#47
