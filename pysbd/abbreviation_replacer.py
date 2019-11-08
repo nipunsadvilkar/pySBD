@@ -8,20 +8,29 @@ from pysbd.lang.common.numbers import (Common, SingleLetterAbbreviationRules,
 
 
 def replace_pre_number_abbr(txt, abbr):
-    txt = re.sub(r'(?<=\s{abbr})\.(?=\s\d)|(?<=^{abbr})\.(?=\s\d)'.format(abbr=abbr.strip()), "∯", txt)
-    txt = re.sub(r'(?<=\s{abbr})\.(?=\s+\()|(?<=^{abbr})\.(?=\s+\()'.format(abbr=abbr.strip()), "∯", txt)
+    # prepend a space to avoid needing another regex for start of string
+    txt = " " + txt
+    txt = re.sub(r'(?<=\s{abbr})\.(?=(\s\d|\s+\())'.format(abbr=abbr.strip()), "∯", txt)
+    # remove the prepended space
+    txt = txt[1:]
     return txt
 
 
 def replace_prepositive_abbr(txt, abbr):
-    txt = re.sub(r'(?<=\s{abbr})\.(?=\s)|(?<=^{abbr})\.(?=\s)'.format(abbr=abbr.strip()), "∯", txt)
-    txt = re.sub(r'(?<=\s{abbr})\.(?=:\d+)|(?<=^{abbr})\.(?=:\d+)'.format(abbr=abbr.strip()), "∯", txt)
+    # prepend a space to avoid needing another regex for start of string
+    txt = " " + txt
+    txt = re.sub(r'(?<=\s{abbr})\.(?=(\s|:\d+))'.format(abbr=abbr.strip()), "∯", txt)
+    # remove the prepended space
+    txt = txt[1:]
     return txt
 
 
 def replace_period_of_abbr(txt, abbr):
-    txt = re.sub(r"(?<=\s{abbr})\.(?=((\.|\:|-|\?)|(\s([a-z]|I\s|I'm|I'll|\d|\())))|(?<=^{abbr})\.(?=((\.|\:|\?)|(\s([a-z]|I\s|I'm|I'll|\d))))".format(abbr=abbr.strip()), '∯', txt)
-    txt = re.sub(r"(?<=\s{abbr})\.(?=,)|(?<=^{abbr})\.(?=,)".format(abbr=abbr.strip()), '∯', txt)
+    # prepend a space to avoid needing another regex for start of string
+    txt = " " + txt
+    txt = re.sub(r"(?<=\s{abbr})\.(?=((\.|\:|-|\?|,)|(\s([a-z]|I\s|I'm|I'll|\d|\())))".format(abbr=abbr.strip()), '∯', txt)
+    # remove the prepended space
+    txt = txt[1:]
     return txt
 
 
