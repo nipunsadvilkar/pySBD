@@ -40,3 +40,7 @@
 # v0.2.2
 
 -   🐛 Fix unbalanced parenthesis - \#47
+
+# v0.2.3
+
+-   🐛 Performance improvement in `abbreviation_replacer`- \#50
