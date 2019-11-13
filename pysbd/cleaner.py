@@ -63,9 +63,9 @@ class Cleaner(object):
                                      cr.ReplaceNewlineWithCarriageReturnRule)
             else:
                 self.text = Text(
-                    self.text).apply(cr.NewLineFollowedByPeriodRule,
-                                     cr.ReplaceNewlineWithCarriageReturnRule,
-                                     PDF.NewLineInMiddleOfSentenceNoSpacesRule)
+                    self.text).apply(PDF.NewLineInMiddleOfSentenceNoSpacesRule,
+                                     cr.NewLineFollowedByPeriodRule,
+                                     cr.ReplaceNewlineWithCarriageReturnRule)
 
     def replace_escaped_newlines(self):
         self.text = Text(
