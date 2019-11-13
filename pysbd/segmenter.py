@@ -38,7 +38,7 @@ class Segmenter(object):
             raise ValueError("char_span must be False if clean is True. "
                              "Since `clean=True` will modify original text.")
         elif self.clean:
-            text = Cleaner(text, doc_type=self.doc_type, apply_pdf_rules=apply_pdf_rules).clean()
+            text = Cleaner(text, doc_type=self.doc_type, apply_pdf_rules=self.apply_pdf_rules).clean()
         processor = Processor(text, char_span=self.char_span)
         segments = processor.process()
         return segments
