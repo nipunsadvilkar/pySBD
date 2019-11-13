@@ -6,7 +6,7 @@ from pysbd.cleaner import Cleaner
 
 class Segmenter(object):
 
-    def __init__(self, language="en", clean=False, doc_type=None, char_span=False, apply_pdf_rules=True):
+    def __init__(self, language="en", clean=False, doc_type=None, char_span=False, apply_pdf_rules=False):
         """Segments a text into an list of sentences
         with or withour character offsets from original text
 
