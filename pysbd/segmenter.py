@@ -6,7 +6,7 @@ from pysbd.cleaner import Cleaner
 
 class Segmenter(object):
 
-    def __init__(self, language="en", clean=False, doc_type=None, char_span=False):
+    def __init__(self, language="en", clean=False, doc_type=None, char_span=False, apply_pdf_rules=True):
         """Segments a text into an list of sentences
         with or withour character offsets from original text
 
@@ -29,6 +29,7 @@ class Segmenter(object):
         self.clean = clean
         self.doc_type = doc_type
         self.char_span = char_span
+        self.apply_pdf_rules = apply_pdf_rules
 
     def segment(self, text):
         if not text:
@@ -37,7 +38,7 @@ class Segmenter(object):
             raise ValueError("char_span must be False if clean is True. "
                              "Since `clean=True` will modify original text.")
         elif self.clean:
-            text = Cleaner(text, doc_type=self.doc_type).clean()
+            text = Cleaner(text, doc_type=self.doc_type, apply_pdf_rules=apply_pdf_rules).clean()
         processor = Processor(text, char_span=self.char_span)
         segments = processor.process()
         return segments
