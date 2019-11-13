@@ -57,11 +57,15 @@ class Cleaner(object):
         if self.doc_type == 'pdf':
             self.remove_pdf_line_breaks()
         else:
-            self.text = Text(
-                self.text).apply(cr.NewLineFollowedByPeriodRule,
-                                 cr.ReplaceNewlineWithCarriageReturnRule)
-            if self.apply_pdf_rules:
-                self.text = Text(self.text).apply(PDF.NewLineInMiddleOfSentenceNoSpacesRule)
+            if not self.apply_pdf_rules:
+                self.text = Text(
+                    self.text).apply(cr.NewLineFollowedByPeriodRule,
+                                     cr.ReplaceNewlineWithCarriageReturnRule)
+            else:
+                self.text = Text(
+                    self.text).apply(cr.NewLineFollowedByPeriodRule,
+                                     cr.ReplaceNewlineWithCarriageReturnRule,
+                                     PDF.NewLineInMiddleOfSentenceNoSpacesRule)
 
     def replace_escaped_newlines(self):
         self.text = Text(
