@@ -7,10 +7,11 @@ from pysbd.lang.standard import Abbreviation
 
 class Cleaner(object):
 
-    def __init__(self, text, language='common', doc_type=None):
+    def __init__(self, text, language='common', doc_type=None, apply_pdf_rules=True):
         self.text = text
         self.language = language
         self.doc_type = doc_type
+        self.apply_pdf_rules = apply_pdf_rules
 
     def clean(self):
         if not self.text:
@@ -59,6 +60,8 @@ class Cleaner(object):
             self.text = Text(
                 self.text).apply(cr.NewLineFollowedByPeriodRule,
                                  cr.ReplaceNewlineWithCarriageReturnRule)
+            if self.apply_pdf_rules:
+                self.text = Text(self.text).apply(PDF.NewLineInMiddleOfSentenceNoSpacesRule)
 
     def replace_escaped_newlines(self):
         self.text = Text(
