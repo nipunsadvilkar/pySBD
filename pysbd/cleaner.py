@@ -7,7 +7,7 @@ from pysbd.lang.standard import Abbreviation
 
 class Cleaner(object):
 
-    def __init__(self, text, language='common', doc_type=None, apply_pdf_rules=True):
+    def __init__(self, text, language='common', doc_type=None, apply_pdf_rules=False):
         self.text = text
         self.language = language
         self.doc_type = doc_type
