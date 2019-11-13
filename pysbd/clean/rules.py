@@ -61,7 +61,10 @@ class CleanRules(object):
     QuotationsFirstRule = Rule(r"''", '"')
     QuotationsSecondRule = Rule(r'``', '"')
 
-
+    # Rubular: http://rubular.com/r/eaNwGavmdo
+    NewLineInMiddleOfSentenceNoSpacesRule = Rule(r"\n(?=[a-z])", ' ')
+    
+    
 class HTML(object):
     # Rubular: http://rubular.com/r/9d0OVOEJWj
     HTMLTagRule = Rule(r"<\/?\w+((\s+\w+(\s*=\s*(?:\".*?\"|'.*?'|[\^'\">\s]+))?)+\s*|\s*)\/?>", '')
