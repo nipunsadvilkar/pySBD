@@ -5,7 +5,7 @@ from pysbd.utils import Rule
 class Standard(object):
 
     # This class holds the punctuation marks.
-    Punctuations = ['。', '．', '.', '！', '!', '?', '？']
+    Punctuations = ['。', '．', '.', '！', '!', '?', '？', '❦']
 
     # Rubular: http://rubular.com/r/G2opjedIm9
     GeoLocationRule = Rule(r'(?<=[a-zA-z]°)\.(?=\s*\d+)', '∯')

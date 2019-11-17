@@ -78,14 +78,9 @@ class Processor(object):
 
     def split_into_segments(self):
         self.check_for_parens_between_quotes()
-        sents = self.text.split('\r')
-        # remove empty and none values
-        sents = self.rm_none_flatten(sents)
-        sents = [
-            Text(s).apply(Standard.SingleNewLineRule, *EllipsisRules.All)
-            for s in sents
-        ]
-        sents_w_spans = [self.check_for_punctuation(s) for s in sents]
+        text = self.text.replace('\r', "❦")
+        processed_sents = [Text(text).apply(Standard.SingleNewLineRule, *EllipsisRules.All)]
+        sents_w_spans = [self.check_for_punctuation(s) for s in processed_sents]
         # flatten list of list of sentences
         sents_w_spans = self.rm_none_flatten(sents_w_spans)
         new_spans = []
@@ -97,6 +92,7 @@ class Processor(object):
             if post_process_sent and isinstance(post_process_sent, str):
                 sent_span.sent = post_process_sent
                 new_spans.append(sent_span)
+                print(post_process_sent)
             elif isinstance(post_process_sent, list):
                 tmp_char_start = sent_span.start
                 for pps in post_process_sent:
@@ -110,6 +106,7 @@ class Processor(object):
             return [s.sent for s in new_spans]
 
     def post_process_segments(self, txt):
+        txt = txt.replace("❦", '')
         if len(txt) > 2 and re.search(r'\A[a-zA-Z]*\Z', txt):
             return txt
 

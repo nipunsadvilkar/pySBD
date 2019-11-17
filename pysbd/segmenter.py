@@ -8,7 +8,7 @@ class Segmenter(object):
 
     def __init__(self, language="en", clean=False, doc_type=None, char_span=False):
         """Segments a text into an list of sentences
-        with or withour character offsets from original text
+        with or without character offsets from original text
 
         Parameters
         ----------
