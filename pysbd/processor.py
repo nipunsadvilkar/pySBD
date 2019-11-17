@@ -92,7 +92,6 @@ class Processor(object):
             if post_process_sent and isinstance(post_process_sent, str):
                 sent_span.sent = post_process_sent
                 new_spans.append(sent_span)
-                print(post_process_sent)
             elif isinstance(post_process_sent, list):
                 tmp_char_start = sent_span.start
                 for pps in post_process_sent:

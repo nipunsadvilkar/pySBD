@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytest
 import pysbd
+from pysbd.utils import TextSpan
 
 TEST_ISSUE_DATA = [
     ('#27', "This new form of generalized PDF in (9) is generic and suitable for all the fading models presented in Table I withbranches MRC reception. In section III, (9) will be used in the derivations of the unified ABER and ACC expression.",
@@ -36,3 +37,25 @@ def test_issue(issue_no, text, expected_sents):
     assert segments == expected_sents
     # clubbing sentences and matching with original text
     assert text == " ".join(segments)
+
+@pytest.mark.parametrize('issue_no,text,expected',
+                         [
+                            ('#49', '1) The first item. 2) The second item.',
+                              [
+                                  TextSpan(sent='1) The first item.', start=0, end=18),
+                                  TextSpan(sent='2) The second item.', start=18, end=38)
+                              ]
+                             ),
+                             ('#49', 'a. The first item b. The second item c. The third list item',
+                              [
+                                 TextSpan(sent='a. The first item', start=0, end=17),
+                                 TextSpan(sent='b. The second item', start=18, end=36),
+                                 TextSpan(sent='c. The third list item', start=37, end=59)
+                               ]
+                              )
+                         ])
+def test_carriage_return_cases(issue_no,text, expected):
+    """Test carriage return sentences with character offsets"""
+    seg = pysbd.Segmenter(language="en", clean=False, char_span=True)
+    segments = seg.segment(text)
+    assert segments == expected
