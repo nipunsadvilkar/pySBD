@@ -4,10 +4,14 @@ import os
 from pysbd.utils import Text, TextSpan
 from pysbd.lists_item_replacer import ListItemReplacer
 from pysbd.languages import Language
-from pysbd.lang.standard import (Standard, Abbreviation,
-                                 DoublePunctuationRules,
-                                 ExclamationPointRules, SubSymbolsRules,
-                                 ReinsertEllipsisRules)
+from pysbd.lang.standard import (
+    Standard,
+    Abbreviation,
+    DoublePunctuationRules,
+    ExclamationPointRules,
+    SubSymbolsRules,
+    ReinsertEllipsisRules,
+)
 from pysbd.lang.common.numbers import Common, Numbers
 from pysbd.lang.common.ellipsis import EllipsisRules
 from pysbd.exclamation_words import ExclamationWords
@@ -16,8 +20,7 @@ from pysbd.abbreviation_replacer import AbbreviationReplacer
 
 
 class Processor(object):
-
-    def __init__(self, text, language='common', char_span=False):
+    def __init__(self, text, language="common", char_span=False):
         """Process a text - do pre and post processing - to get proper sentences
 
         Parameters
@@ -47,7 +50,9 @@ class Processor(object):
         self.replace_periods_before_numeric_references()
         self.text = Text(self.text).apply(
             Abbreviation.WithMultiplePeriodsAndEmailRule,
-            Standard.GeoLocationRule, Standard.FileFormatRule)
+            Standard.GeoLocationRule,
+            Standard.FileFormatRule,
+        )
         processed = self.split_into_segments()
         return processed
 
@@ -78,14 +83,16 @@ class Processor(object):
 
     def split_into_segments(self):
         self.check_for_parens_between_quotes()
-        text = self.text.replace('\r', "❦")
-        processed_sents = [Text(text).apply(Standard.SingleNewLineRule, *EllipsisRules.All)]
+        text = self.text.replace("\r", "❦")
+        processed_sents = [
+            Text(text).apply(Standard.SingleNewLineRule, *EllipsisRules.All)
+        ]
         sents_w_spans = [self.check_for_punctuation(s) for s in processed_sents]
         # flatten list of list of sentences
         sents_w_spans = self.rm_none_flatten(sents_w_spans)
         new_spans = []
-        for sent_span in sents_w_spans:
-            if sent_span.sent.endswith('ȸ'):
+        for i, sent_span in enumerate(sents_w_spans):
+            if sent_span.sent.endswith("ȸ"):
                 sent_span.end = sent_span.end - 1
             sent_span.sent = Text(sent_span.sent).apply(*SubSymbolsRules.All)
             post_process_sent = self.post_process_segments(sent_span.sent)
@@ -95,7 +102,9 @@ class Processor(object):
             elif isinstance(post_process_sent, list):
                 tmp_char_start = sent_span.start
                 for pps in post_process_sent:
-                    new_spans.append(TextSpan(pps, tmp_char_start, tmp_char_start + len(pps)))
+                    new_spans.append(
+                        TextSpan(pps, tmp_char_start, tmp_char_start + len(pps))
+                    )
                     tmp_char_start += len(pps)
         for ns in new_spans:
             ns.sent = Text(ns.sent).apply(Standard.SubSingleQuoteRule)
@@ -105,8 +114,8 @@ class Processor(object):
             return [s.sent for s in new_spans]
 
     def post_process_segments(self, txt):
-        txt = txt.replace("❦", '')
-        if len(txt) > 2 and re.search(r'\A[a-zA-Z]*\Z', txt):
+        txt = txt.replace("❦", "")
+        if len(txt) > 2 and re.search(r"\A[a-zA-Z]*\Z", txt):
             return txt
 
         # below condition present in pragmatic segmenter
@@ -114,7 +123,7 @@ class Processor(object):
         # if self.consecutive_underscore(txt) or len(txt) < 2:
         #     return txt
 
-        if re.match(r'\t', txt):
+        if re.match(r"\t", txt):
             pass
 
         # TODO:
@@ -124,39 +133,41 @@ class Processor(object):
         #                       Standard.ExtraWhiteSpaceRule)
         txt = Text(txt).apply(*ReinsertEllipsisRules.All)
         if re.search(Common.QUOTATION_AT_END_OF_SENTENCE_REGEX, txt):
-            txt = re.split(
-                Common.SPLIT_SPACE_QUOTATION_AT_END_OF_SENTENCE_REGEX, txt)
+            txt = re.split(Common.SPLIT_SPACE_QUOTATION_AT_END_OF_SENTENCE_REGEX, txt)
             return txt
         else:
-            txt = txt.replace('\n', '')
+            txt = txt.replace("\n", "")
             return txt.strip()
 
     def check_for_parens_between_quotes(self):
         def paren_replace(match):
             match = match.group()
-            sub1 = re.sub(r'\s(?=\()', '\r', match)
-            sub2 = re.sub(r'(?<=\))\s', '\r', sub1)
+            sub1 = re.sub(r"\s(?=\()", "\r", match)
+            sub2 = re.sub(r"(?<=\))\s", "\r", sub1)
             return sub2
-        self.text = re.sub(Common.PARENS_BETWEEN_DOUBLE_QUOTES_REGEX,
-                      paren_replace, self.text)
+
+        self.text = re.sub(
+            Common.PARENS_BETWEEN_DOUBLE_QUOTES_REGEX, paren_replace, self.text
+        )
 
     def replace_continuous_punctuation(self):
         def continuous_puncs_replace(match):
             match = match.group()
-            sub1 = re.sub(re.escape('!'), '&ᓴ&', match)
-            sub2 = re.sub(re.escape('?'), '&ᓷ&', sub1)
+            sub1 = re.sub(re.escape("!"), "&ᓴ&", match)
+            sub2 = re.sub(re.escape("?"), "&ᓷ&", sub1)
             return sub2
-        self.text = re.sub(Common.CONTINUOUS_PUNCTUATION_REGEX,
-                        continuous_puncs_replace, self.text)
+
+        self.text = re.sub(
+            Common.CONTINUOUS_PUNCTUATION_REGEX, continuous_puncs_replace, self.text
+        )
 
     def replace_periods_before_numeric_references(self):
         # https://github.com/diasks2/pragmatic_segmenter/commit/d9ec1a352aff92b91e2e572c30bb9561eb42c703
-        self.text = re.sub(Common.NUMBERED_REFERENCE_REGEX,
-                      r"∯\2\r\7", self.text)
+        self.text = re.sub(Common.NUMBERED_REFERENCE_REGEX, r"∯\2\r\7", self.text)
 
     def consecutive_underscore(self, txt):
         # Rubular: http://rubular.com/r/fTF2Ff3WBL
-        txt = re.sub(r'_{3,}', '', txt)
+        txt = re.sub(r"_{3,}", "", txt)
         return len(txt) == 0
 
     def check_for_punctuation(self, txt):
@@ -170,14 +181,15 @@ class Processor(object):
 
     def process_text(self, txt):
         if txt[-1] not in Standard.Punctuations:
-            txt += 'ȸ'
+            txt += "ȸ"
         txt = ExclamationWords.apply_rules(txt)
         txt = BetweenPunctuation(txt).replace()
         # handle text having only doublepunctuations
         if not re.match(DoublePunctuationRules.DoublePunctuation, txt):
             txt = Text(txt).apply(*DoublePunctuationRules.All)
-        txt = Text(txt).apply(Standard.QuestionMarkInQuotationRule,
-                              *ExclamationPointRules.All)
+        txt = Text(txt).apply(
+            Standard.QuestionMarkInQuotationRule, *ExclamationPointRules.All
+        )
         txt = ListItemReplacer(txt).replace_parens()
         txt = self.sentence_boundary_punctuation(txt)
         return txt
@@ -202,19 +214,38 @@ class Processor(object):
         raise NotImplementedError
 
     def sentence_boundary_punctuation(self, txt):
-        if hasattr(self.language_module, 'ReplaceColonBetweenNumbersRule'):
+        if hasattr(self.language_module, "ReplaceColonBetweenNumbersRule"):
+            txt = Text(txt).apply(self.language_module.ReplaceColonBetweenNumbersRule)
+        if hasattr(self.language_module, "ReplaceNonSentenceBoundaryCommaRule"):
             txt = Text(txt).apply(
-                self.language_module.ReplaceColonBetweenNumbersRule)
-        if hasattr(self.language_module, 'ReplaceNonSentenceBoundaryCommaRule'):
-            txt = Text(txt).apply(
-                self.language_module.ReplaceNonSentenceBoundaryCommaRule)
+                self.language_module.ReplaceNonSentenceBoundaryCommaRule
+            )
         # retain exclamation mark if it is an ending character of a given text
-        txt = re.sub(r'&ᓴ&$', '!', txt)
-        txt = [
-            TextSpan(m.group(), m.start(), m.end())
-            for m in re.finditer(Common.SENTENCE_BOUNDARY_REGEX, txt)
+        txt = re.sub(r"&ᓴ&$", "!", txt)
+
+        if self.char_span:
+            txt_list = []
+            floral_heart_count = 0
+            for m in re.finditer(Common.SENTENCE_BOUNDARY_REGEX, txt):
+                group = m.group()
+                start = m.start() - floral_heart_count
+                floral_heart_count += group.count("❦")
+
+                trailing_space_count = 0
+                stripped_group = group.strip("❦")
+                i = -1
+                while stripped_group[i] == " " and i >= -1*len(stripped_group):
+                    trailing_space_count += 1
+                    i -= 1
+
+                end = m.end() - (floral_heart_count + trailing_space_count)
+                txt_list.append(TextSpan(m.group(), start, end))
+        else:
+            txt_list = [
+                TextSpan(m.group(), m.start(), m.end())
+                for m in re.finditer(Common.SENTENCE_BOUNDARY_REGEX, txt)
             ]
-        return txt
+        return txt_list
 
 
 if __name__ == "__main__":

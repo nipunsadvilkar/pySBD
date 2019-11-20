@@ -43,7 +43,7 @@ def test_issue(issue_no, text, expected_sents):
                             ('#49', '1) The first item. 2) The second item.',
                               [
                                   TextSpan(sent='1) The first item.', start=0, end=18),
-                                  TextSpan(sent='2) The second item.', start=18, end=38)
+                                  TextSpan(sent='2) The second item.', start=19, end=38)
                               ]
                              ),
                              ('#49', 'a. The first item b. The second item c. The third list item',

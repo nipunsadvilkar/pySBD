@@ -23,15 +23,15 @@ class ListItemReplacer(object):
 
     # Rubular: http://rubular.com/r/Wv4qLdoPx7
     # https://regex101.com/r/62YBlv/1
-    SpaceBetweenListItemsFirstRule = Rule(r'(?<=\S\S)\s(?=\S\s*\d+♨)', "\r")
+    SpaceBetweenListItemsFirstRule = Rule(r'(?<=\S\S)\s(?=\S\s*\d+♨)', " \r")
 
     # Rubular: http://rubular.com/r/AizHXC6HxK
     # https://regex101.com/r/62YBlv/2
-    SpaceBetweenListItemsSecondRule = Rule(r'(?<=\S\S)\s(?=\d{1,2}♨)', "\r")
+    SpaceBetweenListItemsSecondRule = Rule(r'(?<=\S\S)\s(?=\d{1,2}♨)', " \r")
 
     # Rubular: http://rubular.com/r/GE5q6yID2j
     # https://regex101.com/r/62YBlv/3
-    SpaceBetweenListItemsThirdRule = Rule(r'(?<=\S\S)\s(?=\d{1,2}☝)', "\r")
+    SpaceBetweenListItemsThirdRule = Rule(r'(?<=\S\S)\s(?=\d{1,2}☝)', " \r")
 
     NUMBERED_LIST_REGEX_1 = r'\s\d{1,2}(?=\.\s)|^\d{1,2}(?=\.\s)|\s\d{1,2}(?=\.\))|^\d{1,2}(?=\.\))|(?<=\s\-)\d{1,2}(?=\.\s)|(?<=^\-)\d{1,2}(?=\.\s)|(?<=\s\⁃)\d{1,2}(?=\.\s)|(?<=^\⁃)\d{1,2}(?=\.\s)|(?<=s\-)\d{1,2}(?=\.\))|(?<=^\-)\d{1,2}(?=\.\))|(?<=\s\⁃)\d{1,2}(?=\.\))|(?<=^\⁃)\d{1,2}(?=\.\))'
     # 1. abcd
