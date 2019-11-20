@@ -40,10 +40,11 @@ def test_issue(issue_no, text, expected_sents):
 
 @pytest.mark.parametrize('issue_no,text,expected',
                          [
-                            ('#49', '1) The first item. 2) The second item.',
+                            ('#49', 'This list has some numbers like 1) The first item. 2) The second item.',
                               [
-                                  TextSpan(sent='1) The first item.', start=0, end=18),
-                                  TextSpan(sent='2) The second item.', start=19, end=38)
+                                  TextSpan(sent='This list has some numbers like', start=0, end=31),
+                                  TextSpan(sent='1) The first item.', start=32, end=50),
+                                  TextSpan(sent='2) The second item.', start=51, end=70)
                               ]
                              ),
                              ('#49', 'a. The first item b. The second item c. The third list item',
