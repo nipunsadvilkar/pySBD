@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
-import os
+import spacy
 from pysbd.utils import Text, TextSpan
 from pysbd.lists_item_replacer import ListItemReplacer
 from pysbd.languages import Language
@@ -14,6 +14,7 @@ from pysbd.exclamation_words import ExclamationWords
 from pysbd.between_punctuation import BetweenPunctuation
 from pysbd.abbreviation_replacer import AbbreviationReplacer
 
+nlp = spacy.blank('en')
 
 class Processor(object):
 
@@ -39,6 +40,7 @@ class Processor(object):
         if not self.text:
             # return empty list?
             return self.text
+        self.doc = nlp(self.text)
         li = ListItemReplacer(self.text)
         self.text = li.add_line_break()
         self.text = AbbreviationReplacer(self.text).replace()
@@ -85,29 +87,29 @@ class Processor(object):
             Text(s).apply(Standard.SingleNewLineRule, *EllipsisRules.All)
             for s in sents
         ]
-        sents_w_spans = [self.check_for_punctuation(s) for s in sents]
+        sents = [self.check_for_punctuation(s) for s in sents]
         # flatten list of list of sentences
-        sents_w_spans = self.rm_none_flatten(sents_w_spans)
-        new_spans = []
-        for sent_span in sents_w_spans:
-            if sent_span.sent.endswith('ȸ'):
-                sent_span.end = sent_span.end - 1
-            sent_span.sent = Text(sent_span.sent).apply(*SubSymbolsRules.All)
-            post_process_sent = self.post_process_segments(sent_span.sent)
+        sents = self.rm_none_flatten(sents)
+        new_sents = []
+        for sent in sents:
+            sent = Text(sent).apply(*SubSymbolsRules.All)
+            post_process_sent = self.post_process_segments(sent)
             if post_process_sent and isinstance(post_process_sent, str):
-                sent_span.sent = post_process_sent
-                new_spans.append(sent_span)
+                new_sents.append(post_process_sent)
             elif isinstance(post_process_sent, list):
-                tmp_char_start = sent_span.start
                 for pps in post_process_sent:
-                    new_spans.append(TextSpan(pps, tmp_char_start, tmp_char_start + len(pps)))
-                    tmp_char_start += len(pps)
-        for ns in new_spans:
-            ns.sent = Text(ns.sent).apply(Standard.SubSingleQuoteRule)
+                    new_sents.append(pps)
+        new_sents = [Text(ns).apply(Standard.SubSingleQuoteRule) for ns in new_sents]
         if self.char_span:
-            return new_spans
+            sent_start_token_idx = [m.start() for sent in new_sents for m in re.finditer(re.escape(sent), self.doc.text)]
+            for tok in self.doc:
+                if tok.idx in sent_start_token_idx:
+                    tok.is_sent_start = True
+                else:
+                    tok.is_sent_start = False
+            return [TextSpan(sent.text, sent.start_char, sent.end_char) for sent in self.doc.sents]
         else:
-            return [s.sent for s in new_spans]
+            return [sent for sent in new_sents]
 
     def post_process_segments(self, txt):
         if len(txt) > 2 and re.search(r'\A[a-zA-Z]*\Z', txt):
@@ -169,8 +171,7 @@ class Processor(object):
             return sents
         else:
             # NOTE: next steps of check_for_punctuation will unpack this list
-            return TextSpan(txt, 0, len(txt))
-            # return [txt]
+            return [txt]
 
     def process_text(self, txt):
         if txt[-1] not in Standard.Punctuations:
@@ -215,8 +216,7 @@ class Processor(object):
         # retain exclamation mark if it is an ending character of a given text
         txt = re.sub(r'&ᓴ&$', '!', txt)
         txt = [
-            TextSpan(m.group(), m.start(), m.end())
-            for m in re.finditer(Common.SENTENCE_BOUNDARY_REGEX, txt)
+            m.group() for m in re.finditer(Common.SENTENCE_BOUNDARY_REGEX, txt)
             ]
         return txt
 
