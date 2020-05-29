@@ -10,7 +10,6 @@ twine = "*"
 pytest = "*"
 
 [packages]
-pytest = "*"
 spacy = "*"
 
 [requires]
