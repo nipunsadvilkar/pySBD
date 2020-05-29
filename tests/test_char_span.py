@@ -4,15 +4,20 @@ from pysbd.utils import TextSpan
 
 @pytest.mark.parametrize('text,expected',
                          [('My name is Jonas E. Smith. Please turn to p. 55.',
-                         [TextSpan(sent='My name is Jonas E. Smith.',
-                         start=0, end=26),
-                         TextSpan(sent='Please turn to p. 55.',
-                         start=27, end=48)])])
+                            [
+                                ('My name is Jonas E. Smith. ', 0, 26),
+                                ('Please turn to p. 55.', 27, 48),
+                            ])
+                         ])
 def test_sbd_char_span(text, expected):
     """Test sentences with character offsets"""
     seg = pysbd.Segmenter(language="en", clean=False, char_span=True)
     segments = seg.segment(text)
-    assert segments == expected
+    expected_text_spans = [TextSpan(sent_w_span[0], sent_w_span[1], sent_w_span[2])
+                           for sent_w_span in expected]
+    assert segments == expected_text_spans
+    # clubbing sentences and matching with original text
+    assert text == "".join([seg.sent for seg in segments])
 
 @pytest.mark.xfail(raises=ValueError)
 def test_sbd_clean_chart_span():

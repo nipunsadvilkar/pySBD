@@ -107,7 +107,7 @@ class Processor(object):
                     tok.is_sent_start = True
                 else:
                     tok.is_sent_start = False
-            return [TextSpan(sent.text, sent.start_char, sent.end_char) for sent in self.doc.sents]
+            return [TextSpan(sent.text_with_ws, sent.start_char, sent.end_char) for sent in self.doc.sents]
         else:
             return [sent for sent in new_sents]
 

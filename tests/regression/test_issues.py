@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytest
 import pysbd
+from pysbd.utils import TextSpan
 
 TEST_ISSUE_DATA = [
     ('#27', "This new form of generalized PDF in (9) is generic and suitable for all the fading models presented in Table I withbranches MRC reception. In section III, (9) will be used in the derivations of the unified ABER and ACC expression.",
@@ -28,6 +29,37 @@ TEST_ISSUE_DATA = [
     ('#39', 'Fig. ??', ['Fig. ??'])
 ]
 
+TEST_ISSUE_DATA_CHAR_SPANS = [
+    ('#49', "1) The first item. 2) The second item.",
+        [('1) The first item. ', 0, 18), ('2) The second item.', 19, 38)]
+    ),
+    ('#49', "a. The first item. b. The second item. c. The third list item",
+        [
+            ('a. The first item. ', 0, 18), ('b. The second item. ', 19, 38),
+            ('c. The third list item', 39, 61)]
+    ),
+    ('#53', "Trust in journalism is not associated with frequency of media use (except in the case of television as mentioned above), indicating that trust is not an important predictor of media use, though it might have an important impact on information processing. This counterintuitive fi nding can be explained by taking into account the fact that audiences do not watch informative content merely to inform themselves; they have other motivations that might override credibility concerns. For example, they might follow media primarily for entertainment purposes and consequently put less emphasis on the quality of the received information.As <|CITE|> have claimed, audiences tend to approach and process information differently depending on the channel; they approach television primarily for entertainment and newspapers primarily for information. This has implications for trust as well since audiences in an entertainment processing mode will be less attentive to credibility cues, such as news errors, than those in an information processing mode (Ibid.). <|CITE|> research confi rms this claim -he found that audiences tend to approach newspaper reading more actively than television viewing and that credibility assessments differ regarding whether audience members approach news actively or passively. These fi ndings can help explain why we found a weak positive correlation between television news exposure and trust in journalism. It could be that audiences turn to television not because they expect the best quality information but rather the opposite -namely, that they approach television news less critically, focus less attention on credibility concerns and, therefore, develop a higher degree of trust in journalism. The fact that those respondents who follow the commercial television channel POP TV and the tabloid Slovenske Novice exhibit a higher trust in journalistic objectivity compared to those respondents who do not follow these media is also in line with this interpretation. The topic of Janez Janša and exposure to media that are favourable to him and his SDS party is negatively connected to trust in journalism. This phenomenon can be partly explained by the elaboration likelihood model <|CITE|> , according to which highly involved individuals tend to process new information in a way that maintains and confi rms their original opinion by 1) taking information consistent with their views (information that falls within a narrow range of acceptance) as simply veridical and embracing it, and 2) judging counter-attitudinal information to be the product of biased, misguided or ill-informed sources and rejecting it <|CITE|> <|CITE|> . Highly partisan audiences will, therefore, tend to react to dissonant information by lowering the trustworthiness assessment of the source of such information.",
+        [('Trust in journalism is not associated with frequency of media use (except in the case of television as mentioned above), indicating that trust is not an important predictor of media use, though it might have an important impact on information processing. ', 0, 254),
+        ('This counterintuitive fi nding can be explained by taking into account the fact that audiences do not watch informative content merely to inform themselves; they have other motivations that might override credibility concerns. ', 255, 481),
+        ('For example, they might follow media primarily for entertainment purposes and consequently put less emphasis on the quality of the received information.As <|CITE|> have claimed, audiences tend to approach and process information differently depending on the channel; they approach television primarily for entertainment and newspapers primarily for information. ', 482, 843),
+        ('This has implications for trust as well since audiences in an entertainment processing mode will be less attentive to credibility cues, such as news errors, than those in an information processing mode (Ibid.). ', 844, 1054),
+        ('<|CITE|> research confi rms this claim -he found that audiences tend to approach newspaper reading more actively than television viewing and that credibility assessments differ regarding whether audience members approach news actively or passively. ', 1055, 1303),
+        ('These fi ndings can help explain why we found a weak positive correlation between television news exposure and trust in journalism. ', 1304, 1435),
+        ('It could be that audiences turn to television not because they expect the best quality information but rather the opposite -namely, that they approach television news less critically, focus less attention on credibility concerns and, therefore, develop a higher degree of trust in journalism. ', 1436, 1728),
+        ('The fact that those respondents who follow the commercial television channel POP TV and the tabloid Slovenske Novice exhibit a higher trust in journalistic objectivity compared to those respondents who do not follow these media is also in line with this interpretation. ', 1729, 1998),
+        ('The topic of Janez Janša and exposure to media that are favourable to him and his SDS party is negatively connected to trust in journalism. ', 1999, 2138),
+        ('This phenomenon can be partly explained by the elaboration likelihood model <|CITE|> , according to which highly involved individuals tend to process new information in a way that maintains and confi rms their original opinion by ', 2139, 2368),
+        ('1) taking information consistent with their views (information that falls within a narrow range of acceptance) as simply veridical and embracing it, and ', 2369, 2521),
+        ('2) judging counter-attitudinal information to be the product of biased, misguided or ill-informed sources and rejecting it <|CITE|> <|CITE|> . ', 2522, 2664),
+        ('Highly partisan audiences will, therefore, tend to react to dissonant information by lowering the trustworthiness assessment of the source of such information.', 2665, 2824)]
+    ),
+    ('#55', "She turned to him, \"This is great.\" She held the book out to show him.",
+        [
+            ('She turned to him, "This is great." ', 0, 35), ('She held the book out to show him.', 36, 70)
+        ])
+
+]
+
 @pytest.mark.parametrize('issue_no,text,expected_sents', TEST_ISSUE_DATA)
 def test_issue(issue_no, text, expected_sents):
     """pySBD issues tests from https://github.com/nipunsadvilkar/pySBD/issues/"""
@@ -36,3 +68,14 @@ def test_issue(issue_no, text, expected_sents):
     assert segments == expected_sents
     # clubbing sentences and matching with original text
     assert text == " ".join(segments)
+
+@pytest.mark.parametrize('issue_no,text,expected_sents_w_spans', TEST_ISSUE_DATA_CHAR_SPANS)
+def test_issues_with_char_spans(issue_no, text, expected_sents_w_spans):
+    """pySBD issues tests from https://github.com/nipunsadvilkar/pySBD/issues/"""
+    seg = pysbd.Segmenter(language="en", clean=False, char_span=True)
+    segments = seg.segment(text)
+    expected_text_spans = [TextSpan(sent_w_span[0], sent_w_span[1], sent_w_span[2])
+                           for sent_w_span in expected_sents_w_spans]
+    assert segments == expected_text_spans
+    # clubbing sentences and matching with original text
+    assert text == "".join([seg.sent for seg in segments])

@@ -3,7 +3,7 @@ import pytest
 import pysbd
 
 
-RULES_TEST_CASES = [
+GOLDEN_RULES_TEST_CASES = [
     ("Hello World. My name is Jonas.", ["Hello World.", "My name is Jonas."]),
     ("What is your name? My name is Jonas.", ["What is your name?", "My name is Jonas."]),
     ("There it is! I found it.", ["There it is!", "I found it."]),
@@ -164,7 +164,7 @@ RULES_TEST_CASES = [
 ]
 
 
-@pytest.mark.parametrize('text,expected_sents', RULES_TEST_CASES)
+@pytest.mark.parametrize('text,expected_sents', GOLDEN_RULES_TEST_CASES)
 def test_en_sbd(text, expected_sents):
     """SBD tests from Pragmatic Segmenter"""
     seg = pysbd.Segmenter(language="en", clean=False)
