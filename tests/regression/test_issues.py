@@ -26,7 +26,9 @@ TEST_ISSUE_DATA = [
      ['As an example of a different special-purpose mechanism, we have introduced a methodology for letting donors make their donations to charities conditional on donations by other donors (who, in turn, can make their donations conditional) [70].', 'We have used this mechanism to collect money for Indian Ocean Tsunami and Hurricane Katrina victims.', "We have also introduced a more general framework for negotiation when one agent's actions have a direct effect (externality) on the other agents' utilities [69].", 'Both the charities and externalities methodologies require the solution of NP-hard optimization problems in general, but there are some natural tractable cases as well as effective MIP formulations.', 'Recently, Ghosh and Mahdian [86] at Yahoo! Research extended our charities work, and based on this a web-based system for charitable donations was built at Yahoo!']),
     ('#39', "T stands for the vector transposition. As shown in Fig. ??",
      ["T stands for the vector transposition.", "As shown in Fig. ??"]),
-    ('#39', 'Fig. ??', ['Fig. ??'])
+    ('#39', 'Fig. ??', ['Fig. ??']),
+    ('#58', 'Rok bud.2027777983834843834843042003200220012000199919981997199619951994199319921991199019891988198042003200220012000199919981997199619951994199319921991199019891988198',
+    ['Rok bud.2027777983834843834843042003200220012000199919981997199619951994199319921991199019891988198042003200220012000199919981997199619951994199319921991199019891988198'])
 ]
 
 TEST_ISSUE_DATA_CHAR_SPANS = [
