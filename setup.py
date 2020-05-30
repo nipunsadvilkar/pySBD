@@ -13,6 +13,10 @@ from setuptools import find_packages, setup, Command
 
 root = os.path.abspath(os.path.dirname(__file__))
 
+REQUIRES_PYTHON = ">=3"
+# What packages are required for this module to be executed?
+REQUIRED = ["spacy"]
+
 with io.open(os.path.join(root, "pysbd", "about.py"), encoding="utf8") as f:
     about = {}
     exec(f.read(), about)
@@ -69,8 +73,8 @@ setup(
     author_email=about["__email__"],
     url=about["__uri__"],
     packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
-    install_requires=[],
-    python_requires='>=3',
+    install_requires=REQUIRED,
+    python_requires=REQUIRES_PYTHON,
     include_package_data=True,
     license=about["__license__"],
     classifiers=[
