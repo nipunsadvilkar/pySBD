@@ -91,6 +91,3 @@ class ReinsertEllipsisRules(object):
     SubOnePeriod = Rule(r'∮', '.')
     All = [SubThreeConsecutivePeriod, SubThreeSpacePeriod, SubFourSpacePeriod,
            SubTwoConsecutivePeriod, SubOnePeriod]
-
-
-SENTENCE_STARTERS = "A Being Did For He How However I In It Millions More She That The There They We What When Where Who Why".split(" ")

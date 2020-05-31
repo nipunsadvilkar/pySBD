@@ -1,25 +1,17 @@
 # -*- coding: utf-8 -*-
+from pysbd.abbreviation_replacer import AbbreviationReplacer
 from pysbd.lang.common.numbers import Common
-from pysbd.cleaner import Cleaner
-# from pysbd.abbreviation_replacer import AbbreviationReplacer
+from pysbd.lang.standard import Standard
 
+class English(Common, Standard):
 
-class English(Common):
-
-    def __init__(self):
-        pass
-
-    def clear_quotations(self, text):
-        raise NotImplementedError
-
-    def abbreviations(self, text):
-        raise NotImplementedError
-
+    class AbbreviationReplacer(AbbreviationReplacer):
+        SENTENCE_STARTERS = "A Being Did For He How However I In It Millions More She That The There They We What When Where Who Why".split(" ")
 
 # class EnAbbreviationReplacer(AbbreviationReplacer):
 #     raise NotImplementedError
 
 
 if __name__ == "__main__":
-    ec = English()
-    print(hasattr(ec, 'PARENS_BETWEEN_DOUBLE_QUOTES_REGEX'))
+    en = English()
+    print(hasattr(en, 'AbbreviationReplacer'))

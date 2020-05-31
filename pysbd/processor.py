@@ -18,7 +18,7 @@ nlp = spacy.blank('en')
 
 class Processor(object):
 
-    def __init__(self, text, language='common', char_span=False):
+    def __init__(self, text, lang, char_span=False):
         """Process a text - do pre and post processing - to get proper sentences
 
         Parameters
@@ -31,9 +31,8 @@ class Processor(object):
             Get start & end character offsets of each sentences
             within original text, by default False
         """
-        self.language = language
-        self.language_module = Language.get_language_code(language)
         self.text = text
+        self.lang = lang
         self.char_span = char_span
 
     def process(self):
@@ -43,7 +42,7 @@ class Processor(object):
         self.doc = nlp(self.text)
         li = ListItemReplacer(self.text)
         self.text = li.add_line_break()
-        self.text = AbbreviationReplacer(self.text).replace()
+        self.replace_abbreviations()
         self.replace_numbers()
         self.replace_continuous_punctuation()
         self.replace_periods_before_numeric_references()
@@ -190,13 +189,15 @@ class Processor(object):
     def replace_numbers(self):
         self.text = Text(self.text).apply(*Numbers.All)
 
-    def abbreviations_replacer(self, txt):
+    def abbreviations_replacer(self):
         # AbbreviationReplacer
-        raise NotImplementedError
+        if hasattr(self.lang, "AbbreviationReplacer"):
+            return self.lang.AbbreviationReplacer(self.text, self.lang)
+        else:
+            return AbbreviationReplacer(self.text, self.lang)
 
-    def replace_abbreviations(self, txt):
-        # abbreviations_replacer
-        raise NotImplementedError
+    def replace_abbreviations(self):
+        self.text = self.abbreviations_replacer().replace()
 
     def between_punctuation_processor(self, txt):
         # BetweenPunctuation
@@ -207,12 +208,12 @@ class Processor(object):
         raise NotImplementedError
 
     def sentence_boundary_punctuation(self, txt):
-        if hasattr(self.language_module, 'ReplaceColonBetweenNumbersRule'):
+        if hasattr(self.lang, 'ReplaceColonBetweenNumbersRule'):
             txt = Text(txt).apply(
-                self.language_module.ReplaceColonBetweenNumbersRule)
-        if hasattr(self.language_module, 'ReplaceNonSentenceBoundaryCommaRule'):
+                self.lang.ReplaceColonBetweenNumbersRule)
+        if hasattr(self.lang, 'ReplaceNonSentenceBoundaryCommaRule'):
             txt = Text(txt).apply(
-                self.language_module.ReplaceNonSentenceBoundaryCommaRule)
+                self.lang.ReplaceNonSentenceBoundaryCommaRule)
         # retain exclamation mark if it is an ending character of a given text
         txt = re.sub(r'&ᓴ&$', '!', txt)
         txt = [

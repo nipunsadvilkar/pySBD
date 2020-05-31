@@ -38,7 +38,7 @@ class Segmenter(object):
                              "Since `clean=True` will modify original text.")
         elif self.clean:
             text = Cleaner(text, doc_type=self.doc_type).clean()
-        processor = Processor(text, char_span=self.char_span)
+        processor = Processor(text, lang=self.language_module, char_span=self.char_span)
         segments = processor.process()
         return segments
 

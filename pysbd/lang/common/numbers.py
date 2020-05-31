@@ -3,7 +3,7 @@ import re
 from pysbd.utils import Rule
 
 
-class Common(object):
+class Common:
 
     # added special case: r"[。．.！!?].*" to handle intermittent dots, exclamation, etc.
     # TODO: above special cases group can be updated as per developer needs
