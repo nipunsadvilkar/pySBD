@@ -111,9 +111,3 @@ class Cleaner(object):
         self.text = Text(self.text).apply(
                                         cr.ConsecutivePeriodsRule,
                                         cr.ConsecutiveForwardSlashRule)
-
-
-if __name__ == "__main__":
-    text = "Hello world.Today is Tuesday.Mr. Smith went to the store and bought 1,000.That is a lot."
-    c = Cleaner(text)
-    print(c.clean())

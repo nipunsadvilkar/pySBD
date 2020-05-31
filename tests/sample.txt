@@ -1,0 +1,106 @@
+import pysbd
+seg = pysbd.Segmenter()
+lines2 = open('tests/sample2.txt').read().splitlines()
+for l in lines2:
+    segments = seg.segment(l)
+    if len(segments) > 1:
+        print(len(segments), repr(segments))
+
+One sentence per line.
+And another sentence on the same line.
+(How about a sentence in parenthesis?)
+Or a sentence with "a quote!"
+'How about those pesky single quotes?'
+[And not to forget about square brackets.]
+And, brackets before the terminal [2].
+You know Mr. Abbreviation I told you so.
+What about the med. staff here?
+But the undef. abbreviation not.
+And this f.e. is tricky stuff.
+I.e. a little easier here.
+However, e.g., should be really easy.
+Three is one btw., is clear.
+Their presence was detected by transformation into S. lividans.
+Three subjects diagnosed as having something.
+What the heck??!?!
+(A) First things here.
+(1) No, they go here.
+[z] Last, but not least.
+(vii) And the Romans, too.
+Let's meet at 14.10 in N.Y..
+This happened in the U.S. last week.
+Brexit: The E.U. and the U.K. are separating.
+Refugees are welcome in the E.U..
+But they are thrown out of the U.K..
+And they never get to the U.S..
+The U.S. Air Force was called in.
+What about the E.U. High Court?
+And then there is the U.K. House of Commons.
+Now only this splits: the EU.
+A sentence ending in U.S. Another that will not split.
+12 monkeys ran into here.
+Nested
+(Parenthesis.
+(With words inside!
+(Right.))
+(More stuff.
+Uff, this is it!))
+In the Big City.
+How we got an A. Mathematics . dot times.
+An abbreviation at the end..
+This is a sentence terminal ellipsis...
+This is another sentence terminal ellipsis....
+An easy to handle G. species mention.
+Am 13. Jän. 2006 war es regnerisch.
+The basis for Lester B. Pearson's policy was later.
+This model was introduced by Dr. Edgar F. Codd after initial criticisms.
+This quote "He said it." is actually inside.
+B. Obama fas the first black US president.
+A. The first assumption.
+B. The second bullet.
+C. The last case.
+1. This is one.
+2. And that is two.
+3. Finally, three, too.
+A 130 nm CMOS power amplifier (PA) operating at 2.4 GHz.
+Its power stage is composed of a set of amplifying cells.
+Specimens (n = 32) were sent for 16S rRNA PCR.
+16S rRNA PCR could identify an organism in 10 of 32 cases (31.2%).
+Cannabis sativa subsp. sativa at Noida was also confirmed.
+Eight severely CILY-affected villages of Grand-Lahou in 2015.
+Leaves, inflorescences and trunk borings were collected.
+Disturbed the proper intracellular localization of TPRBK.
+Moreover, the knockdown of TPRBK expression.
+Elevated expression of LC3.
+Importantly, immunohistochemistry analysis revealed it.
+Bacterium produced 45U/mL -mannanase at 50 degrees C.
+The culture conditions for high-level production.
+Integration (e.g., on-chip etc.), can translate to lower cost.
+The invasive capacity of S. Typhi is high.
+Most pRNAs have a length of 8-15 nt, very few up to 24 nt.
+The average length of pRNAs tended to increase from stationary to outgrowth conditions.
+Results: In AAA, significantly enhanced mRNA expression was observed (p <= .001).
+MMPs with macrophages (p = .007, p = .018, and p = .015, resp.).
+And synth. muscle cells with MMPs (p = .020, p = .018, and p = .027, respectively).
+(C) 2017 Company Ltd.
+All rights reserved.
+(C) 2017 Company B.V.
+All rights reserved.
+Northern blotting and RT-PCR.
+C2m9 and C2m45 carried missense mutations.
+The amplifier consumes total DC power of 167 uW.
+The input-referred noise is 110 nV/sqrt(Hz).
+Inflammation via activation of TLR4.
+We also identify a role for TLR4.
+Effects larger (eta(2) = .53), with cognition (eta(2) = .14) and neurocognition (eta(2) = .16).
+All validations show a good approximation of the behavior of the DMFC.
+In addition, a simulated application of a circuit system is explained.
+Conclusions: Our data suggest CK5/6, CK7, and CK18 in the subclassification of NSCLC.
+Copyright (C) 2018 S. Korgur AG, Basel.
+Gelatin degradation by MMP-9.
+ConclusionThis study provides clear evidence.
+A sampling frequency of 780 MHz.
+The figure-of-merit of the modulator is there.
+Patients with prodromal DLB.
+In line with the literature on DLB.
+Always last, clear closing example.
