@@ -19,5 +19,5 @@ def en_no_clean_with_span_fixture():
 
 @pytest.fixture()
 def hi_default_fixture():
-    segmenter = pysbd.Segmenter(language="en", clean=False, char_span=False)
+    segmenter = pysbd.Segmenter(language="hi", clean=False, char_span=False)
     return segmenter
