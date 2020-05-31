@@ -3,13 +3,6 @@ import re
 import spacy
 from pysbd.utils import Text, TextSpan
 from pysbd.lists_item_replacer import ListItemReplacer
-from pysbd.languages import Language
-from pysbd.lang.standard import (Standard, Abbreviation,
-                                 DoublePunctuationRules,
-                                 ExclamationPointRules, SubSymbolsRules,
-                                 ReinsertEllipsisRules)
-from pysbd.lang.common.numbers import Common, Numbers
-from pysbd.lang.common.ellipsis import EllipsisRules
 from pysbd.exclamation_words import ExclamationWords
 from pysbd.between_punctuation import BetweenPunctuation
 from pysbd.abbreviation_replacer import AbbreviationReplacer
@@ -47,8 +40,8 @@ class Processor(object):
         self.replace_continuous_punctuation()
         self.replace_periods_before_numeric_references()
         self.text = Text(self.text).apply(
-            Abbreviation.WithMultiplePeriodsAndEmailRule,
-            Standard.GeoLocationRule, Standard.FileFormatRule)
+            self.lang.Abbreviation.WithMultiplePeriodsAndEmailRule,
+            self.lang.GeoLocationRule, self.lang.FileFormatRule)
         processed = self.split_into_segments()
         return processed
 
@@ -83,7 +76,7 @@ class Processor(object):
         # remove empty and none values
         sents = self.rm_none_flatten(sents)
         sents = [
-            Text(s).apply(Standard.SingleNewLineRule, *EllipsisRules.All)
+            Text(s).apply(self.lang.SingleNewLineRule, *self.lang.EllipsisRules.All)
             for s in sents
         ]
         sents = [self.check_for_punctuation(s) for s in sents]
@@ -91,14 +84,14 @@ class Processor(object):
         sents = self.rm_none_flatten(sents)
         new_sents = []
         for sent in sents:
-            sent = Text(sent).apply(*SubSymbolsRules.All)
+            sent = Text(sent).apply(*self.lang.SubSymbolsRules.All)
             post_process_sent = self.post_process_segments(sent)
             if post_process_sent and isinstance(post_process_sent, str):
                 new_sents.append(post_process_sent)
             elif isinstance(post_process_sent, list):
                 for pps in post_process_sent:
                     new_sents.append(pps)
-        new_sents = [Text(ns).apply(Standard.SubSingleQuoteRule) for ns in new_sents]
+        new_sents = [Text(ns).apply(self.lang.SubSingleQuoteRule) for ns in new_sents]
         if self.char_span:
             sent_start_token_idx = [m.start() for sent in new_sents for m in re.finditer(re.escape(sent), self.doc.text)]
             for tok in self.doc:
@@ -127,10 +120,10 @@ class Processor(object):
         # removed to retain original text spans
         # txt = Text(txt).apply(*ReinsertEllipsisRules.All,
         #                       Standard.ExtraWhiteSpaceRule)
-        txt = Text(txt).apply(*ReinsertEllipsisRules.All)
-        if re.search(Common.QUOTATION_AT_END_OF_SENTENCE_REGEX, txt):
+        txt = Text(txt).apply(*self.lang.ReinsertEllipsisRules.All)
+        if re.search(self.lang.QUOTATION_AT_END_OF_SENTENCE_REGEX, txt):
             txt = re.split(
-                Common.SPLIT_SPACE_QUOTATION_AT_END_OF_SENTENCE_REGEX, txt)
+                self.lang.SPLIT_SPACE_QUOTATION_AT_END_OF_SENTENCE_REGEX, txt)
             return txt
         else:
             txt = txt.replace('\n', '')
@@ -142,7 +135,7 @@ class Processor(object):
             sub1 = re.sub(r'\s(?=\()', '\r', match)
             sub2 = re.sub(r'(?<=\))\s', '\r', sub1)
             return sub2
-        self.text = re.sub(Common.PARENS_BETWEEN_DOUBLE_QUOTES_REGEX,
+        self.text = re.sub(self.lang.PARENS_BETWEEN_DOUBLE_QUOTES_REGEX,
                       paren_replace, self.text)
 
     def replace_continuous_punctuation(self):
@@ -151,12 +144,12 @@ class Processor(object):
             sub1 = re.sub(re.escape('!'), '&ᓴ&', match)
             sub2 = re.sub(re.escape('?'), '&ᓷ&', sub1)
             return sub2
-        self.text = re.sub(Common.CONTINUOUS_PUNCTUATION_REGEX,
+        self.text = re.sub(self.lang.CONTINUOUS_PUNCTUATION_REGEX,
                         continuous_puncs_replace, self.text)
 
     def replace_periods_before_numeric_references(self):
         # https://github.com/diasks2/pragmatic_segmenter/commit/d9ec1a352aff92b91e2e572c30bb9561eb42c703
-        self.text = re.sub(Common.NUMBERED_REFERENCE_REGEX,
+        self.text = re.sub(self.lang.NUMBERED_REFERENCE_REGEX,
                       r"∯\2\r\7", self.text)
 
     def consecutive_underscore(self, txt):
@@ -165,7 +158,7 @@ class Processor(object):
         return len(txt) == 0
 
     def check_for_punctuation(self, txt):
-        if any(p in txt for p in Standard.Punctuations):
+        if any(p in txt for p in self.lang.Punctuations):
             sents = self.process_text(txt)
             return sents
         else:
@@ -173,21 +166,21 @@ class Processor(object):
             return [txt]
 
     def process_text(self, txt):
-        if txt[-1] not in Standard.Punctuations:
+        if txt[-1] not in self.lang.Punctuations:
             txt += 'ȸ'
         txt = ExclamationWords.apply_rules(txt)
         txt = BetweenPunctuation(txt).replace()
         # handle text having only doublepunctuations
-        if not re.match(DoublePunctuationRules.DoublePunctuation, txt):
-            txt = Text(txt).apply(*DoublePunctuationRules.All)
-        txt = Text(txt).apply(Standard.QuestionMarkInQuotationRule,
-                              *ExclamationPointRules.All)
+        if not re.match(self.lang.DoublePunctuationRules.DoublePunctuation, txt):
+            txt = Text(txt).apply(*self.lang.DoublePunctuationRules.All)
+        txt = Text(txt).apply(self.lang.QuestionMarkInQuotationRule,
+                              *self.lang.ExclamationPointRules.All)
         txt = ListItemReplacer(txt).replace_parens()
         txt = self.sentence_boundary_punctuation(txt)
         return txt
 
     def replace_numbers(self):
-        self.text = Text(self.text).apply(*Numbers.All)
+        self.text = Text(self.text).apply(*self.lang.Numbers.All)
 
     def abbreviations_replacer(self):
         # AbbreviationReplacer
@@ -217,18 +210,6 @@ class Processor(object):
         # retain exclamation mark if it is an ending character of a given text
         txt = re.sub(r'&ᓴ&$', '!', txt)
         txt = [
-            m.group() for m in re.finditer(Common.SENTENCE_BOUNDARY_REGEX, txt)
+            m.group() for m in re.finditer(self.lang.SENTENCE_BOUNDARY_REGEX, txt)
             ]
         return txt
-
-
-if __name__ == "__main__":
-    text = "Header 1.2; Attachment Z\n\n\td. Compliance Log – Volume 12 \n\tAttachment A\n\n\te. Additional Logistics Data\n\tSection 10"
-    print("Input String:\n{}".format(text))
-    p = Processor(text)
-    processed_op = p.process()
-    print("\nProcessed String:\n")
-    print("Number of sentences: {}\n".format(len(processed_op)))
-    print(processed_op)
-    for e in processed_op:
-        print(e)

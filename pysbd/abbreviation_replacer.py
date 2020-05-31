@@ -2,9 +2,6 @@
 import re
 from pysbd.utils import Text
 
-from pysbd.lang.standard import Abbreviation
-from pysbd.lang.common.numbers import Common, SingleLetterAbbreviationRules, AmPmRules
-
 
 def replace_pre_number_abbr(txt, abbr):
     # prepend a space to avoid needing another regex for start of string
@@ -46,13 +43,13 @@ class AbbreviationReplacer(object):
 
     def replace(self):
         self.text = Text(self.text).apply(
-            Common.PossessiveAbbreviationRule,
-            Common.KommanditgesellschaftRule,
-            *SingleLetterAbbreviationRules.All
+            self.lang.PossessiveAbbreviationRule,
+            self.lang.KommanditgesellschaftRule,
+            *self.lang.SingleLetterAbbreviationRules.All
         )
         self.text = self.search_for_abbreviations_in_string()
         self.replace_multi_period_abbreviations()
-        self.text = Text(self.text).apply(*AmPmRules.All)
+        self.text = Text(self.text).apply(*self.lang.AmPmRules.All)
         self.text = self.replace_abbreviation_as_sentence_boundary()
         return self.text
 
@@ -69,7 +66,7 @@ class AbbreviationReplacer(object):
             return match
 
         self.text = re.sub(
-            Common.MULTI_PERIOD_ABBREVIATION_REGEX,
+            self.lang.MULTI_PERIOD_ABBREVIATION_REGEX,
             mpa_replace,
             self.text,
             flags=re.IGNORECASE,
@@ -78,7 +75,7 @@ class AbbreviationReplacer(object):
     def search_for_abbreviations_in_string(self):
         original = self.text
         lowered = original.lower()
-        for abbr in Abbreviation.ABBREVIATIONS:
+        for abbr in self.lang.Abbreviation.ABBREVIATIONS:
             stripped = abbr.strip()
             if stripped not in lowered:
                 continue
@@ -100,8 +97,8 @@ class AbbreviationReplacer(object):
             char = char_array[ind]
         except IndexError:
             char = ""
-        prepositive = Abbreviation.PREPOSITIVE_ABBREVIATIONS
-        number_abbr = Abbreviation.NUMBER_ABBREVIATIONS
+        prepositive = self.lang.Abbreviation.PREPOSITIVE_ABBREVIATIONS
+        number_abbr = self.lang.Abbreviation.NUMBER_ABBREVIATIONS
         upper = str(char).isupper()
         if not upper or am.strip().lower() in prepositive:
             if am.strip().lower() in prepositive:
@@ -111,8 +108,3 @@ class AbbreviationReplacer(object):
             else:
                 txt = replace_period_of_abbr(txt, am)
         return txt
-
-
-if __name__ == "__main__":
-    s = "fig. ??"
-    print(AbbreviationReplacer(s).replace())

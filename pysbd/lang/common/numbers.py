@@ -2,8 +2,7 @@
 import re
 from pysbd.utils import Rule
 
-
-class Common:
+class Common(object):
 
     # added special case: r"[。．.！!?].*" to handle intermittent dots, exclamation, etc.
     # TODO: above special cases group can be updated as per developer needs
@@ -37,63 +36,59 @@ class Common:
     # # Rubular: http://rubular.com/r/xDkpFZ0EgH
     MULTI_PERIOD_ABBREVIATION_REGEX = r"\b[a-z](?:\.[a-z])+[.]"
 
+    class SingleLetterAbbreviationRules(object):
+        """Searches for periods within an abbreviation and
+        replaces the periods.
+        """
+        # Rubular: http://rubular.com/r/e3H6kwnr6H
+        SingleUpperCaseLetterAtStartOfLineRule = Rule(r"(?<=^[A-Z])\.(?=\s)", '∯')
 
-class AmPmRules(object):
+        # Rubular: http://rubular.com/r/gitvf0YWH4
+        SingleUpperCaseLetterRule = Rule(r"(?<=\s[A-Z])\.(?=,?\s)", '∯')
 
-    # Rubular: http://rubular.com/r/Vnx3m4Spc8
-    UpperCasePmRule = Rule(r'(?<= P∯M)∯(?=\s[A-Z])', '.')
-
-    # Rubular: http://rubular.com/r/AJMCotJVbW
-    UpperCaseAmRule = Rule(r'(?<=A∯M)∯(?=\s[A-Z])', '.')
-
-    # Rubular: http://rubular.com/r/13q7SnOhgA
-    LowerCasePmRule = Rule(r'(?<=p∯m)∯(?=\s[A-Z])', '.')
-
-    # Rubular: http://rubular.com/r/DgUDq4mLz5
-    LowerCaseAmRule = Rule(r'(?<=a∯m)∯(?=\s[A-Z])', '.')
-
-    All = [UpperCasePmRule, UpperCaseAmRule, LowerCasePmRule, LowerCaseAmRule]
-
-
-class SingleLetterAbbreviationRules(object):
-    """Searches for periods within an abbreviation and
-    replaces the periods.
-    """
-
-    # Rubular: http://rubular.com/r/e3H6kwnr6H
-    SingleUpperCaseLetterAtStartOfLineRule = Rule(r"(?<=^[A-Z])\.(?=\s)", '∯')
-
-    # Rubular: http://rubular.com/r/gitvf0YWH4
-    SingleUpperCaseLetterRule = Rule(r"(?<=\s[A-Z])\.(?=,?\s)", '∯')
-
-    All = [
-        SingleUpperCaseLetterAtStartOfLineRule, SingleUpperCaseLetterRule
-    ]
-
-
-class Numbers(object):
-    # Rubular: http://rubular.com/r/oNyxBOqbyy
-    PeriodBeforeNumberRule = Rule(r'\.(?=\d)', '∯')
-
-    # Rubular: http://rubular.com/r/EMk5MpiUzt
-    NumberAfterPeriodBeforeLetterRule = Rule(r'(?<=\d)\.(?=\S)', '∯')
-
-    # Rubular: http://rubular.com/r/rf4l1HjtjG
-    NewLineNumberPeriodSpaceLetterRule = Rule(r'(?<=\r\d)\.(?=(\s\S)|\))', '∯')
-
-    # Rubular: http://rubular.com/r/HPa4sdc6b9
-    StartLineNumberPeriodRule = Rule(r'(?<=^\d)\.(?=(\s\S)|\))', '∯')
-
-    # Rubular: http://rubular.com/r/NuvWnKleFl
-    StartLineTwoDigitNumberPeriodRule = Rule(r'(?<=^\d\d)\.(?=(\s\S)|\))', '∯')
-
-    All = [
-        PeriodBeforeNumberRule,
-        NumberAfterPeriodBeforeLetterRule,
-        NewLineNumberPeriodSpaceLetterRule,
-        StartLineNumberPeriodRule,
-        StartLineTwoDigitNumberPeriodRule
+        All = [
+            SingleUpperCaseLetterAtStartOfLineRule, SingleUpperCaseLetterRule
         ]
+
+    class AmPmRules(object):
+
+        # Rubular: http://rubular.com/r/Vnx3m4Spc8
+        UpperCasePmRule = Rule(r'(?<= P∯M)∯(?=\s[A-Z])', '.')
+
+        # Rubular: http://rubular.com/r/AJMCotJVbW
+        UpperCaseAmRule = Rule(r'(?<=A∯M)∯(?=\s[A-Z])', '.')
+
+        # Rubular: http://rubular.com/r/13q7SnOhgA
+        LowerCasePmRule = Rule(r'(?<=p∯m)∯(?=\s[A-Z])', '.')
+
+        # Rubular: http://rubular.com/r/DgUDq4mLz5
+        LowerCaseAmRule = Rule(r'(?<=a∯m)∯(?=\s[A-Z])', '.')
+
+        All = [UpperCasePmRule, UpperCaseAmRule, LowerCasePmRule, LowerCaseAmRule]
+
+    class Numbers(object):
+        # Rubular: http://rubular.com/r/oNyxBOqbyy
+        PeriodBeforeNumberRule = Rule(r'\.(?=\d)', '∯')
+
+        # Rubular: http://rubular.com/r/EMk5MpiUzt
+        NumberAfterPeriodBeforeLetterRule = Rule(r'(?<=\d)\.(?=\S)', '∯')
+
+        # Rubular: http://rubular.com/r/rf4l1HjtjG
+        NewLineNumberPeriodSpaceLetterRule = Rule(r'(?<=\r\d)\.(?=(\s\S)|\))', '∯')
+
+        # Rubular: http://rubular.com/r/HPa4sdc6b9
+        StartLineNumberPeriodRule = Rule(r'(?<=^\d)\.(?=(\s\S)|\))', '∯')
+
+        # Rubular: http://rubular.com/r/NuvWnKleFl
+        StartLineTwoDigitNumberPeriodRule = Rule(r'(?<=^\d\d)\.(?=(\s\S)|\))', '∯')
+
+        All = [
+            PeriodBeforeNumberRule,
+            NumberAfterPeriodBeforeLetterRule,
+            NewLineNumberPeriodSpaceLetterRule,
+            StartLineNumberPeriodRule,
+            StartLineTwoDigitNumberPeriodRule
+            ]
 
 
 if __name__ == "__main__":
