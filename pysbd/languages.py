@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from pysbd.lang.standard import Standard
 from pysbd.lang.english import English
 
 LANGUAGE_CODES = {'en': English}
@@ -15,7 +14,7 @@ class Language(object):
         try:
             return LANGUAGE_CODES[code]
         except KeyError:
-            return Standard
+            raise("Provide valid language code")
 
 
 if __name__ == "__main__":
