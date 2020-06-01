@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from pysbd.lang.english import English
 from pysbd.lang.hindi import Hindi
+from pysbd.lang.marathi import Marathi
 
-LANGUAGE_CODES = {'en': English, 'hi': Hindi}
+LANGUAGE_CODES = {'en': English, 'hi': Hindi, 'mr': Marathi}
 
 
 class Language(object):
