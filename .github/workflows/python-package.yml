@@ -39,10 +39,12 @@ jobs:
         pip install pytest
         pip install pytest-cov
         pytest --cov=pysbd tests/ --color yes --cov-report=xml --cov-report=html
-    - uses: codecov/codecov-action@v1.0.7
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1.0.7
       with:
-        token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-        file: ./coverage.xml # optional
-        flags: unittests # optional
-        name: codecov-umbrella # optional
-        fail_ci_if_error: true # optional (default = false)
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: ./coverage.xml
+        flags: unittests
+        env_vars: OS,PYTHON
+        name: codecov-umbrella
+        fail_ci_if_error: true
