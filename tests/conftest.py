@@ -4,25 +4,30 @@ import pysbd
 
 @pytest.fixture()
 def pysbd_default_en_no_clean_no_span_fixture():
-    segmenter = pysbd.Segmenter(language="en", clean=False, char_span=False)
-    return segmenter
+    en_segmenter = pysbd.Segmenter(language="en", clean=False, char_span=False)
+    return en_segmenter
 
 @pytest.fixture()
 def en_with_clean_no_span_fixture():
-    segmenter = pysbd.Segmenter(language="en", clean=True, char_span=False)
-    return segmenter
+    en_segmenter = pysbd.Segmenter(language="en", clean=True, char_span=False)
+    return en_segmenter
 
 @pytest.fixture()
 def en_no_clean_with_span_fixture():
-    segmenter = pysbd.Segmenter(language="en", clean=False, char_span=True)
-    return segmenter
+    en_segmenter = pysbd.Segmenter(language="en", clean=False, char_span=True)
+    return en_segmenter
 
 @pytest.fixture()
 def hi_default_fixture():
-    segmenter = pysbd.Segmenter(language="hi", clean=False, char_span=False)
-    return segmenter
+    hi_segmenter = pysbd.Segmenter(language="hi", clean=False, char_span=False)
+    return hi_segmenter
 
 @pytest.fixture()
 def mr_default_fixture():
-    segmenter = pysbd.Segmenter(language="mr", clean=False, char_span=False)
-    return segmenter
+    mr_segmenter = pysbd.Segmenter(language="mr", clean=False, char_span=False)
+    return mr_segmenter
+
+@pytest.fixture()
+def zh_default_fixture():
+    zh_segmenter = pysbd.Segmenter(language="zh", clean=False, char_span=False)
+    return zh_segmenter

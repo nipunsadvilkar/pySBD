@@ -92,6 +92,7 @@ class Processor(object):
                 for pps in post_process_sent:
                     new_sents.append(pps)
         new_sents = [Text(ns).apply(self.lang.SubSingleQuoteRule) for ns in new_sents]
+        # TODO: seperate char span functionality from split_into_segments function
         if self.char_span:
             sent_start_token_idx = [m.start() for sent in new_sents for m in re.finditer(re.escape(sent), self.doc.text)]
             for tok in self.doc:
@@ -169,7 +170,7 @@ class Processor(object):
         if txt[-1] not in self.lang.Punctuations:
             txt += 'ȸ'
         txt = ExclamationWords.apply_rules(txt)
-        txt = BetweenPunctuation(txt).replace()
+        txt = self.between_punctuation(txt)
         # handle text having only doublepunctuations
         if not re.match(self.lang.DoublePunctuationRules.DoublePunctuation, txt):
             txt = Text(txt).apply(*self.lang.DoublePunctuationRules.All)
@@ -183,7 +184,6 @@ class Processor(object):
         self.text = Text(self.text).apply(*self.lang.Numbers.All)
 
     def abbreviations_replacer(self):
-        # AbbreviationReplacer
         if hasattr(self.lang, "AbbreviationReplacer"):
             return self.lang.AbbreviationReplacer(self.text, self.lang)
         else:
@@ -193,12 +193,14 @@ class Processor(object):
         self.text = self.abbreviations_replacer().replace()
 
     def between_punctuation_processor(self, txt):
-        # BetweenPunctuation
-        raise NotImplementedError
+        if hasattr(self.lang, "BetweenPunctuation"):
+            return self.lang.BetweenPunctuation(txt)
+        else:
+            return BetweenPunctuation(txt)
 
     def between_punctuation(self, txt):
-        # between_punctuation_processor
-        raise NotImplementedError
+        txt = self.between_punctuation_processor(txt).replace()
+        return txt
 
     def sentence_boundary_punctuation(self, txt):
         if hasattr(self.lang, 'ReplaceColonBetweenNumbersRule'):
