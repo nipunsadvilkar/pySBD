@@ -8,6 +8,7 @@ ipython = "*"
 ipdb = "*"
 twine = "*"
 pytest = "*"
+pytest-cov = "*"
 
 [packages]
 spacy = "*"

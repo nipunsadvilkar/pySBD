@@ -9,6 +9,7 @@ from pysbd.abbreviation_replacer import AbbreviationReplacer
 
 nlp = spacy.blank('en')
 
+
 class Processor(object):
 
     def __init__(self, text, lang, char_span=False):
@@ -30,7 +31,6 @@ class Processor(object):
 
     def process(self):
         if not self.text:
-            # return empty list?
             return self.text
         self.doc = nlp(self.text)
         li = ListItemReplacer(self.text)

@@ -10,7 +10,7 @@ class Rule(object):
         self.pattern = pattern
         self.replacement = replacement
 
-    def __repr__(self):
+    def __repr__(self):  # pragma: no cover
         return '<{} pattern="{}" and replacement="{}">'.format(
             self.__class__.__name__, self.pattern, self.replacement)
 
@@ -56,7 +56,7 @@ class TextSpan(object):
         self.start = start
         self.end = end
 
-    def __repr__(self):
+    def __repr__(self):  # pragma: no cover
         return "{0}(sent='{1}', start={2}, end={3})".format(
             self.__class__.__name__, self.sent, self.start, self.end)
 
@@ -84,12 +84,3 @@ class PySBDFactory(object):
             token.is_sent_start = (True if token.idx
                                    in start_token_ids else False)
         return doc
-
-
-if __name__ == "__main__":
-    SubstituteListPeriodRule = Rule('♨', '∯')
-    StdRule = Rule(r'∯', r'∯♨')
-    more_rules = [Rule(r'∯♨', r'∯∯∯∯'), Rule(r'∯∯∯∯', '♨♨')]
-    sample_text = Text("I. abcd ♨ acnjfe")
-    output = sample_text.apply(SubstituteListPeriodRule, StdRule, *more_rules)
-    print(output)

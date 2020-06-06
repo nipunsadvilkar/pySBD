@@ -16,7 +16,3 @@ class ExclamationWords(object):
         return re.sub(ExclamationWords.EXCLAMATION_REGEX, replace_punctuation,
                       text)
 
-
-if __name__ == "__main__":
-    text = "\"Dinah'll miss me very much to-night, I should think!\"ȸ"
-    print(ExclamationWords.apply_rules(text))

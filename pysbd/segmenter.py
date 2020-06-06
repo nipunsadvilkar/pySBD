@@ -42,15 +42,3 @@ class Segmenter(object):
         segments = processor.process()
         return segments
 
-
-if __name__ == "__main__":
-    text = "My name is Jonas E. Smith. Please turn to p. 55."
-    print("Input String:\n{}".format(text))
-    seg = Segmenter(language="en", clean=False, char_span=True)
-    segments = seg.segment(text)
-    print("\n################## Processing #######################\n")
-    print("Number of sentences: {}\n".format(len(segments)))
-    print("Sentences found:\n{}\n".format(segments))
-    print("\n################## Output #######################\n")
-    for ind, sent in enumerate(segments, start=1):
-        print("{} -> {}".format(ind, sent))
