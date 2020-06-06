@@ -1,6 +1,6 @@
 # pySBD: Python Sentence Boundary Disambiguation (SBD)
 
-![Python package](https://github.com/nipunsadvilkar/pySBD/workflows/Python%20package/badge.svg) [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](https://github.com/nipunsadvilkar/pySBD/blob/master/LICENSE) [![PyPi](https://img.shields.io/pypi/v/pysbd?color=blue&logo=pypi&logoColor=white)](https://pypi.python.org/pypi/pysbd) [![GitHub](https://img.shields.io/github/v/release/nipunsadvilkar/pySBD.svg?include_prereleases&logo=github&style=flat)](https://github.com/nipunsadvilkar/pySBD)
+![Python package](https://github.com/nipunsadvilkar/pySBD/workflows/Python%20package/badge.svg) [![codecov](https://codecov.io/gh/nipunsadvilkar/pySBD/branch/master/graph/badge.svg)](https://codecov.io/gh/nipunsadvilkar/pySBD) [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](https://github.com/nipunsadvilkar/pySBD/blob/master/LICENSE) [![PyPi](https://img.shields.io/pypi/v/pysbd?color=blue&logo=pypi&logoColor=white)](https://pypi.python.org/pypi/pysbd) [![GitHub](https://img.shields.io/github/v/release/nipunsadvilkar/pySBD.svg?include_prereleases&logo=github&style=flat)](https://github.com/nipunsadvilkar/pySBD)
 
 pySBD - python Sentence Boundary Disambiguation (SBD) - is a rule-based sentence boundary detection module that works out-of-the-box.
 
