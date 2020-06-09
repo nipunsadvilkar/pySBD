@@ -7,6 +7,8 @@
 -   💚☂️ Add code coverage - coverage.py Add Codecov
 -   🐛 Fix incorrect text span & vanilla pysbd vs spacy output discrepancy - \#49, \#53, \#55 , \#59
 -   🐛 Fix `NUMBERED_REFERENCE_REGEX` for zero or one time - \#58
+-   🔐Fix security vulnerability bleach - \#62
+
 
 # v0.2.3
 -   🐛 Performance improvement in `abbreviation_replacer`- \#50
