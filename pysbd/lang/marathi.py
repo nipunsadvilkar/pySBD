@@ -5,6 +5,8 @@ from pysbd.lang.common import Common, Standard
 
 class Marathi(Common, Standard):
 
+    iso_code = 'mr'
+
     SENTENCE_BOUNDARY_REGEX = r'.*?[.!?]|.*?$'
     Punctuations = ['.', '!', '?']
 

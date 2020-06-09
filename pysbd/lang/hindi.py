@@ -4,6 +4,8 @@ from pysbd.lang.common import Common, Standard
 
 class Hindi(Common, Standard):
 
+    iso_code = 'hi'
+
     SENTENCE_BOUNDARY_REGEX = r'.*?[।\|!\?]|.*?$'
     Punctuations = ['।', '|', '.', '!', '?']
 

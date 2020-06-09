@@ -75,11 +75,8 @@ class PySBDFactory(object):
                                    char_span=char_span)
 
     def __call__(self, doc):
-        sents_char_spans = self.seg.segment(doc.text)
-        char_spans = [doc.char_span(sent_span.start, sent_span.end)
-                      for sent_span in sents_char_spans]
-        start_token_ids = [span[0].idx for span in char_spans if span
-                           is not None]
+        sents_char_spans = self.seg.segment(doc.text_with_ws)
+        start_token_ids = [sent.start for sent in sents_char_spans]
         for token in doc:
             token.is_sent_start = (True if token.idx
                                    in start_token_ids else False)

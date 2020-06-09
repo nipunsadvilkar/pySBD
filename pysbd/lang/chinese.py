@@ -7,6 +7,8 @@ from pysbd.punctuation_replacer import replace_punctuation
 
 class Chinese(Common, Standard):
 
+    iso_code = 'zh'
+
     class AbbreviationReplacer(AbbreviationReplacer):
         SENTENCE_STARTERS = []
 

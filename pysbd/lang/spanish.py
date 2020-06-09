@@ -4,6 +4,8 @@ from pysbd.lang.common import Common, Standard
 
 class Spanish(Common, Standard):
 
+    iso_code = 'es'
+
     class AbbreviationReplacer(AbbreviationReplacer):
         SENTENCE_STARTERS = []
 

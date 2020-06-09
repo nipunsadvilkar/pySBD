@@ -9,7 +9,6 @@ from pysbd.abbreviation_replacer import AbbreviationReplacer
 
 nlp = spacy.blank('en')
 
-
 class Processor(object):
 
     def __init__(self, text, lang, char_span=False):
@@ -19,8 +18,8 @@ class Processor(object):
         ----------
         text : str
             Original text
-        language : str, optional
-            by default "common" i.e., english text preprocessing
+        language : object
+            Language module
         char_span : bool, optional
             Get start & end character offsets of each sentences
             within original text, by default False
@@ -43,7 +42,19 @@ class Processor(object):
             self.lang.Abbreviation.WithMultiplePeriodsAndEmailRule,
             self.lang.GeoLocationRule, self.lang.FileFormatRule)
         processed = self.split_into_segments()
-        return processed
+        if self.char_span:
+            return self.sentences_with_char_spans(processed)
+        else:
+            return processed
+
+    def sentences_with_char_spans(self, sentences):
+        sent_start_token_idx = [m.start() for sent in sentences for m in re.finditer(re.escape(sent), self.doc.text)]
+        for tok in self.doc:
+            if tok.idx in sent_start_token_idx:
+                tok.is_sent_start = True
+            else:
+                tok.is_sent_start = False
+        return [TextSpan(sent.text_with_ws, sent.start_char, sent.end_char) for sent in self.doc.sents]
 
     def rm_none_flatten(self, sents):
         """Remove None values and unpack list of list sents
@@ -92,17 +103,7 @@ class Processor(object):
                 for pps in post_process_sent:
                     new_sents.append(pps)
         new_sents = [Text(ns).apply(self.lang.SubSingleQuoteRule) for ns in new_sents]
-        # TODO: seperate char span functionality from split_into_segments function
-        if self.char_span:
-            sent_start_token_idx = [m.start() for sent in new_sents for m in re.finditer(re.escape(sent), self.doc.text)]
-            for tok in self.doc:
-                if tok.idx in sent_start_token_idx:
-                    tok.is_sent_start = True
-                else:
-                    tok.is_sent_start = False
-            return [TextSpan(sent.text_with_ws, sent.start_char, sent.end_char) for sent in self.doc.sents]
-        else:
-            return [sent for sent in new_sents]
+        return new_sents
 
     def post_process_segments(self, txt):
         if len(txt) > 2 and re.search(r'\A[a-zA-Z]*\Z', txt):
@@ -149,7 +150,7 @@ class Processor(object):
                         continuous_puncs_replace, self.text)
 
     def replace_periods_before_numeric_references(self):
-        # https://github.com/diasks2/pragmatic_segmenter/commit/d9ec1a352aff92b91e2e572c30bb9561eb42c703
+         # https://github.com/diasks2/pragmatic_segmenter/commit/d9ec1a352aff92b91e2e572c30bb9561eb42c703
         self.text = re.sub(self.lang.NUMBERED_REFERENCE_REGEX,
                       r"∯\2\r\7", self.text)
 
