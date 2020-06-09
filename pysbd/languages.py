@@ -3,8 +3,15 @@ from pysbd.lang.english import English
 from pysbd.lang.hindi import Hindi
 from pysbd.lang.marathi import Marathi
 from pysbd.lang.chinese import Chinese
+from pysbd.lang.spanish import Spanish
 
-LANGUAGE_CODES = {'en': English, 'hi': Hindi, 'mr': Marathi, 'zh': Chinese}
+LANGUAGE_CODES = {
+    'en': English,
+    'hi': Hindi,
+    'mr': Marathi,
+    'zh': Chinese,
+    'es': Spanish
+}
 
 
 class Language(object):

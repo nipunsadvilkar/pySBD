@@ -31,3 +31,13 @@ def mr_default_fixture():
 def zh_default_fixture():
     zh_segmenter = pysbd.Segmenter(language="zh", clean=False, char_span=False)
     return zh_segmenter
+
+@pytest.fixture()
+def es_default_fixture():
+    es_segmenter = pysbd.Segmenter(language="es", clean=False, char_span=False)
+    return es_segmenter
+
+@pytest.fixture()
+def es_with_clean_no_span_fixture():
+    es_segmenter_clean = pysbd.Segmenter(language="es", clean=True, char_span=False)
+    return es_segmenter_clean
