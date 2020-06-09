@@ -2,10 +2,6 @@
 import re
 from pysbd.utils import Text
 
-# TODO: SENTENCE_STARTERS should be lang specific
-from pysbd.lang.standard import Abbreviation, SENTENCE_STARTERS
-from pysbd.lang.common.numbers import Common, SingleLetterAbbreviationRules, AmPmRules
-
 
 def replace_pre_number_abbr(txt, abbr):
     # prepend a space to avoid needing another regex for start of string
@@ -40,28 +36,27 @@ def replace_period_of_abbr(txt, abbr):
     return txt
 
 
-def replace_abbreviation_as_sentence_boundary(txt):
-    sent_starters = "|".join((r"(?=\s{}\s)".format(word) for word in SENTENCE_STARTERS))
-    regex = r"(U∯S|U\.S|U∯K|E∯U|E\.U|U∯S∯A|U\.S\.A|I|i.v|I.V)∯({})".format(sent_starters)
-    txt = re.sub(regex, '\\1.', txt)
-    return txt
-
-
 class AbbreviationReplacer(object):
-    def __init__(self, text, language="en"):
+    def __init__(self, text, lang):
         self.text = text
-        self.language = language
+        self.lang = lang
 
     def replace(self):
         self.text = Text(self.text).apply(
-            Common.PossessiveAbbreviationRule,
-            Common.KommanditgesellschaftRule,
-            *SingleLetterAbbreviationRules.All
+            self.lang.PossessiveAbbreviationRule,
+            self.lang.KommanditgesellschaftRule,
+            *self.lang.SingleLetterAbbreviationRules.All
         )
         self.text = self.search_for_abbreviations_in_string()
         self.replace_multi_period_abbreviations()
-        self.text = Text(self.text).apply(*AmPmRules.All)
-        self.text = replace_abbreviation_as_sentence_boundary(self.text)
+        self.text = Text(self.text).apply(*self.lang.AmPmRules.All)
+        self.text = self.replace_abbreviation_as_sentence_boundary()
+        return self.text
+
+    def replace_abbreviation_as_sentence_boundary(self):
+        sent_starters = "|".join((r"(?=\s{}\s)".format(word) for word in self.SENTENCE_STARTERS))
+        regex = r"(U∯S|U\.S|U∯K|E∯U|E\.U|U∯S∯A|U\.S\.A|I|i.v|I.V)∯({})".format(sent_starters)
+        self.text = re.sub(regex, '\\1.', self.text)
         return self.text
 
     def replace_multi_period_abbreviations(self):
@@ -71,7 +66,7 @@ class AbbreviationReplacer(object):
             return match
 
         self.text = re.sub(
-            Common.MULTI_PERIOD_ABBREVIATION_REGEX,
+            self.lang.MULTI_PERIOD_ABBREVIATION_REGEX,
             mpa_replace,
             self.text,
             flags=re.IGNORECASE,
@@ -80,7 +75,7 @@ class AbbreviationReplacer(object):
     def search_for_abbreviations_in_string(self):
         original = self.text
         lowered = original.lower()
-        for abbr in Abbreviation.ABBREVIATIONS:
+        for abbr in self.lang.Abbreviation.ABBREVIATIONS:
             stripped = abbr.strip()
             if stripped not in lowered:
                 continue
@@ -102,8 +97,8 @@ class AbbreviationReplacer(object):
             char = char_array[ind]
         except IndexError:
             char = ""
-        prepositive = Abbreviation.PREPOSITIVE_ABBREVIATIONS
-        number_abbr = Abbreviation.NUMBER_ABBREVIATIONS
+        prepositive = self.lang.Abbreviation.PREPOSITIVE_ABBREVIATIONS
+        number_abbr = self.lang.Abbreviation.NUMBER_ABBREVIATIONS
         upper = str(char).isupper()
         if not upper or am.strip().lower() in prepositive:
             if am.strip().lower() in prepositive:
@@ -113,8 +108,3 @@ class AbbreviationReplacer(object):
             else:
                 txt = replace_period_of_abbr(txt, am)
         return txt
-
-
-if __name__ == "__main__":
-    s = "fig. ??"
-    print(AbbreviationReplacer(s).replace())

@@ -239,9 +239,3 @@ class ListItemReplacer(object):
                     each, ind, alphabet, list_array, parens)
         return self.text
 
-
-if __name__ == "__main__":
-    text = "• 9. Stop smoking \n• 10. Get some rest \n \nYou have the best chance of having a problem-free pregnancy and a healthy baby if you follow \na few simple guidelines:  \n\n1. Organise your pregnancy care early"
-    li = ListItemReplacer(text)
-    li.add_line_break()
-    print(repr(li.text))

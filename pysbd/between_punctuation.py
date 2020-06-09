@@ -92,8 +92,3 @@ class BetweenPunctuation(object):
     def sub_punctuation_between_quotes_slanted(self, txt):
         return re.sub(self.BETWEEN_QUOTE_SLANTED_REGEX_2, replace_punctuation,
                       txt)
-
-
-if __name__ == "__main__":
-    text = "Random walk models (Skellam, 1951;Turchin, 1998) received a lot of attention"
-    print(BetweenPunctuation(text).replace())

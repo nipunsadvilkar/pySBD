@@ -4,14 +4,14 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-yapf = "*"
 ipython = "*"
 ipdb = "*"
 twine = "*"
+pytest = "*"
+pytest-cov = "*"
 
 [packages]
-pytest = "*"
-autopep8 = "*"
+spacy = "*"
 
 [requires]
 python_version = "3.6"

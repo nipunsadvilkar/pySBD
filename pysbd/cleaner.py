@@ -2,14 +2,13 @@
 import re
 from pysbd.utils import Text
 from pysbd.clean.rules import PDF, HTML, CleanRules as cr
-from pysbd.lang.standard import Abbreviation
 
 
 class Cleaner(object):
 
-    def __init__(self, text, language='common', doc_type=None):
+    def __init__(self, text, lang, doc_type=None):
         self.text = text
-        self.language = language
+        self.lang = lang
         self.doc_type = doc_type
 
     def clean(self):
@@ -96,7 +95,7 @@ class Cleaner(object):
             return txt
         if any(k in word for k in cr.URL_EMAIL_KEYWORDS):
             return txt
-        if any(a in word for a in Abbreviation.ABBREVIATIONS):
+        if any(a in word for a in self.lang.Abbreviation.ABBREVIATIONS):
             return txt
         new_word = Text(word).apply(rule)
         txt = re.sub(re.escape(word), new_word, txt)
@@ -112,9 +111,3 @@ class Cleaner(object):
         self.text = Text(self.text).apply(
                                         cr.ConsecutivePeriodsRule,
                                         cr.ConsecutiveForwardSlashRule)
-
-
-if __name__ == "__main__":
-    text = "Hello world.Today is Tuesday.Mr. Smith went to the store and bought 1,000.That is a lot."
-    c = Cleaner(text)
-    print(c.clean())

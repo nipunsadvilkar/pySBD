@@ -37,20 +37,8 @@ class Segmenter(object):
             raise ValueError("char_span must be False if clean is True. "
                              "Since `clean=True` will modify original text.")
         elif self.clean:
-            text = Cleaner(text, doc_type=self.doc_type).clean()
-        processor = Processor(text, char_span=self.char_span)
+            text = Cleaner(text, self.language_module, doc_type=self.doc_type).clean()
+        processor = Processor(text, lang=self.language_module, char_span=self.char_span)
         segments = processor.process()
         return segments
 
-
-if __name__ == "__main__":
-    text = "My name is Jonas E. Smith. Please turn to p. 55."
-    print("Input String:\n{}".format(text))
-    seg = Segmenter(language="en", clean=False, char_span=True)
-    segments = seg.segment(text)
-    print("\n################## Processing #######################\n")
-    print("Number of sentences: {}\n".format(len(segments)))
-    print("Sentences found:\n{}\n".format(segments))
-    print("\n################## Output #######################\n")
-    for ind, sent in enumerate(segments, start=1):
-        print("{} -> {}".format(ind, sent))
