@@ -3,7 +3,6 @@ from pysbd.languages import Language
 from pysbd.processor import Processor
 from pysbd.cleaner import Cleaner
 
-
 class Segmenter(object):
 
     def __init__(self, language="en", clean=False, doc_type=None, char_span=False):
@@ -41,4 +40,3 @@ class Segmenter(object):
         processor = Processor(text, lang=self.language_module, char_span=self.char_span)
         segments = processor.process()
         return segments
-

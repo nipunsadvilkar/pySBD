@@ -6,8 +6,10 @@ from pysbd.lists_item_replacer import ListItemReplacer
 from pysbd.exclamation_words import ExclamationWords
 from pysbd.between_punctuation import BetweenPunctuation
 from pysbd.abbreviation_replacer import AbbreviationReplacer
+from pysbd.clean.rules import CleanRules as cr
 
 nlp = spacy.blank('en')
+
 
 class Processor(object):
 
@@ -27,18 +29,18 @@ class Processor(object):
         self.text = text
         self.lang = lang
         self.char_span = char_span
+        self.doc = nlp.make_doc(self.text)
 
     def process(self):
         if not self.text:
             return self.text
-        self.doc = nlp(self.text)
         li = ListItemReplacer(self.text)
         self.text = li.add_line_break()
         self.replace_abbreviations()
         self.replace_numbers()
         self.replace_continuous_punctuation()
         self.replace_periods_before_numeric_references()
-        self.text = Text(self.text).apply(
+        self.text = Text(self.text).apply(cr.ReplaceNewlineWithCarriageReturnRule,
             self.lang.Abbreviation.WithMultiplePeriodsAndEmailRule,
             self.lang.GeoLocationRule, self.lang.FileFormatRule)
         processed = self.split_into_segments()

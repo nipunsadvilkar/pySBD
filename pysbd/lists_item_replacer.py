@@ -10,6 +10,9 @@ class ListItemReplacer(object):
     ROMAN_NUMERALS = "i ii iii iv v vi vii viii ix x xi xii xiii xiv x xi xii xiii xv xvi xvii xviii xix xx".split(' ')
     LATIN_NUMERALS = list(string.ascii_lowercase)
 
+    ROMAN2INT = {roman_i: ind for ind, roman_i in enumerate(ROMAN_NUMERALS, start=1)}
+    INT2ROMAN = {ind: roman_i for ind, roman_i in enumerate(ROMAN_NUMERALS, start=1)}
+
     # Rubular: http://rubular.com/r/XcpaJKH0sz
     ALPHABETICAL_LIST_WITH_PERIODS = r'(?<=^)[a-z](?=\.)|(?<=\A)[a-z](?=\.)|(?<=\s)[a-z](?=\.)'
 
@@ -41,6 +44,9 @@ class ListItemReplacer(object):
     # 2) xyz
     NUMBERED_LIST_PARENS_REGEX = r'\d{1,2}(?=\)\s)'
 
+    ROMAN_NUMBERED_LIST_REGEX_1 = r'\siii|ii|i(?=\.\s)|^iii|ii|i(?=\.\s)|\siii|ii|i(?=\.\))|^iii|ii|i(?=\.\))|(?<=\s\-)iii|ii|i(?=\.\s)|(?<=^\-)iii|ii|i(?=\.\s)|(?<=\s\⁃)iii|ii|i(?=\.\s)|(?<=^\⁃)iii|ii|i(?=\.\s)|(?<=s\-)iii|ii|i(?=\.\))|(?<=^\-)iii|ii|i(?=\.\))|(?<=\s\⁃)iii|ii|i(?=\.\))|(?<=^\⁃)iii|ii|i(?=\.\))'
+    ROMAN_NUMBERED_LIST_REGEX_2 = r'(?<=\s)iii|ii|i\.(?=\s)|^iii|ii|i\.(?=\s)|(?<=\s)iii|ii|i\.(?=\))|^iii|ii|i\.(?=\))|(?<=\s\-)iii|ii|i\.(?=\s)|(?<=^\-)iii|ii|i\.(?=\s)|(?<=\s\⁃)iii|ii|i\.(?=\s)|(?<=^\⁃)iii|ii|i\.(?=\s)|(?<=\s\-)iii|ii|i\.(?=\))|(?<=^\-)iii|ii|i\.(?=\))|(?<=\s\⁃)iii|ii|i\.(?=\))|(?<=^\⁃)iii|ii|i\.(?=\))'
+
     # Rubular: http://rubular.com/r/NsNFSqrNvJ
     # TODO: Make sure below regex call is case-insensitive
     EXTRACT_ALPHABETICAL_LIST_LETTERS_REGEX = r'\([a-z]+(?=\))|(?<=^)[a-z]+(?=\))|(?<=\A)[a-z]+(?=\))|(?<=\s)[a-z]+(?=\))'
@@ -60,6 +66,7 @@ class ListItemReplacer(object):
         self.format_roman_numeral_lists()
         self.format_numbered_list_with_periods()
         self.format_numbered_list_with_parens()
+        self.format_roman_numbered_list_with_periods()
         return self.text
 
     def replace_parens(self):
@@ -79,6 +86,15 @@ class ListItemReplacer(object):
     def format_numbered_list_with_periods(self):
         self.replace_periods_in_numbered_list()
         self.add_line_breaks_for_numbered_list_with_periods()
+        self.text = Text(self.text).apply(self.SubstituteListPeriodRule)
+
+    def replace_periods_in_roman_numbered_list(self):
+        self.scan_lists(self.ROMAN_NUMBERED_LIST_REGEX_1, self.ROMAN_NUMBERED_LIST_REGEX_2,
+                        '♨', strip=True, roman=True)
+
+    def format_roman_numbered_list_with_periods(self):
+        self.replace_periods_in_roman_numbered_list()
+        self.add_line_breaks_for_roman_numbered_list_with_periods()
         self.text = Text(self.text).apply(self.SubstituteListPeriodRule)
 
     def format_alphabetical_lists(self):
@@ -109,18 +125,23 @@ class ListItemReplacer(object):
             roman_numeral=roman_numeral)
         return txt
 
-    def scan_lists(self, regex1, regex2, replacement, strip=False):
+    def scan_lists(self, regex1, regex2, replacement, strip=False, roman=False):
         list_array = re.findall(regex1, self.text)
-        list_array = list(map(int, list_array))
+        if roman:
+            list_array = [ListItemReplacer.ROMAN2INT[e.strip()] for e in list_array]
+        else:
+            list_array = list(map(int, list_array))
         for ind, item in enumerate(list_array):
             # to avoid IndexError
             # ruby returns nil if index is out of range
             if (ind < len(list_array) - 1 and item + 1 == list_array[ind + 1]):
+                item = ListItemReplacer.INT2ROMAN[item] if roman else item
                 self.substitute_found_list_items(regex2, item, strip, replacement)
             elif ind > 0:
                 if (((item - 1) == list_array[ind - 1]) or
                     ((item == 0) and (list_array[ind - 1] == 9)) or
                     ((item == 9) and (list_array[ind - 1] == 0))):
+                    item = ListItemReplacer.INT2ROMAN[item] if roman else item
                     self.substitute_found_list_items(regex2, item, strip, replacement)
 
     def substitute_found_list_items(self, regex, each, strip, replacement):
@@ -142,6 +163,13 @@ class ListItemReplacer(object):
         if ('♨' in self.text) and (not re.search(
                 '♨.+(\n|\r).+♨', self.text)) and (not re.search(
                     r'for\s\d{1,2}♨\s[a-z]', self.text)):
+            self.text = Text(self.text).apply(self.SpaceBetweenListItemsFirstRule,
+                                    self.SpaceBetweenListItemsSecondRule)
+
+    def add_line_breaks_for_roman_numbered_list_with_periods(self):
+        if ('♨' in self.text) and (not re.search(
+                '♨.+(\n|\r).+♨', self.text)) and (not re.search(
+                    r'for\s[(iii|ii|i)♨\s[a-z]', self.text)):
             self.text = Text(self.text).apply(self.SpaceBetweenListItemsFirstRule,
                                     self.SpaceBetweenListItemsSecondRule)
 
@@ -238,4 +266,3 @@ class ListItemReplacer(object):
                 self.text = self.other_items_replacement(
                     each, ind, alphabet, list_array, parens)
         return self.text
-

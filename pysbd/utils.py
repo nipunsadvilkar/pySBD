@@ -3,7 +3,6 @@
 import re
 import pysbd
 
-
 class Rule(object):
 
     def __init__(self, pattern, replacement):
