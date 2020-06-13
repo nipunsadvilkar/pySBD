@@ -11,6 +11,7 @@ from pysbd.lang.bulgarian import Bulgarian
 from pysbd.lang.urdu import Urdu
 from pysbd.lang.russian import Russian
 from pysbd.lang.polish import Polish
+from pysbd.lang.persian import Persian
 
 LANGUAGE_CODES = {
     'en': English,
@@ -24,7 +25,8 @@ LANGUAGE_CODES = {
     'bg': Bulgarian,
     'ur': Urdu,
     'ru': Russian,
-    'pl': Polish
+    'pl': Polish,
+    'fa': Persian
 }
 
 

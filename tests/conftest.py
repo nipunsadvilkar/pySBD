@@ -75,3 +75,8 @@ def ru_default_fixture():
 def pl_default_fixture():
     pl_segmenter = pysbd.Segmenter(language="pl", clean=False, char_span=False)
     return pl_segmenter
+
+@pytest.fixture()
+def fa_default_fixture():
+    fa_segmenter = pysbd.Segmenter(language="fa", clean=False, char_span=False)
+    return fa_segmenter
