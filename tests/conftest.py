@@ -41,3 +41,8 @@ def es_default_fixture():
 def es_with_clean_no_span_fixture():
     es_segmenter_clean = pysbd.Segmenter(language="es", clean=True, char_span=False)
     return es_segmenter_clean
+
+@pytest.fixture()
+def am_default_fixture():
+    am_segmenter = pysbd.Segmenter(language="am", clean=False, char_span=False)
+    return am_segmenter
