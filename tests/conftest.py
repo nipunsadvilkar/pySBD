@@ -1,4 +1,3 @@
-from pysbd import segmenter
 import pytest
 import pysbd
 
@@ -46,3 +45,8 @@ def es_with_clean_no_span_fixture():
 def am_default_fixture():
     am_segmenter = pysbd.Segmenter(language="am", clean=False, char_span=False)
     return am_segmenter
+
+@pytest.fixture()
+def ar_default_fixture():
+    ar_segmenter = pysbd.Segmenter(language="ar", clean=False, char_span=False)
+    return ar_segmenter

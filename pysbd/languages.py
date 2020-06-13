@@ -5,6 +5,7 @@ from pysbd.lang.marathi import Marathi
 from pysbd.lang.chinese import Chinese
 from pysbd.lang.spanish import Spanish
 from pysbd.lang.amharic import Amharic
+from pysbd.lang.arabic import Arabic
 
 LANGUAGE_CODES = {
     'en': English,
@@ -12,7 +13,8 @@ LANGUAGE_CODES = {
     'mr': Marathi,
     'zh': Chinese,
     'es': Spanish,
-    'am': Amharic
+    'am': Amharic,
+    'ar': Arabic
 }
 
 
