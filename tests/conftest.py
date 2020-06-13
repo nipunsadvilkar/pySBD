@@ -70,3 +70,8 @@ def ur_default_fixture():
 def ru_default_fixture():
     ru_segmenter = pysbd.Segmenter(language="ru", clean=False, char_span=False)
     return ru_segmenter
+
+@pytest.fixture()
+def pl_default_fixture():
+    pl_segmenter = pysbd.Segmenter(language="pl", clean=False, char_span=False)
+    return pl_segmenter
