@@ -60,3 +60,8 @@ def hy_default_fixture():
 def bg_default_fixture():
     bg_segmenter = pysbd.Segmenter(language="bg", clean=False, char_span=False)
     return bg_segmenter
+
+@pytest.fixture()
+def ur_default_fixture():
+    ur_segmenter = pysbd.Segmenter(language="ur", clean=False, char_span=False)
+    return ur_segmenter

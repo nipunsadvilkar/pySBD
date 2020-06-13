@@ -8,6 +8,7 @@ from pysbd.lang.amharic import Amharic
 from pysbd.lang.arabic import Arabic
 from pysbd.lang.armenian import Armenian
 from pysbd.lang.bulgarian import Bulgarian
+from pysbd.lang.urdu import Urdu
 
 LANGUAGE_CODES = {
     'en': English,
@@ -18,7 +19,8 @@ LANGUAGE_CODES = {
     'am': Amharic,
     'ar': Arabic,
     'hy': Armenian,
-    'bg': Bulgarian
+    'bg': Bulgarian,
+    'ur': Urdu
 }
 
 
