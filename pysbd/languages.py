@@ -12,6 +12,7 @@ from pysbd.lang.urdu import Urdu
 from pysbd.lang.russian import Russian
 from pysbd.lang.polish import Polish
 from pysbd.lang.persian import Persian
+from pysbd.lang.dutch import Dutch
 
 LANGUAGE_CODES = {
     'en': English,
@@ -26,7 +27,8 @@ LANGUAGE_CODES = {
     'ur': Urdu,
     'ru': Russian,
     'pl': Polish,
-    'fa': Persian
+    'fa': Persian,
+    'nl': Dutch
 }
 
 
