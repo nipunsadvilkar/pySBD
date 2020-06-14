@@ -110,3 +110,8 @@ def my_default_fixture():
 def el_default_fixture():
     el_segmenter = pysbd.Segmenter(language="el", clean=False, char_span=False)
     return el_segmenter
+
+@pytest.fixture()
+def it_default_fixture():
+    it_segmenter = pysbd.Segmenter(language="it", clean=False, char_span=False)
+    return it_segmenter
