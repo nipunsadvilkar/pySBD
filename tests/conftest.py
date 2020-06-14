@@ -100,3 +100,8 @@ def da_with_clean_no_span_fixture():
 def fr_default_fixture():
     fr_segmenter = pysbd.Segmenter(language="fr", clean=False, char_span=False)
     return fr_segmenter
+
+@pytest.fixture()
+def my_default_fixture():
+    my_segmenter = pysbd.Segmenter(language="my", clean=False, char_span=False)
+    return my_segmenter
