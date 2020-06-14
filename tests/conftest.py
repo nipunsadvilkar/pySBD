@@ -85,3 +85,13 @@ def fa_default_fixture():
 def nl_default_fixture():
     nl_segmenter = pysbd.Segmenter(language="nl", clean=False, char_span=False)
     return nl_segmenter
+
+@pytest.fixture()
+def da_default_fixture():
+    da_segmenter = pysbd.Segmenter(language="da", clean=False, char_span=False)
+    return da_segmenter
+
+@pytest.fixture()
+def da_with_clean_no_span_fixture():
+    da_segmenter = pysbd.Segmenter(language="da", clean=True, char_span=False)
+    return da_segmenter

@@ -13,6 +13,7 @@ from pysbd.lang.russian import Russian
 from pysbd.lang.polish import Polish
 from pysbd.lang.persian import Persian
 from pysbd.lang.dutch import Dutch
+from pysbd.lang.danish import Danish
 
 LANGUAGE_CODES = {
     'en': English,
@@ -28,7 +29,8 @@ LANGUAGE_CODES = {
     'ru': Russian,
     'pl': Polish,
     'fa': Persian,
-    'nl': Dutch
+    'nl': Dutch,
+    'da': Danish
 }
 
 
