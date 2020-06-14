@@ -14,6 +14,7 @@ from pysbd.lang.polish import Polish
 from pysbd.lang.persian import Persian
 from pysbd.lang.dutch import Dutch
 from pysbd.lang.danish import Danish
+from pysbd.lang.french import French
 
 LANGUAGE_CODES = {
     'en': English,
@@ -30,7 +31,8 @@ LANGUAGE_CODES = {
     'pl': Polish,
     'fa': Persian,
     'nl': Dutch,
-    'da': Danish
+    'da': Danish,
+    'fr': French
 }
 
 
