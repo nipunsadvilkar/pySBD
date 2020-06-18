@@ -46,15 +46,6 @@ def test_exception_with_both_clean_and_span_true():
     assert str(e.value) == "char_span must be False if clean is True. "\
                             "Since `clean=True` will modify original text."
 
-def test_exception_with_otherthan_en_lang_span_true():
-    """Test to not allow clean=True and char_span=True
-    """
-    with pytest.raises(ValueError) as e:
-        seg = pysbd.Segmenter(language="zh", clean=False, char_span=True)
-        text = "我们明天一起去看《摔跤吧！爸爸》好吗？好！"
-        seg.segment(text)
-    assert str(e.value) == "char_span functionality not supported for "\
-                            "languages other than English (`en`)"
 
 PDF_TEST_DATA = [
     ("This is a sentence\ncut off in the middle because pdf.",

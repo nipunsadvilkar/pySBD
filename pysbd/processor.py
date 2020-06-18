@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 import re
 import spacy
-from pysbd.utils import Text, TextSpan
+from pysbd.utils import Text, TextSpan, custom_tokenizer
 from pysbd.lists_item_replacer import ListItemReplacer
 from pysbd.exclamation_words import ExclamationWords
 from pysbd.between_punctuation import BetweenPunctuation
 from pysbd.abbreviation_replacer import AbbreviationReplacer
 
 nlp = spacy.blank('en')
+nlp.tokenizer = custom_tokenizer(nlp)
 
 class Processor(object):
 

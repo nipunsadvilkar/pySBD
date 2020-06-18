@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 import re
 import pysbd
-
+import spacy
+from spacy.tokenizer import Tokenizer
+from spacy.util import compile_prefix_regex, compile_suffix_regex
 
 class Rule(object):
 
@@ -64,6 +66,21 @@ class TextSpan(object):
         if isinstance(self, other.__class__):
             return self.sent == other.sent and self.start == other.start and self.end == self.end
         return False
+
+
+def custom_tokenizer(nlp):
+    # tokenize on every character
+    infix_re = re.compile(r"""[\w|\W]""")
+    prefix_re = compile_prefix_regex(nlp.Defaults.prefixes)
+    suffix_re = compile_suffix_regex(nlp.Defaults.suffixes)
+
+    return Tokenizer(
+        nlp.vocab,
+        prefix_search=prefix_re.search,
+        suffix_search=suffix_re.search,
+        infix_finditer=infix_re.finditer,
+        token_match=None,
+    )
 
 
 class PySBDFactory(object):

@@ -36,9 +36,6 @@ class Segmenter(object):
         if self.clean and self.char_span:
             raise ValueError("char_span must be False if clean is True. "
                              "Since `clean=True` will modify original text.")
-        if self.language != 'en' and self.char_span:
-            raise ValueError("char_span functionality not supported for "
-                             "languages other than English (`en`)")
         elif self.clean:
             if hasattr(self.language_module, "Cleaner"):
                 text = self.language_module.Cleaner(text, self.language_module,
