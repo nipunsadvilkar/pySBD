@@ -19,6 +19,7 @@ from pysbd.lang.burmese import Burmese
 from pysbd.lang.greek import Greek
 from pysbd.lang.italian import Italian
 from pysbd.lang.japanese import Japanese
+from pysbd.lang.deutsch import Deutsch
 
 LANGUAGE_CODES = {
     'en': English,
@@ -40,7 +41,8 @@ LANGUAGE_CODES = {
     'my': Burmese,
     'el': Greek,
     'it': Italian,
-    'ja': Japanese
+    'ja': Japanese,
+    'de': Deutsch
 }
 
 

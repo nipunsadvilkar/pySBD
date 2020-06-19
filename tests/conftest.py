@@ -125,3 +125,13 @@ def ja_default_fixture():
 def ja_with_clean_no_span_fixture():
     ja_segmenter = pysbd.Segmenter(language="ja", clean=True, char_span=False)
     return ja_segmenter
+
+@pytest.fixture()
+def de_default_fixture():
+    de_segmenter = pysbd.Segmenter(language="de", clean=False, char_span=False)
+    return de_segmenter
+
+@pytest.fixture()
+def de_with_clean_no_span_fixture():
+    de_segmenter = pysbd.Segmenter(language="de", clean=True, char_span=False)
+    return de_segmenter
