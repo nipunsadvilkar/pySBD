@@ -30,6 +30,21 @@ class Segmenter(object):
         self.doc_type = doc_type
         self.char_span = char_span
 
+    def cleaner(self, text):
+        if hasattr(self.language_module, "Cleaner"):
+            return self.language_module.Cleaner(text, self.language_module,
+                                                doc_type=self.doc_type)
+        else:
+            return Cleaner(text, self.language_module, doc_type=self.doc_type)
+
+    def processor(self, text):
+        if hasattr(self.language_module, "Processor"):
+            return self.language_module.Processor(text, self.language_module,
+                                                  char_span=self.char_span)
+        else:
+            return Processor(text, self.language_module,
+                             char_span=self.char_span)
+
     def segment(self, text):
         if not text:
             return []
@@ -40,11 +55,6 @@ class Segmenter(object):
             raise ValueError("char_span functionality not supported for "
                              "languages other than English (`en`)")
         elif self.clean:
-            if hasattr(self.language_module, "Cleaner"):
-                text = self.language_module.Cleaner(text, self.language_module,
-                        doc_type=self.doc_type).clean()
-            else:
-                text = Cleaner(text, self.language_module, doc_type=self.doc_type).clean()
-        processor = Processor(text, lang=self.language_module, char_span=self.char_span)
-        segments = processor.process()
+            text = self.cleaner(text).clean()
+        segments = self.processor(text).process()
         return segments
