@@ -54,7 +54,7 @@ class AbbreviationReplacer(object):
             self.lang.MULTI_PERIOD_ABBREVIATION_REGEX,
             mpa_replace,
             self.text,
-            flags=re.IGNORECASE,
+            flags=re.IGNORECASE
         )
 
     def replace_period_of_abbr(self, txt, abbr):

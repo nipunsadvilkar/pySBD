@@ -27,9 +27,10 @@ class Standard:
         PREPOSITIVE_ABBREVIATIONS = ['adm', 'attys', 'brig', 'capt', 'cmdr', 'col', 'cpl', 'det', 'dr', 'gen', 'gov', 'ing', 'lt', 'maj', 'mr', 'mrs', 'ms', 'mt', 'messrs', 'mssrs', 'prof', 'ph', 'rep', 'reps', 'rev', 'sen', 'sens', 'sgt', 'st', 'supt', 'v', 'vs', 'fig']
         NUMBER_ABBREVIATIONS = ['art', 'ext', 'no', 'nos', 'p', 'pp']
 
-        # Part of "Abbreviations" ruby module
         # Rubular: http://rubular.com/r/EUbZCNfgei
-        WithMultiplePeriodsAndEmailRule = Rule(r'(\w)(\.)(\w)', '\\1∮\\3')
+        # WithMultiplePeriodsAndEmailRule = Rule(r'(\w)(\.)(\w)', '\\1∮\\3')
+        # \w in python matches unicode abbreviations also so limit to english alphanumerics
+        WithMultiplePeriodsAndEmailRule = Rule(r'([a-zA-Z0-9_])(\.)([a-zA-Z0-9_])', '\\1∮\\3')
 
     class DoublePunctuationRules(object):
         FirstRule = Rule(r'\?!', '☉')
