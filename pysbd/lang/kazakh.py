@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-import re
 from pysbd.abbreviation_replacer import AbbreviationReplacer
-from pysbd.between_punctuation import BetweenPunctuation
 from pysbd.lang.common import Common, Standard
-from pysbd.punctuation_replacer import replace_punctuation
 from pysbd.processor import Processor
 from pysbd.utils import Text, Rule
 
@@ -12,7 +9,7 @@ class Kazakh(Common, Standard):
 
     iso_code = 'kk'
 
-    # Handling cryllic characters in re module
+    # Handling Cyrillic characters in re module
     # https://stackoverflow.com/a/10982308/5462100
     MULTI_PERIOD_ABBREVIATION_REGEX = r'\b[\u0400-\u0500]+(?:\.\s?[\u0400-\u0500])+[.]|b[a-z](?:\.[a-z])+[.]'
 
