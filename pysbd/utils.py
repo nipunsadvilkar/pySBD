@@ -68,10 +68,10 @@ class TextSpan(object):
 class PySBDFactory(object):
     """pysbd as a spacy component through entrypoints"""
 
-    def __init__(self, nlp, language='en', clean=False, char_span=True):
+    def __init__(self, nlp, language='en'):
         self.nlp = nlp
-        self.seg = pysbd.Segmenter(language=language, clean=clean,
-                                   char_span=char_span)
+        self.seg = pysbd.Segmenter(language=language, clean=False,
+                                   char_span=True)
 
     def __call__(self, doc):
         sents_char_spans = self.seg.segment(doc.text_with_ws)

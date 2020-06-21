@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 import pytest
-import pysbd
-
 
 GOLDEN_EN_RULES_TEST_CASES = [
     ("Hello World. My name is Jonas.", ["Hello World.", "My name is Jonas."]),
