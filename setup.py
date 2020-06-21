@@ -80,14 +80,25 @@ setup(
     classifiers=[
         # Trove classifiers
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
-        "Intended Audience :: Developers",
-        "Intended Audience :: Science/Research",
-        'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python',
+
+        # Indicate who your project is intended for
+        'Intended Audience :: Developers',
+        'Intended Audience :: Science/Research',
+        'Topic :: Scientific/Engineering',
+        'Topic :: Scientific/Engineering :: Artificial Intelligence',
+        'Topic :: Scientific/Engineering :: Information Analysis',
+        'Topic :: Text Processing',
+        'Topic :: Text Processing :: Linguistic',
+        'Topic :: Software Development',
+        'Topic :: Software Development :: Libraries',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
-        "Topic :: Scientific/Engineering",
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'License :: OSI Approved :: MIT License'
     ],
+    keywords='natural-language-processing nlp',
     # $ setup.py publish support.
     cmdclass={
         'upload': UploadCommand,
