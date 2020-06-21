@@ -24,6 +24,6 @@ if __name__ == "__main__":
     print(f'{stanza.__name__} - v{stanza.__version__}')
     print(f'GRS score: {percent_score:0.2f}%')
     print(f'Speed: {time_taken*1000:>10.2f} ms')
-    stanza - v1.0.1
-    GRS score: 72.92%
-    Speed:  109839.63 ms
+    # stanza - v1.0.1
+    # GRS score: 72.92%
+    # Speed:  109839.63 ms
