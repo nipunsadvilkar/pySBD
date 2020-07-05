@@ -3,7 +3,7 @@ import re
 import spacy
 from pysbd.utils import Text, TextSpan
 from pysbd.lists_item_replacer import ListItemReplacer
-from pysbd.exclaimation_words import ExclaimationWords
+from pysbd.exclamation_words import ExclamationWords
 from pysbd.between_punctuation import BetweenPunctuation
 from pysbd.abbreviation_replacer import AbbreviationReplacer
 
@@ -162,7 +162,7 @@ class Processor(object):
     def process_text(self, txt):
         if txt[-1] not in self.lang.Punctuations:
             txt += 'ȸ'
-        txt = ExclaimationWords.apply_rules(txt)
+        txt = ExclamationWords.apply_rules(txt)
         txt = self.between_punctuation(txt)
         # handle text having only doublepunctuations
         if not re.match(self.lang.DoublePunctuationRules.DoublePunctuation, txt):
