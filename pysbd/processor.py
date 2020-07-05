@@ -109,14 +109,6 @@ class Processor(object):
         if len(txt) > 2 and re.search(r'\A[a-zA-Z]*\Z', txt):
             return txt
 
-        # below condition present in pragmatic segmenter
-        # dont know significance of it yet.
-        # if self.consecutive_underscore(txt) or len(txt) < 2:
-        #     return txt
-
-        if re.match(r'\t', txt):
-            pass
-
         # TODO:
         # Decide on keeping or removing Standard.ExtraWhiteSpaceRule
         # removed to retain original text spans
