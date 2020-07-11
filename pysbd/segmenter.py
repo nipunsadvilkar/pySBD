@@ -52,7 +52,8 @@ class Segmenter(object):
         # for trailing whitespaces \s* is used as suffix
         # to keep non-destructive text after segments joins
         return [TextSpan(m.group(), m.start(), m.end()) for sent in sentences
-                for m in re.finditer(f'{re.escape(sent)}\s*', self.original_text)]
+                for m in re.finditer('{0}\s*'.format(re.escape(sent)),
+                self.original_text)]
 
     def segment(self, text):
         self.original_text = text
