@@ -93,10 +93,12 @@ RU_MORE_TEST_CASES = [("Маленькая девочка бежала и кри
 def test_ru_sbd(ru_default_fixture, text, expected_sents):
     """Russian language SBD tests"""
     segments = ru_default_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents
 
 @pytest.mark.parametrize('text,expected_sents', RU_MORE_TEST_CASES)
 def test_ru_sbd(ru_default_fixture, text, expected_sents):
     """Russian language SBD tests"""
     segments = ru_default_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents

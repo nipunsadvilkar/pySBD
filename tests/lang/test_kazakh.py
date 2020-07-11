@@ -36,4 +36,5 @@ GOLDEN_KK_RULES_TEST_CASES = [
 def test_kk_sbd(kk_default_fixture, text, expected_sents):
     """Kazakh language SBD tests"""
     segments = kk_default_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents

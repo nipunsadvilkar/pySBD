@@ -20,4 +20,5 @@ GOLDEN_AR_RULES_TEST_CASES = [
 def test_ar_sbd(ar_default_fixture, text, expected_sents):
     """Arabic language SBD tests"""
     segments = ar_default_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents

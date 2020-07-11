@@ -10,4 +10,5 @@ GOLDEN_PL_RULES_TEST_CASES = [
 def test_pl_sbd(pl_default_fixture, text, expected_sents):
     """Polish language SBD tests"""
     segments = pl_default_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents

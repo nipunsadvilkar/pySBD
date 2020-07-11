@@ -83,10 +83,12 @@ HY_MORE_TEST_CASES = [
 def test_hy_sbd(hy_default_fixture, text, expected_sents):
     """Armenian language SBD tests"""
     segments = hy_default_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents
 
 @pytest.mark.parametrize('text,expected_sents', HY_MORE_TEST_CASES)
 def test_hy_sbd_more(hy_default_fixture, text, expected_sents):
     """Armenian language SBD tests"""
     segments = hy_default_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents

@@ -10,4 +10,5 @@ GOLDEN_MY_RULES_TEST_CASES = [
 def test_my_sbd(my_default_fixture, text, expected_sents):
     """Burmese language SBD tests"""
     segments = my_default_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents

@@ -18,4 +18,5 @@ GOLDEN_FR_RULES_TEST_CASES = [
 def test_fr_sbd(fr_default_fixture, text, expected_sents):
     """French language SBD tests"""
     segments = fr_default_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents

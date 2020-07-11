@@ -84,6 +84,7 @@ DE_PDF_CLEAN_RULES_TEST_CASES = [
 def test_de_sbd(de_default_fixture, text, expected_sents):
     """Deutsch language SBD tests"""
     segments = de_default_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents
 
 
@@ -91,6 +92,7 @@ def test_de_sbd(de_default_fixture, text, expected_sents):
 def test_de_sbd_clean(de_with_clean_no_span_fixture, text, expected_sents):
     """Deutsch language SBD tests with clean=True"""
     segments = de_with_clean_no_span_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents
 
 
@@ -99,4 +101,5 @@ def test_de_pdf_type(text, expected_sents):
     """SBD tests from Pragmatic Segmenter for deutsch & doctype:pdf"""
     seg = pysbd.Segmenter(language="de", clean=True, doc_type='pdf')
     segments = seg.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents
