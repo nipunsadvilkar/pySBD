@@ -27,7 +27,7 @@ class Segmenter(object):
             within original text, by default False
         """
         self.language = language
-        self.language_module = Language.get_language_code(language)
+        self.language_module = Language.get_language_module(language)
         self.clean = clean
         self.doc_type = doc_type
         self.char_span = char_span

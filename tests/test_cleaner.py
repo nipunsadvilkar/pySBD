@@ -11,17 +11,17 @@ TEST_TOBE_CLEANED_DATA = [
 @pytest.mark.parametrize('text,expected_cleaned_sents', TEST_TOBE_CLEANED_DATA)
 def test_cleaner(text, expected_cleaned_sents):
     """SBD tests from Pragmatic Segmenter"""
-    cleaned_text = Cleaner(text, Language.get_language_code('en')).clean()
+    cleaned_text = Cleaner(text, Language.get_language_module('en')).clean()
     assert cleaned_text == expected_cleaned_sents
 
 def test_cleaner_doesnt_mutate_input(text="It was a cold \nnight in the city."):
-    cleaned_text = Cleaner(text, Language.get_language_code('en')).clean()
+    cleaned_text = Cleaner(text, Language.get_language_module('en')).clean()
     assert text == "It was a cold \nnight in the city."
 
 def test_cleaner_none_input(text=None):
-    cleaned_text = Cleaner(text, Language.get_language_code('en')).clean()
+    cleaned_text = Cleaner(text, Language.get_language_module('en')).clean()
     assert cleaned_text == text
 
 def test_cleaner_no_input(text=""):
-    cleaned_text = Cleaner(text, Language.get_language_code('en')).clean()
+    cleaned_text = Cleaner(text, Language.get_language_module('en')).clean()
     assert cleaned_text == text

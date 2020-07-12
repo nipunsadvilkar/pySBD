@@ -7,14 +7,17 @@ from tqdm import tqdm
 
 segmenter = pysbd.Segmenter(language='en', clean=False)
 
+pr = cProfile.Profile()
+pr.enable()
 n_trials = 10
 times = []
 for i in tqdm(range(n_trials)):
     start = time.time()
-    # segments = cProfile.run('segmenter.segment(text)')
     segments = segmenter.segment(text)
     end = time.time()
-    times.append(end-start)
+    times.append(end - start)
+pr.disable()
+pr.print_stats(sort='time')
 
 print("Total seconds {}".format(sum(times)))
 print("Num trials {}".format(n_trials))

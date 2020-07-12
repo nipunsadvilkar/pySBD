@@ -54,7 +54,7 @@ class Language(object):
         self.code = code
 
     @classmethod
-    def get_language_code(cls, code):
+    def get_language_module(cls, code):
         try:
             return LANGUAGE_CODES[code]
         except KeyError:
