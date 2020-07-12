@@ -25,9 +25,6 @@ class AbbreviationReplacer(object):
     def __init__(self, text, lang):
         self.text = text
         self.lang = lang
-        # self.SENTENCE_STARTERS = []
-        # self.SENTENCE_STARTERS = "A Being Did For He How However I In It Millions "\
-        #     "More She That The There They We What When Where Who Why".split(" ")
 
     def replace(self):
         self.text = Text(self.text).apply(
@@ -74,37 +71,22 @@ class AbbreviationReplacer(object):
         txt = txt[1:]
         return txt
 
-    # def search_for_abbreviations_in_string(self):
-    #     original = self.text
-    #     lowered = original.lower()
-    #     for abbr in self.lang.Abbreviation.ABBREVIATIONS:
-    #         stripped = abbr.strip()
-    #         if stripped not in lowered:
-    #             continue
-    #         abbrev_match = re.findall(
-    #             r'(?:^|\s|\r|\n){}'.format(stripped), original,
-    #             flags=re.IGNORECASE)
-    #         if not abbrev_match:
-    #             continue
-    #         next_word_start = r"(?<={" + str(re.escape(stripped)) + "} ).{1}"
-    #         char_array = re.findall(next_word_start, self.text)
-    #         for ind, match in enumerate(abbrev_match):
-    #             # import ipdb; ipdb.set_trace()
-    #             self.text = self.scan_for_replacements(self.text, match, ind, char_array)
-    #     return self.text
-
     def search_for_abbreviations_in_string(self):
         original = self.text
-        abbregex = "|".join([re.escape(abr.strip()) for abr in self.lang.Abbreviation.ABBREVIATIONS])
-        abbregex2 = r"(?:^|\s|\r|\n)({})\b".format(abbregex)
-        abbrev_matches = re.findall(abbregex2, original, flags=re.IGNORECASE)
-        # print(self.text)
-        # print(abbrev_matches)
+        abbrs = "|".join([re.escape(abr.strip()) for abr in self.lang.Abbreviation.ABBREVIATIONS])
+        abbregex = r"(?:^|\s|\r|\n)({})\b".format(abbrs)
+        abbrev_matches = re.findall(abbregex, original, flags=re.IGNORECASE)
+        try:
+            abbrs2 = "|".join([re.escape(abr.strip()) for abr in self.lang.Abbreviation.ABBREVIATIONS2])
+            abbregex2 = r"(?:^|\s|\r|\n)({})\b".format(abbrs2)
+            abbrev_matches2 = re.findall(abbregex2, original, flags=re.IGNORECASE)
+            abbrev_matches += abbrev_matches2
+        except AttributeError:
+            pass
         if not abbrev_matches:
             return self.text
         else:
             for ind, abbrev_match in enumerate(abbrev_matches):
-                # import ipdb; ipdb.set_trace()
                 next_word_start = r"(?<={" + str(re.escape(abbrev_match)) + "} ).{1}"
                 char_array = re.findall(next_word_start, self.text)
                 self.text = self.scan_for_replacements(self.text, abbrev_match, ind, char_array)
@@ -130,14 +112,8 @@ class AbbreviationReplacer(object):
 
 if __name__ == "__main__":
     from pysbd.languages import Language
-    # lang = Language.get_language_module('bg')
-    # lang = Language.get_language_module('it')
-    lang = Language.get_language_module('ru')
-    # tests = [('He has Ph.D. level training', [])]
-    # tests = [('В първата половина на ноември т.г. ще бъде свикан Консултативният съвет за национална сигурност, обяви държавният глава.', [])]
-    # tests = [('Hanno creato un algoritmo allo st. d. arte. Si ringrazia lo psicol. Serenti.', [])]
-    # tests = [('Л.Н. Толстой написал "Войну и мир". Кроме Волконских, Л. Н. Толстой состоял в близком родстве с некоторыми другими ар... родами. Дом, где родился Л.Н.Толстой, 1898 г. В 1854 году дом продан по распоряжению писателя на вывоз в село Долгое.', [])]
-    tests = [('Постойте, разве можно указывать цены в у.е.!', [])]
+    lang = Language.get_language_module('en')
+    tests = [('He has Ph.D. level training', [])]
     for test in tests:
         text, expected = test
         ab = AbbreviationReplacer(text, lang)
