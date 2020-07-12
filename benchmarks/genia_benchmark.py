@@ -97,4 +97,4 @@ if __name__ == "__main__":
         percent_score = correct/total * 100
         print()
         print(tokenize_func.__name__)
-        print(f'GENIA abstract acc: {percent_score:0.2f}%')
+        print('GENIA abstract acc: {:0.2f}%'.format(percent_score))

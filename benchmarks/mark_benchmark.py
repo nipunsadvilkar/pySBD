@@ -80,5 +80,5 @@ if __name__ == "__main__":
         time_taken = time.time() - t
         print()
         print(tokenize_func.__name__)
-        print(f'GRS score: {percent_score:0.2f}%')
-        print(f'Speed(Avg over 100 runs): {time_taken*1000/100:>10.2f} ms')
+        print('GRS score: {:0.2f}%'.format(percent_score))
+        print('Speed(Avg over 100 runs): {:>10.2f} ms'.format(time_taken*1000/100))
