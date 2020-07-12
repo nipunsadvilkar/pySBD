@@ -11,4 +11,5 @@ GOLDEN_FA_RULES_TEST_CASES = [
 def test_fa_sbd(fa_default_fixture, text, expected_sents):
     """Persian language SBD tests"""
     segments = fa_default_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents

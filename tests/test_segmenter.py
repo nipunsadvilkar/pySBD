@@ -18,6 +18,7 @@ def test_newline_input(pysbd_default_en_no_clean_no_span_fixture, text="\n"):
 def test_segmenter_doesnt_mutate_input(pysbd_default_en_no_clean_no_span_fixture,
                                        text='My name is Jonas E. Smith. Please turn to p. 55.'):
     segments = pysbd_default_en_no_clean_no_span_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert text == 'My name is Jonas E. Smith. Please turn to p. 55.'
 
 @pytest.mark.parametrize('text,expected',
@@ -46,16 +47,6 @@ def test_exception_with_both_clean_and_span_true():
     assert str(e.value) == "char_span must be False if clean is True. "\
                             "Since `clean=True` will modify original text."
 
-def test_exception_with_otherthan_en_lang_span_true():
-    """Test to not allow clean=True and char_span=True
-    """
-    with pytest.raises(ValueError) as e:
-        seg = pysbd.Segmenter(language="zh", clean=False, char_span=True)
-        text = "我们明天一起去看《摔跤吧！爸爸》好吗？好！"
-        seg.segment(text)
-    assert str(e.value) == "char_span functionality not supported for "\
-                            "languages other than English (`en`)"
-
 PDF_TEST_DATA = [
     ("This is a sentence\ncut off in the middle because pdf.",
         ["This is a sentence cut off in the middle because pdf."]),
@@ -76,4 +67,5 @@ def test_en_pdf_type(text, expected_sents):
     """SBD tests from Pragmatic Segmenter for doctype:pdf"""
     seg = pysbd.Segmenter(language="en", clean=True, doc_type='pdf')
     segments = seg.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents

@@ -98,18 +98,21 @@ ES_CLEAN_TEST_CASES = [("\n \nCentro de Relaciones Interinstitucionales -CERI \n
 def test_es_sbd(es_default_fixture, text, expected_sents):
     """Spanish (Espanol) language SBD tests from Pragmatic Segmenter"""
     segments = es_default_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents
 
 @pytest.mark.parametrize('text,expected_sents', ES_MORE_TEST_CASES)
 def test_es_sbd_more_examples(es_default_fixture, text, expected_sents):
     """Spanish (Espanol) language SBD tests from Pragmatic Segmenter Contributors"""
     segments = es_default_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents
 
 @pytest.mark.parametrize('text,expected_sents', ES_CLEAN_TEST_CASES)
 def test_es_sbd_more_examples(es_with_clean_no_span_fixture, text, expected_sents):
     """Spanish (Espanol) language SBD tests from Pragmatic Segmenter Contributors"""
     segments = es_with_clean_no_span_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents
 
 ES_PDF_CASE = [("\nA continuación me permito presentar a la Ingeniera LAURA MILENA LEÓN \nSANDOVAL, identificada con el documento N°. 1026.253.553 de Bogotá, \negresada del Programa Ingeniería Industrial en el año 2012, quien se desatacó por \nsu excelencia académica, actualmente cursa el programa de Maestría en \nIngeniería Industrial y se encuentra en un intercambio cultural en Bangalore – \nIndia.",
@@ -120,4 +123,5 @@ def test_es_pdf_type(text, expected_sents):
     """Spanish SBD tests from Pragmatic Segmenter for doctype:pdf"""
     seg = pysbd.Segmenter(language="es", clean=True, doc_type='pdf')
     segments = seg.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents

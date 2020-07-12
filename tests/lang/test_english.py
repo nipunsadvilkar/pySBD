@@ -166,4 +166,5 @@ GOLDEN_EN_RULES_TEST_CASES = [
 def test_en_sbd(pysbd_default_en_no_clean_no_span_fixture, text, expected_sents):
     """SBD tests from Pragmatic Segmenter"""
     segments = pysbd_default_en_no_clean_no_span_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents

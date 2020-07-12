@@ -16,6 +16,7 @@ GOLDEN_JA_RULES_TEST_CASES = [
 def test_ja_sbd(ja_default_fixture, text, expected_sents):
     """Japanese language SBD tests"""
     segments = ja_default_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents
 
 JA_TEST_CASES_CLEAN = [("これは父の\n家です。", ["これは父の家です。"])]
@@ -24,4 +25,5 @@ JA_TEST_CASES_CLEAN = [("これは父の\n家です。", ["これは父の家で
 def test_ja_sbd_clean(ja_with_clean_no_span_fixture, text, expected_sents):
     """Japanese language SBD tests with clean=True"""
     segments = ja_with_clean_no_span_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents

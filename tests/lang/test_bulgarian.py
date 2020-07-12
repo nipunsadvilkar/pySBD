@@ -16,4 +16,5 @@ GOLDEN_BG_RULES_TEST_CASES = [
 def test_bg_sbd(bg_default_fixture, text, expected_sents):
     """Bulgarian language SBD tests"""
     segments = bg_default_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents
