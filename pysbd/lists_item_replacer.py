@@ -238,4 +238,3 @@ class ListItemReplacer(object):
                 self.text = self.other_items_replacement(
                     each, ind, alphabet, list_array, parens)
         return self.text
-
