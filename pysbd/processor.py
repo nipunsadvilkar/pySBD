@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
 import re
-import spacy
 from pysbd.utils import Text, TextSpan
 from pysbd.lists_item_replacer import ListItemReplacer
 from pysbd.exclamation_words import ExclamationWords
 from pysbd.between_punctuation import BetweenPunctuation
 from pysbd.abbreviation_replacer import AbbreviationReplacer
-
-nlp = spacy.blank('en')
-
 
 class Processor(object):
 
@@ -28,7 +24,6 @@ class Processor(object):
         self.text = text
         self.lang = lang
         self.char_span = char_span
-        self.doc = nlp.make_doc(self.text)
 
     def process(self):
         if not self.text:
@@ -42,20 +37,8 @@ class Processor(object):
         self.text = Text(self.text).apply(
             self.lang.Abbreviation.WithMultiplePeriodsAndEmailRule,
             self.lang.GeoLocationRule, self.lang.FileFormatRule)
-        processed = self.split_into_segments()
-        if self.char_span:
-            return self.sentences_with_char_spans(processed)
-        else:
-            return processed
-
-    def sentences_with_char_spans(self, sentences):
-        sent_start_token_idx = [m.start() for sent in sentences for m in re.finditer(re.escape(sent), self.doc.text)]
-        for tok in self.doc:
-            if tok.idx in sent_start_token_idx:
-                tok.is_sent_start = True
-            else:
-                tok.is_sent_start = False
-        return [TextSpan(sent.text_with_ws, sent.start_char, sent.end_char) for sent in self.doc.sents]
+        postprocessed_sents = self.split_into_segments()
+        return postprocessed_sents
 
     def rm_none_flatten(self, sents):
         """Remove None values and unpack list of list sents

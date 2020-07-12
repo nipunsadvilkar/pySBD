@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
+import re
+
 from pysbd.languages import Language
 from pysbd.processor import Processor
 from pysbd.cleaner import Cleaner
+from pysbd.utils import TextSpan
 
 class Segmenter(object):
 
@@ -44,16 +47,30 @@ class Segmenter(object):
             return Processor(text, self.language_module,
                              char_span=self.char_span)
 
+    def sentences_with_char_spans(self, sentences):
+        # since SENTENCE_BOUNDARY_REGEX doesnt account
+        # for trailing whitespaces \s* is used as suffix
+        # to keep non-destructive text after segments joins
+        return [TextSpan(m.group(), m.start(), m.end()) for sent in sentences
+                for m in re.finditer('{0}\s*'.format(re.escape(sent)),
+                self.original_text)]
+
     def segment(self, text):
+        self.original_text = text
         if not text:
             return []
         if self.clean and self.char_span:
             raise ValueError("char_span must be False if clean is True. "
                              "Since `clean=True` will modify original text.")
-        if self.language != 'en' and self.char_span:
-            raise ValueError("char_span functionality not supported for "
-                             "languages other than English (`en`)")
         elif self.clean:
             text = self.cleaner(text).clean()
-        segments = self.processor(text).process()
-        return segments
+        postprocessed_sents = self.processor(text).process()
+        sentence_w_char_spans = self.sentences_with_char_spans(postprocessed_sents)
+        if self.clean:
+            # clean and destructed sentences
+            return postprocessed_sents
+        elif self.char_span:
+            return sentence_w_char_spans
+        else:
+            # nondestructive with whitespaces
+            return [textspan.sent for textspan in sentence_w_char_spans]

@@ -13,4 +13,5 @@ GOLDEN_NL_RULES_TEST_CASES = [
 def test_nl_sbd(nl_default_fixture, text, expected_sents):
     """Dutch language SBD tests"""
     segments = nl_default_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents

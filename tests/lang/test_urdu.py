@@ -10,4 +10,5 @@ GOLDEN_UR_RULES_TEST_CASES = [
 def test_ur_sbd(ur_default_fixture, text, expected_sents):
     """Urdu language SBD tests"""
     segments = ur_default_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents

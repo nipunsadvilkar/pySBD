@@ -67,6 +67,7 @@ def test_issue(issue_no, text, expected_sents):
     """pySBD issues tests from https://github.com/nipunsadvilkar/pySBD/issues/"""
     seg = pysbd.Segmenter(language="en", clean=False)
     segments = seg.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents
     # clubbing sentences and matching with original text
     assert text == " ".join(segments)
