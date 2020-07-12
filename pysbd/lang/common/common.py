@@ -89,4 +89,3 @@ class Common(object):
             StartLineNumberPeriodRule,
             StartLineTwoDigitNumberPeriodRule
             ]
-

@@ -21,21 +21,6 @@ def replace_prepositive_abbr(txt, abbr):
     return txt
 
 
-def replace_period_of_abbr(txt, abbr):
-    # prepend a space to avoid needing another regex for start of string
-    txt = " " + txt
-    txt = re.sub(
-        r"(?<=\s{abbr})\.(?=((\.|\:|-|\?|,)|(\s([a-z]|I\s|I'm|I'll|\d|\())))".format(
-            abbr=abbr.strip()
-        ),
-        "∯",
-        txt,
-    )
-    # remove the prepended space
-    txt = txt[1:]
-    return txt
-
-
 class AbbreviationReplacer(object):
     def __init__(self, text, lang):
         self.text = text
@@ -69,8 +54,23 @@ class AbbreviationReplacer(object):
             self.lang.MULTI_PERIOD_ABBREVIATION_REGEX,
             mpa_replace,
             self.text,
-            flags=re.IGNORECASE,
+            flags=re.IGNORECASE
         )
+
+    def replace_period_of_abbr(self, txt, abbr):
+        # prepend a space to avoid needing another regex for start of string
+        txt = " " + txt
+        txt = re.sub(
+            r"(?<=\s{abbr})\.(?=((\.|\:|-|\?|,)|(\s([a-z]|I\s|I'm|I'll|\d|\())))".format(
+                abbr=abbr.strip()
+            ),
+            "∯",
+            txt,
+        )
+        # remove the prepended space
+        txt = txt[1:]
+        return txt
+
 
     def search_for_abbreviations_in_string(self):
         original = self.text
@@ -106,5 +106,5 @@ class AbbreviationReplacer(object):
             elif am.strip().lower() in number_abbr:
                 txt = replace_pre_number_abbr(txt, am)
             else:
-                txt = replace_period_of_abbr(txt, am)
+                txt = self.replace_period_of_abbr(txt, am)
         return txt

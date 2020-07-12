@@ -15,4 +15,3 @@ class ExclamationWords(object):
     def apply_rules(cls, text):
         return re.sub(ExclamationWords.EXCLAMATION_REGEX, replace_punctuation,
                       text)
-

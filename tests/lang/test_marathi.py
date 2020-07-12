@@ -18,4 +18,5 @@ GOLDEN_MR_RULES_TEST_CASES = [
 def test_mr_sbd(mr_default_fixture, text, expected_sents):
     """Marathi language SBD tests"""
     segments = mr_default_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents

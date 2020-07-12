@@ -18,6 +18,7 @@ def test_newline_input(pysbd_default_en_no_clean_no_span_fixture, text="\n"):
 def test_segmenter_doesnt_mutate_input(pysbd_default_en_no_clean_no_span_fixture,
                                        text='My name is Jonas E. Smith. Please turn to p. 55.'):
     segments = pysbd_default_en_no_clean_no_span_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert text == 'My name is Jonas E. Smith. Please turn to p. 55.'
 
 @pytest.mark.parametrize('text,expected',
@@ -66,4 +67,5 @@ def test_en_pdf_type(text, expected_sents):
     """SBD tests from Pragmatic Segmenter for doctype:pdf"""
     seg = pysbd.Segmenter(language="en", clean=True, doc_type='pdf')
     segments = seg.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents

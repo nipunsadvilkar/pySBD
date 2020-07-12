@@ -95,8 +95,6 @@ class Cleaner(object):
             return txt
         if any(k in word for k in cr.URL_EMAIL_KEYWORDS):
             return txt
-        if any(a in word for a in self.lang.Abbreviation.ABBREVIATIONS):
-            return txt
         new_word = Text(word).apply(rule)
         txt = re.sub(re.escape(word), new_word, txt)
         return txt

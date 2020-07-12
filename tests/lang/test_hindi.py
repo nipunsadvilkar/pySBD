@@ -10,4 +10,5 @@ GOLDEN_HI_RULES_TEST_CASES = [
 def test_hi_sbd(hi_default_fixture, text, expected_sents):
     """Hindi language SBD tests from Pragmatic Segmenter"""
     segments = hi_default_fixture.segment(text)
+    segments = [s.strip() for s in segments]
     assert segments == expected_sents
