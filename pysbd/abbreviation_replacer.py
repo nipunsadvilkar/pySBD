@@ -74,12 +74,12 @@ class AbbreviationReplacer(object):
     def search_for_abbreviations_in_string(self):
         original = self.text
         abbrs = "|".join([re.escape(abr.strip()) for abr in self.lang.Abbreviation.ABBREVIATIONS])
-        abbregex = r"(?:^|\s|\r|\n)({})\b".format(abbrs)
-        abbrev_matches = re.findall(abbregex, original, flags=re.IGNORECASE)
+        abbregex = re.compile(r"(?:^|\s|\r|\n)({})\b".format(abbrs), flags=re.IGNORECASE)
+        abbrev_matches = re.findall(abbregex, original)
         try:
             abbrs2 = "|".join([re.escape(abr.strip()) for abr in self.lang.Abbreviation.ABBREVIATIONS2])
-            abbregex2 = r"(?:^|\s|\r|\n)({})\b".format(abbrs2)
-            abbrev_matches2 = re.findall(abbregex2, original, flags=re.IGNORECASE)
+            abbregex2 = re.compile(r"(?:^|\s|\r|\n)({})\b".format(abbrs2), flags=re.IGNORECASE)
+            abbrev_matches2 = re.findall(abbregex2, original)
             abbrev_matches += abbrev_matches2
         except AttributeError:
             pass

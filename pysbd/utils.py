@@ -6,7 +6,7 @@ import pysbd
 class Rule(object):
 
     def __init__(self, pattern, replacement):
-        self.pattern = pattern
+        self.pattern = re.compile(pattern)
         self.replacement = replacement
 
     def __repr__(self):  # pragma: no cover
