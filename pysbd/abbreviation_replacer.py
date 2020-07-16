@@ -79,6 +79,12 @@ class AbbreviationReplacer(object):
     def search_for_abbreviations_in_string(self, text):
         abbrev_matches = re.findall(self.abbregex, text)
         try:
+            # earlier for-loop on each abbreviation logic from
+            # pragmatic-segmenter was too timetaking hence we did refactoring
+            # of this function to improving performance on bigger text files.
+            # Languages - ru, it, bg - were breaking due to the regex approach
+            # so added ABBREVIATIONS2 to handle those languages specific
+            # abbreviation cases.
             abbrs2 = "|".join([re.escape(abr.strip()) for abr in self.lang.Abbreviation.ABBREVIATIONS2])
             abbregex2 = re.compile(r"(?:^|\s|\r|\n)({})\b".format(abbrs2), flags=re.IGNORECASE)
             abbrev_matches2 = re.findall(abbregex2, text)
@@ -110,14 +116,3 @@ class AbbreviationReplacer(object):
             else:
                 txt = self.replace_period_of_abbr(txt, am)
         return txt
-
-
-if __name__ == "__main__":
-    from pysbd.languages import Language
-    lang = Language.get_language_module('en')
-    tests = [('He has Ph.D. level training', [])]
-    for test in tests:
-        text, expected = test
-        ab = AbbreviationReplacer(text, lang)
-        abtext = ab.replace()
-        print(f"{text} => {abtext}")
