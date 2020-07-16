@@ -21,7 +21,7 @@ def time_profile(text, n_trials):
 
 if __name__ == "__main__":
     text = open('benchmarks/1661-0.txt').read()
-    n_trials = 1
+    n_trials = 10
     times = time_profile(text, n_trials)
     print("Total seconds {}".format(sum(times)))
     print("Num trials {}".format(n_trials))
