@@ -25,6 +25,8 @@ class AbbreviationReplacer(object):
     def __init__(self, text, lang):
         self.text = text
         self.lang = lang
+        abbrs = "|".join([re.escape(abr.strip()) for abr in self.lang.Abbreviation.ABBREVIATIONS])
+        self.abbregex = re.compile(r"(?:^|\s|\r|\n)({})\b".format(abbrs), flags=re.IGNORECASE)
 
     def replace(self):
         self.text = Text(self.text).apply(
@@ -32,7 +34,10 @@ class AbbreviationReplacer(object):
             self.lang.KommanditgesellschaftRule,
             *self.lang.SingleLetterAbbreviationRules.All
         )
-        self.text = self.search_for_abbreviations_in_string()
+        abbr_handled_text = ""
+        for line in self.text.splitlines(True):
+            abbr_handled_text += self.search_for_abbreviations_in_string(line)
+        self.text = abbr_handled_text
         self.replace_multi_period_abbreviations()
         self.text = Text(self.text).apply(*self.lang.AmPmRules.All)
         self.text = self.replace_abbreviation_as_sentence_boundary()
@@ -71,26 +76,23 @@ class AbbreviationReplacer(object):
         txt = txt[1:]
         return txt
 
-    def search_for_abbreviations_in_string(self):
-        original = self.text
-        abbrs = "|".join([re.escape(abr.strip()) for abr in self.lang.Abbreviation.ABBREVIATIONS])
-        abbregex = re.compile(r"(?:^|\s|\r|\n)({})\b".format(abbrs), flags=re.IGNORECASE)
-        abbrev_matches = re.findall(abbregex, original)
+    def search_for_abbreviations_in_string(self, text):
+        abbrev_matches = re.findall(self.abbregex, text)
         try:
             abbrs2 = "|".join([re.escape(abr.strip()) for abr in self.lang.Abbreviation.ABBREVIATIONS2])
             abbregex2 = re.compile(r"(?:^|\s|\r|\n)({})\b".format(abbrs2), flags=re.IGNORECASE)
-            abbrev_matches2 = re.findall(abbregex2, original)
+            abbrev_matches2 = re.findall(abbregex2, text)
             abbrev_matches += abbrev_matches2
         except AttributeError:
             pass
         if not abbrev_matches:
-            return self.text
+            return text
         else:
             for ind, abbrev_match in enumerate(abbrev_matches):
                 next_word_start = r"(?<={" + str(re.escape(abbrev_match)) + "} ).{1}"
-                char_array = re.findall(next_word_start, self.text)
-                self.text = self.scan_for_replacements(self.text, abbrev_match, ind, char_array)
-            return self.text
+                char_array = re.findall(next_word_start, text)
+                text = self.scan_for_replacements(text, abbrev_match, ind, char_array)
+            return text
 
     def scan_for_replacements(self, txt, am, ind, char_array):
         try:

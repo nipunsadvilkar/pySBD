@@ -7,7 +7,7 @@ import stanza
 from syntok.tokenizer import Tokenizer
 import syntok.segmenter as syntok_segmenter
 
-from .english_golden_rules import GOLDEN_EN_RULES
+from english_golden_rules import GOLDEN_EN_RULES
 
 pysbd_segmenter = pysbd.Segmenter(language="en", clean=False, char_span=False)
 
@@ -26,7 +26,9 @@ def nltk_tokenize(text):
     return nltk.sent_tokenize(text)
 
 def pysbd_tokenize(text):
-    return pysbd_segmenter.segment(text)
+    segments = pysbd_segmenter.segment(text)
+    segments = [s.strip() for s in segments]
+    return segments
 
 def spacy_tokenize(text):
     return [sent.text for sent in nlp(text).sents]
@@ -62,14 +64,6 @@ def benchmark(golden_rules, tokenize_func):
     return percent_score
 
 
-def speed_benchmark(filepath, tokenize_func):
-    sentences = []
-    for line in open(filepath):
-        segments = tokenize_func(line)
-        sentences.append(segments)
-    return sentences
-
-
 if __name__ == "__main__":
     import time
     libraries = (
@@ -82,14 +76,11 @@ if __name__ == "__main__":
         syntok_tokenize)
     for tokenize_func in libraries:
         t = time.time()
-        # wget http://www.gutenberg.org/files/1661/1661-0.txt -P benchmarks/
-        sentences = speed_benchmark('benchmarks/1661-0.txt', tokenize_func)
-        # for i in range(100):
-        #     percent_score = benchmark(GOLDEN_EN_RULES, tokenize_func)
+        for i in range(100):
+            percent_score = benchmark(GOLDEN_EN_RULES, tokenize_func)
 
         time_taken = time.time() - t
         print()
         print(tokenize_func.__name__)
-        print('Speed : {:>20.2f} ms'.format(time_taken * 1000))
-        # print('GRS score: {:0.2f}%'.format(percent_score))
-        # print('Speed(Avg over 100 runs): {:>10.2f} ms'.format(time_taken*1000/100))
+        print('GRS score: {:0.2f}%'.format(percent_score))
+        print('Speed(Avg over 100 runs): {:>10.2f} ms'.format(time_taken*1000/100))

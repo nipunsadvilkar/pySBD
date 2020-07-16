@@ -50,38 +50,12 @@ def syntok_tokenize(text):
     segments = [sent for sent in make_sentences(result)]
     return segments
 
-def load_genia_corpus(genia_raw_dir):
-    txtfiles = Path(genia_raw_dir).glob("**/*.txt")
-    txtfiles = list(txtfiles)
-    all_docs = []
-    for ind, txtfile in enumerate(txtfiles, start=1):
-        with open(txtfile) as f:
-            geniatext = f.read().strip()
-        expected = geniatext.split('\n')
-        all_docs.append((geniatext, expected))
-
-    return all_docs
-
-def benchmark(docs, tokenize_func):
-
-    correct = 0
-    for (text, expected) in docs:
-        segments = tokenize_func(text)
-        if segments == expected:
-            correct +=1
-    return correct
-
+def speed_benchmark(big_text, tokenize_func):
+    segments = tokenize_func(big_text)
+    return segments
 
 if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-            '--genia',
-            help="Path to the directory containing genia data."
-    )
-
-    args = parser.parse_args()
-
+    import time
     libraries = (
         blingfire_tokenize,
         nltk_tokenize,
@@ -89,14 +63,16 @@ if __name__ == "__main__":
         spacy_tokenize,
         spacy_dep_tokenize,
         stanza_tokenize,
-        syntok_tokenize
-        )
+        syntok_tokenize)
 
-    docs = load_genia_corpus(args.genia)
-    total = len(docs)
     for tokenize_func in libraries:
-        correct = benchmark(docs, tokenize_func)
-        percent_score = correct/total * 100
+        t = time.time()
+        # wget http://www.gutenberg.org/files/1661/1661-0.txt -P benchmarks/
+        with open('benchmarks/1661-0.txt') as bigfile:
+            big_text = bigfile.read()
+        sentences = speed_benchmark(big_text, tokenize_func)
+
+        time_taken = time.time() - t
         print()
         print(tokenize_func.__name__)
-        print('GENIA abstract acc: {:0.2f}%'.format(percent_score))
+        print('Speed : {:>20.2f} ms'.format(time_taken * 1000))
