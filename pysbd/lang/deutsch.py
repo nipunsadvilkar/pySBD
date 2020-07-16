@@ -63,7 +63,7 @@ class Deutsch(Common, Standard):
                     SingleLowerCaseLetterRule,
                     SingleLowerCaseLetterAtStartOfLineRule)
 
-            self.text = self.search_for_abbreviations_in_string()
+            self.text = self.search_for_abbreviations_in_string(self.text)
             self.replace_multi_period_abbreviations()
             self.text = Text(self.text).apply(*self.lang.AmPmRules.All)
             self.text = self.replace_abbreviation_as_sentence_boundary()
