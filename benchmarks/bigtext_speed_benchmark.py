@@ -4,11 +4,8 @@ import pysbd
 import spacy
 import stanza
 
-import syntok
 from syntok.tokenizer import Tokenizer
 import syntok.segmenter as syntok_segmenter
-
-from english_golden_rules import GOLDEN_EN_RULES
 
 pysbd_segmenter = pysbd.Segmenter(language="en", clean=False, char_span=False)
 
@@ -27,13 +24,15 @@ def nltk_tokenize(text):
     return nltk.sent_tokenize(text)
 
 def pysbd_tokenize(text):
-    return pysbd_segmenter.segment(text)
+    segments = pysbd_segmenter.segment(text)
+    segments = [s.strip() for s in segments]
+    return segments
 
 def spacy_tokenize(text):
-    return [sent.text for sent in nlp(text).sents]
+    return [sent.text.strip("\n") for sent in nlp(text).sents]
 
 def spacy_dep_tokenize(text):
-    return [sent.text for sent in nlp_dep(text).sents]
+    return [sent.text.strip("\n") for sent in nlp_dep(text).sents]
 
 def stanza_tokenize(text):
     return [e.text for e in stanza_nlp(text).sentences]
@@ -48,19 +47,9 @@ def syntok_tokenize(text):
     segments = [sent for sent in make_sentences(result)]
     return segments
 
-
-total_rules = len(GOLDEN_EN_RULES)
-
-def benchmark(golden_rules, tokenize_func):
-    score = 0
-    for rule in golden_rules:
-        text, expected = rule
-        segments = tokenize_func(text)
-        if segments == expected:
-            score += 1
-    percent_score = (score / total_rules) * 100.0
-
-    return percent_score
+def speed_benchmark(big_text, tokenize_func):
+    segments = tokenize_func(big_text)
+    return segments
 
 if __name__ == "__main__":
     import time
@@ -72,13 +61,15 @@ if __name__ == "__main__":
         spacy_dep_tokenize,
         stanza_tokenize,
         syntok_tokenize)
+
     for tokenize_func in libraries:
         t = time.time()
-        for i in range(100):
-            percent_score = benchmark(GOLDEN_EN_RULES, tokenize_func)
+        # wget http://www.gutenberg.org/files/1661/1661-0.txt -P benchmarks/
+        with open('benchmarks/1661-0.txt') as bigfile:
+            big_text = bigfile.read()
+        sentences = speed_benchmark(big_text, tokenize_func)
 
         time_taken = time.time() - t
         print()
         print(tokenize_func.__name__)
-        print('GRS score: {:0.2f}%'.format(percent_score))
-        print('Speed(Avg over 100 runs): {:>10.2f} ms'.format(time_taken*1000/100))
+        print('Speed : {:>20.2f} ms'.format(time_taken * 1000))

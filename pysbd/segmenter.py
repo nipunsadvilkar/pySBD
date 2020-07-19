@@ -14,7 +14,7 @@ class Segmenter(object):
 
         Parameters
         ----------
-        language : str, optional
+        language : str, required
             specify a language use its two character ISO 639-1 code,
             by default "en"
         clean : bool, optional

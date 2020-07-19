@@ -77,17 +77,18 @@ class Processor(object):
         sents = [self.check_for_punctuation(s) for s in sents]
         # flatten list of list of sentences
         sents = self.rm_none_flatten(sents)
-        new_sents = []
+        postprocessed_sents = []
         for sent in sents:
             sent = Text(sent).apply(*self.lang.SubSymbolsRules.All)
             post_process_sent = self.post_process_segments(sent)
             if post_process_sent and isinstance(post_process_sent, str):
-                new_sents.append(post_process_sent)
+                postprocessed_sents.append(post_process_sent)
             elif isinstance(post_process_sent, list):
                 for pps in post_process_sent:
-                    new_sents.append(pps)
-        new_sents = [Text(ns).apply(self.lang.SubSingleQuoteRule) for ns in new_sents]
-        return new_sents
+                    postprocessed_sents.append(pps)
+        postprocessed_sents = [Text(ns).apply(self.lang.SubSingleQuoteRule)
+                               for ns in postprocessed_sents]
+        return postprocessed_sents
 
     def post_process_segments(self, txt):
         if len(txt) > 2 and re.search(r'\A[a-zA-Z]*\Z', txt):
