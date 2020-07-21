@@ -51,9 +51,11 @@ class Segmenter(object):
         # since SENTENCE_BOUNDARY_REGEX doesnt account
         # for trailing whitespaces \s* is used as suffix
         # to keep non-destructive text after segments joins
-        return [TextSpan(m.group(), m.start(), m.end()) for sent in sentences
-                for m in re.finditer('{0}\s*'.format(re.escape(sent)),
-                self.original_text)]
+        sent_spans = set((match.group(), match.start(), match.end()) for sent in sentences
+                for match in re.finditer('{0}\s*'.format(re.escape(sent)),
+                self.original_text))
+        sorted_spans = sorted(sent_spans, key=lambda x: x[1])
+        return [TextSpan(sent, start, end) for sent, start, end in sorted_spans]
 
     def segment(self, text):
         self.original_text = text

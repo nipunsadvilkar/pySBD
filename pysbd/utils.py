@@ -61,8 +61,7 @@ class TextSpan(object):
 
     def __eq__(self, other):
         if isinstance(self, other.__class__):
-            return self.sent == other.sent and self.start == other.start and self.end == self.end
-        return False
+            return self.sent == other.sent and self.start == other.start and self.end == other.end
 
 
 class PySBDFactory(object):

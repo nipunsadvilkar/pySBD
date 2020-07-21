@@ -24,7 +24,7 @@ def test_segmenter_doesnt_mutate_input(pysbd_default_en_no_clean_no_span_fixture
 @pytest.mark.parametrize('text,expected',
                          [('My name is Jonas E. Smith. Please turn to p. 55.',
                             [
-                                ('My name is Jonas E. Smith. ', 0, 26),
+                                ('My name is Jonas E. Smith. ', 0, 27),
                                 ('Please turn to p. 55.', 27, 48),
                             ])
                          ])
