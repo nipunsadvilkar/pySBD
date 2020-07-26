@@ -5,7 +5,6 @@ from pysbd.utils import Rule
 class Common(object):
 
     # added special case: r"[。．.！!?].*" to handle intermittent dots, exclamation, etc.
-    # TODO: above special cases group can be updated as per developer needs
     SENTENCE_BOUNDARY_REGEX = r"（(?:[^）])*）(?=\s?[A-Z])|「(?:[^」])*」(?=\s[A-Z])|\((?:[^\)]){2,}\)(?=\s[A-Z])|\'(?:[^\'])*[^,]\'(?=\s[A-Z])|\"(?:[^\"])*[^,]\"(?=\s[A-Z])|\“(?:[^\”])*[^,]\”(?=\s[A-Z])|[。．.！!?？].*|\S.*?[。．.！!?？ȸȹ☉☈☇☄]"
 
     # # Rubular: http://rubular.com/r/NqCqv372Ix
