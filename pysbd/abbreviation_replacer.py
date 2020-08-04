@@ -32,7 +32,10 @@ class AbbreviationReplacer(object):
             self.lang.KommanditgesellschaftRule,
             *self.lang.SingleLetterAbbreviationRules.All
         )
-        self.text = self.search_for_abbreviations_in_string()
+        abbr_handled_text = ""
+        for line in self.text.splitlines(True):
+            abbr_handled_text += self.search_for_abbreviations_in_string(line)
+        self.text = abbr_handled_text
         self.replace_multi_period_abbreviations()
         self.text = Text(self.text).apply(*self.lang.AmPmRules.All)
         self.text = self.replace_abbreviation_as_sentence_boundary()
@@ -72,25 +75,24 @@ class AbbreviationReplacer(object):
         return txt
 
 
-    def search_for_abbreviations_in_string(self):
-        original = self.text
-        lowered = original.lower()
+    def search_for_abbreviations_in_string(self, text):
+        lowered = text.lower()
         for abbr in self.lang.Abbreviation.ABBREVIATIONS:
             stripped = abbr.strip()
             if stripped not in lowered:
                 continue
             abbrev_match = re.findall(
-                r"(?:^|\s|\r|\n){}".format(stripped), original, flags=re.IGNORECASE
+                r"(?:^|\s|\r|\n){}".format(stripped), text, flags=re.IGNORECASE
             )
             if not abbrev_match:
                 continue
             next_word_start = r"(?<={" + str(re.escape(stripped)) + "} ).{1}"
-            char_array = re.findall(next_word_start, self.text)
+            char_array = re.findall(next_word_start, text)
             for ind, match in enumerate(abbrev_match):
-                self.text = self.scan_for_replacements(
-                    self.text, match, ind, char_array
+                text = self.scan_for_replacements(
+                    text, match, ind, char_array
                 )
-        return self.text
+        return text
 
     def scan_for_replacements(self, txt, am, ind, char_array):
         try:

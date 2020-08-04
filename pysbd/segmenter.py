@@ -14,7 +14,7 @@ class Segmenter(object):
 
         Parameters
         ----------
-        language : str, optional
+        language : str, required
             specify a language use its two character ISO 639-1 code,
             by default "en"
         clean : bool, optional
@@ -49,11 +49,23 @@ class Segmenter(object):
 
     def sentences_with_char_spans(self, sentences):
         # since SENTENCE_BOUNDARY_REGEX doesnt account
-        # for trailing whitespaces \s* is used as suffix
+        # for trailing whitespaces \s* & is used as suffix
         # to keep non-destructive text after segments joins
-        return [TextSpan(m.group(), m.start(), m.end()) for sent in sentences
-                for m in re.finditer('{0}\s*'.format(re.escape(sent)),
-                self.original_text)]
+        sent_spans = []
+        prior_start_char_idx = 0
+        for sent in sentences:
+            for match in re.finditer(r'{0}\s*'.format(re.escape(sent)), self.original_text):
+                match_str = match.group()
+                match_start_idx, match_end_idx = match.span()
+                if match_start_idx >= prior_start_char_idx:
+                    # making sure if curren sentence and its span
+                    # is either first sentence along with its char spans
+                    # or current sent spans adjacent to prior sentence spans
+                    sent_spans.append(
+                        TextSpan(match_str, match_start_idx, match_end_idx))
+                    prior_start_char_idx = match_start_idx
+                    break
+        return sent_spans
 
     def segment(self, text):
         self.original_text = text
@@ -66,11 +78,11 @@ class Segmenter(object):
             text = self.cleaner(text).clean()
         postprocessed_sents = self.processor(text).process()
         sentence_w_char_spans = self.sentences_with_char_spans(postprocessed_sents)
-        if self.clean:
+        if self.char_span:
+            return sentence_w_char_spans
+        elif self.clean:
             # clean and destructed sentences
             return postprocessed_sents
-        elif self.char_span:
-            return sentence_w_char_spans
         else:
             # nondestructive with whitespaces
             return [textspan.sent for textspan in sentence_w_char_spans]

@@ -56,13 +56,12 @@ class TextSpan(object):
         self.end = end
 
     def __repr__(self):  # pragma: no cover
-        return "{0}(sent='{1}', start={2}, end={3})".format(
-            self.__class__.__name__, self.sent, self.start, self.end)
+        return "{0}(sent={1}, start={2}, end={3})".format(
+            self.__class__.__name__, repr(self.sent), self.start, self.end)
 
     def __eq__(self, other):
         if isinstance(self, other.__class__):
-            return self.sent == other.sent and self.start == other.start and self.end == self.end
-        return False
+            return self.sent == other.sent and self.start == other.start and self.end == other.end
 
 
 class PySBDFactory(object):

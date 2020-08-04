@@ -7,7 +7,7 @@ import stanza
 from syntok.tokenizer import Tokenizer
 import syntok.segmenter as syntok_segmenter
 
-from pathlib import Path
+from english_golden_rules import GOLDEN_EN_RULES
 
 pysbd_segmenter = pysbd.Segmenter(language="en", clean=False, char_span=False)
 
@@ -30,10 +30,10 @@ def pysbd_tokenize(text):
     return [s.strip() for s in segments]
 
 def spacy_tokenize(text):
-    return [sent.text.strip("\n") for sent in nlp(text).sents]
+    return [sent.text for sent in nlp(text).sents]
 
 def spacy_dep_tokenize(text):
-    return [sent.text.strip("\n") for sent in nlp_dep(text).sents]
+    return [sent.text for sent in nlp_dep(text).sents]
 
 def stanza_tokenize(text):
     return [e.text for e in stanza_nlp(text).sentences]
@@ -48,38 +48,22 @@ def syntok_tokenize(text):
     segments = [sent for sent in make_sentences(result)]
     return segments
 
-def load_genia_corpus(genia_raw_dir):
-    txtfiles = Path(genia_raw_dir).glob("**/*.txt")
-    txtfiles = list(txtfiles)
-    all_docs = []
-    for ind, txtfile in enumerate(txtfiles, start=1):
-        with open(txtfile) as f:
-            geniatext = f.read().strip()
-        expected = geniatext.split('\n')
-        all_docs.append((geniatext, expected))
 
-    return all_docs
+total_rules = len(GOLDEN_EN_RULES)
 
-def benchmark(docs, tokenize_func):
-
-    correct = 0
-    for (text, expected) in docs:
+def benchmark(golden_rules, tokenize_func):
+    score = 0
+    for rule in golden_rules:
+        text, expected = rule
         segments = tokenize_func(text)
         if segments == expected:
-            correct +=1
-    return correct
+            score += 1
+    percent_score = (score / total_rules) * 100.0
 
+    return percent_score
 
 if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-            '--genia',
-            help="Path to the directory containing genia data."
-    )
-
-    args = parser.parse_args()
-
+    import time
     libraries = (
         blingfire_tokenize,
         nltk_tokenize,
@@ -87,14 +71,14 @@ if __name__ == "__main__":
         spacy_tokenize,
         spacy_dep_tokenize,
         stanza_tokenize,
-        syntok_tokenize
-        )
-
-    docs = load_genia_corpus(args.genia)
-    total = len(docs)
+        syntok_tokenize)
     for tokenize_func in libraries:
-        correct = benchmark(docs, tokenize_func)
-        percent_score = correct/total * 100
+        t = time.time()
+        for i in range(100):
+            percent_score = benchmark(GOLDEN_EN_RULES, tokenize_func)
+
+        time_taken = time.time() - t
         print()
         print(tokenize_func.__name__)
-        print('GENIA abstract acc: {:0.2f}%'.format(percent_score))
+        print('GRS score: {:0.2f}%'.format(percent_score))
+        print('Speed(Avg over 100 runs): {:>10.2f} ms'.format(time_taken*1000/100))

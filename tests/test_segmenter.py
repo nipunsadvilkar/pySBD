@@ -24,7 +24,7 @@ def test_segmenter_doesnt_mutate_input(pysbd_default_en_no_clean_no_span_fixture
 @pytest.mark.parametrize('text,expected',
                          [('My name is Jonas E. Smith. Please turn to p. 55.',
                             [
-                                ('My name is Jonas E. Smith. ', 0, 26),
+                                ('My name is Jonas E. Smith. ', 0, 27),
                                 ('Please turn to p. 55.', 27, 48),
                             ])
                          ])
@@ -36,6 +36,32 @@ def test_sbd_char_span(en_no_clean_with_span_fixture, text, expected):
     assert segments == expected_text_spans
     # clubbing sentences and matching with original text
     assert text == "".join([seg.sent for seg in segments])
+
+def test_same_sentence_different_char_span(en_no_clean_with_span_fixture):
+    """Test same sentences with different char offsets & check for non-destruction"""
+    text = """From the AP comes this story :
+President Bush on Tuesday nominated two individuals to replace retiring jurists on federal courts in the Washington area.
+***
+After you are elected in 2004, what will your memoirs say about you, what will the title be, and what will the main theme say?
+***
+"THE PRESIDENT: I appreciate that.
+(Laughter.)
+My life is too complicated right now trying to do my job.
+(Laughter.)"""
+    expected_text_spans = [TextSpan(sent='From the AP comes this story :\n', start=0, end=31),
+    TextSpan(sent='President Bush on Tuesday nominated two individuals to replace retiring jurists on federal courts in the Washington area.\n', start=31, end=153),
+    TextSpan(sent='***\n', start=153, end=157),
+    TextSpan(sent='After you are elected in 2004, what will your memoirs say about you, what will the title be, and what will the main theme say?\n', start=157, end=284),
+    TextSpan(sent='***\n', start=284, end=288),
+    TextSpan(sent='"THE PRESIDENT: I appreciate that.\n', start=288, end=323),
+    TextSpan(sent='(Laughter.)\n', start=323, end=335),
+    TextSpan(sent='My life is too complicated right now trying to do my job.\n', start=335, end=393),
+    TextSpan(sent='(Laughter.)', start=393, end=404)]
+    segments_w_spans = en_no_clean_with_span_fixture.segment(text)
+    assert segments_w_spans == expected_text_spans
+    # check for non-destruction
+    # clubbing sentences and matching with original text
+    assert text == "".join([seg.sent for seg in segments_w_spans])
 
 def test_exception_with_both_clean_and_span_true():
     """Test to not allow clean=True and char_span=True
