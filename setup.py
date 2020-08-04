@@ -15,7 +15,7 @@ root = os.path.abspath(os.path.dirname(__file__))
 
 REQUIRES_PYTHON = ">=3"
 # What packages are required for this module to be executed?
-REQUIRED = ["spacy"]
+REQUIRED = []
 
 with io.open(os.path.join(root, "pysbd", "about.py"), encoding="utf8") as f:
     about = {}
