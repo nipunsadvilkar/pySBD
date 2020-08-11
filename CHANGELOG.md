@@ -1,3 +1,13 @@
+# v0.3.1
+- 🚑 ✅ Handle Newline character & update tests
+
+# v0.3.0
+-   ✨ 💫  Support Multiple languages - \#2
+-   🏎⚡️💯 Benchmark across Segmentation Tools, Libraries and Algorithms
+-   🎨 ♻️ Update sentence char_span logic
+-   ⚡️  Performance improvements - \#41
+-   ♻️🐛 Refactor AbbreviationReplacer
+
 # v0.3.0rc
 -   ✨ 💫 sent `char_span` through with spaCy & regex approach - \#63
 -   ♻️ Refactoring to support multiple languages
