@@ -28,6 +28,7 @@ class Processor(object):
     def process(self):
         if not self.text:
             return self.text
+        self.text = self.text.replace('\n', '\r')
         li = ListItemReplacer(self.text)
         self.text = li.add_line_break()
         self.replace_abbreviations()

@@ -58,7 +58,13 @@ TEST_ISSUE_DATA_CHAR_SPANS = [
     ('#55', "She turned to him, \"This is great.\" She held the book out to show him.",
         [
             ('She turned to him, "This is great." ', 0, 36), ('She held the book out to show him.', 36, 70)
-        ])
+        ]),
+('#56',
+"""This eBook is for the use of anyone anywhere at no cost
+you may copy it, give it away or re-use it under the terms of the this license
+""",
+[('This eBook is for the use of anyone anywhere at no cost\n', 0, 56),
+ ('you may copy it, give it away or re-use it under the terms of the this license\n', 56, 135)])
 
 ]
 
