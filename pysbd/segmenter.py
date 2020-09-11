@@ -31,6 +31,15 @@ class Segmenter(object):
         self.clean = clean
         self.doc_type = doc_type
         self.char_span = char_span
+        if self.clean and self.char_span:
+            raise ValueError("char_span must be False if clean is True. "
+                             "Since `clean=True` will modify original text.")
+        # when doctype is pdf then force user to clean the text
+        # char_span func wont be provided with pdf doctype also
+        elif self.doc_type == 'pdf' and not self.clean:
+            raise ValueError("`doc_type='pdf'` should have `clean=True` & "
+                            "`char_span` should be False since original"
+                            "text will be modified.")
 
     def cleaner(self, text):
         if hasattr(self.language_module, "Cleaner"):
@@ -71,11 +80,10 @@ class Segmenter(object):
         self.original_text = text
         if not text:
             return []
-        if self.clean and self.char_span:
-            raise ValueError("char_span must be False if clean is True. "
-                             "Since `clean=True` will modify original text.")
-        elif self.clean:
+
+        if self.clean or self.doc_type == 'pdf':
             text = self.cleaner(text).clean()
+
         postprocessed_sents = self.processor(text).process()
         sentence_w_char_spans = self.sentences_with_char_spans(postprocessed_sents)
         if self.char_span:

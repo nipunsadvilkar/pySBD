@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
-from pysbd.utils import Text, TextSpan
+from pysbd.utils import Text
 from pysbd.lists_item_replacer import ListItemReplacer
 from pysbd.exclamation_words import ExclamationWords
 from pysbd.between_punctuation import BetweenPunctuation
