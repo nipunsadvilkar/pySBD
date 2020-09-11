@@ -64,8 +64,9 @@ TEST_ISSUE_DATA_CHAR_SPANS = [
 you may copy it, give it away or re-use it under the terms of the this license
 """,
 [('This eBook is for the use of anyone anywhere at no cost\n', 0, 56),
- ('you may copy it, give it away or re-use it under the terms of the this license\n', 56, 135)])
-
+ ('you may copy it, give it away or re-use it under the terms of the this license\n', 56, 135)]),
+('#78', 'Sentence. .. Next sentence. Next next sentence.',
+[('Sentence. ', 0, 10), ('.. ', 10, 13), ('Next sentence. ', 13, 28), ('Next next sentence.', 28, 47)])
 ]
 
 @pytest.mark.parametrize('issue_no,text,expected_sents', TEST_ISSUE_DATA)
