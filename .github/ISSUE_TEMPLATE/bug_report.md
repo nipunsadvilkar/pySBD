@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Create a report & testcase to help us improve
-title: "\U0001F41B"
+title: <Appropriate title>
 labels: ''
 assignees: ''
 
@@ -26,3 +26,7 @@ Example:
 
 **Additional context**
 Add any other context about the problem here.
+
+<details>
+  <summary>Paste Error Traceback here, if any</summary>
+<details>

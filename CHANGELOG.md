@@ -1,3 +1,6 @@
+# v0.3.2
+- 🐛 ✅ Enforce clean=True when doc_type="pdf" - \#75
+
 # v0.3.1
 - 🚑 ✅ Handle Newline character & update tests
 

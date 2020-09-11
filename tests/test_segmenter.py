@@ -68,8 +68,27 @@ def test_exception_with_both_clean_and_span_true():
     """
     with pytest.raises(ValueError) as e:
         seg = pysbd.Segmenter(language="en", clean=True, char_span=True)
-        text = "<h2 class=\"lined\">Hello</h2>\n<p>This is a test. Another test.</p>"
-        seg.segment(text)
+    assert str(e.value) == "char_span must be False if clean is True. "\
+                            "Since `clean=True` will modify original text."
+
+def test_exception_with_doc_type_pdf_and_clean_false():
+    """
+    Test to force clean=True when doc_type="pdf"
+    """
+    with pytest.raises(ValueError) as e:
+        seg = pysbd.Segmenter(language="en", clean=False, doc_type='pdf')
+    assert str(e.value) == ("`doc_type='pdf'` should have `clean=True` & "
+                            "`char_span` should be False since original"
+                            "text will be modified.")
+
+def test_exception_with_doc_type_pdf_and_both_clean_char_span_true():
+    """
+    Test to raise ValueError exception when doc_type="pdf" and
+    both clean=True and char_span=True
+    """
+    with pytest.raises(ValueError) as e:
+        seg = pysbd.Segmenter(language="en", clean=True,
+                                doc_type='pdf', char_span=True)
     assert str(e.value) == "char_span must be False if clean is True. "\
                             "Since `clean=True` will modify original text."
 
