@@ -6,7 +6,7 @@ Thanks for your interest in contributing to pySBD 🎉. The project is maintaine
 1. [Issues and bug reports](#issues-and-bug-reports)</br>
     a. [Submitting issues](#submitting-issues)</br>
     b. [Issue labels](#issue-labels)
-2. [Contributing to the code base](#contribute-to-the-code-base)</br>
+2. [Contributing to the code base](#contributing-to-the-code-base)</br>
     a. [Getting started](#getting-started)</br>
     b. [Add a new rule to existing *Golden Rules Set* (GRS)](#add-a-new-rule-to-existing-golden-rules-set-grs)</br>
     c. [Add new language support](#add-new-language-support)</br>
@@ -26,7 +26,7 @@ When opening an issue, use an **appropriate and descriptive title** and include 
 **environment** (operating system, Python version, pySBD version). Choose the report type [from here](https://github.com/nipunsadvilkar/pySBD/issues/new/choose), if type is not available then open a [blank issue](https://github.com/nipunsadvilkar/pySBD/issues/new). The
 [issue template](https://github.com/nipunsadvilkar/pySBD/issues/new?assignees=&labels=&template=bug_report.md&title=%3CAppropriate+title%3E) helps you
 remember the most important details to include. If you've discovered a bug, you
-can also submit a [regression test](#fixing-bugs) straight away. When you're
+can also submit a [regression test](#fix-bugs) straight away. When you're
 opening an issue to report the bug, simply refer to your pull request in the
 issue body. A few more tips:
 
@@ -50,23 +50,23 @@ issue body. A few more tips:
 [See this page](https://github.com/nipunsadvilkar/pySBD/labels) for an overview of
 the system author uses to tag our issues and pull requests.
 
-## Contribute to the code base
+## Contributing to the code base
 
 Happy to see you contibute to pySBD codebase. To help you get started and understand internals of pySBD, a good place to start is to refer to the implementation section of pySBD research paper (link to be added soon). Another great place for reference is to look at [merged pull requests](https://github.com/nipunsadvilkar/pySBD/pulls?q=is%3Apr+sort%3Aupdated-desc+is%3Amerged). Depending on the type of your contribution, refer to the assigned labels.
 
 ### Getting started
-To make changes to pySBD's code base, you need to fork then clone the GitHub repository to your local machine. You'll need to make sure that you have a development environment consisting of a Python distribution including python 3+, pipenv and git installed.
+To make changes to pySBD's code base, you need to fork then clone the GitHub repository to your local machine. You'll need to make sure that you have a development environment consisting of a Python distribution including python 3+, pip and git installed.
 
 ```python
 python -m pip install -U pip
 git clone https://github.com/nipunsadvilkar/pySBD
 cd pySBD
-pipenv install --dev
+pip install -r requirements-dev.txt
 ```
-Since pySBD is lightweight, it requires only python inbuilt modules, more specifically python `re` module to function. Development packages requiremment will be provided by `Pipfile` `[dev-packages]`. If you want to use pySBD as a spacy component then install spacy in your environment.
+Since pySBD is lightweight, it requires only python inbuilt modules, more specifically python `re` module to function. Development packages requiremment will be provided in `requirements-dev.txt`. If you want to use pySBD as a spacy component then install spacy in your environment.
 
 ### Add a new rule to existing *Golden Rules Set* (GRS)
-The language specific *Golden Rules Set* are hand-constructed rules, designed to cover sentence boundaries across a variety of domains. The set is by no means complete and will evolve and expand over time. If you would like to report an issue in existing rule or report a new rule, please [open an issue.](#submitting-issues) If you want to contribute yourself then please go ahead and send pull request by referring to [adding tests](#adding-tests) section.
+The language specific *Golden Rules Set* are hand-constructed rules, designed to cover sentence boundaries across a variety of domains. The set is by no means complete and will evolve and expand over time. If you would like to report an issue in existing rule or report a new rule, please [open an issue.](#submitting-issues) If you want to contribute yourself then please go ahead and send pull request by referring to [add tests](#add-tests) section.
 
 ### Add new language support
 Great to see you adding new language support to pySBD ✨.</br>
@@ -89,7 +89,7 @@ Your language module & language GRS should be in place by now. Next step is to m
 Author emphasizes on Test-Driven Development [(TDD)](https://testdriven.io/test-driven-development/) approach to ensure robustness of the pySBD module. You will follow a "<span style="color: red;">Red</span>-<span style="color: green;">Green</span>-<span style="color: orange;">Refactor</span>" cycle.
 
 1. Make sure you have proper development environment [setup](#getting-started)
-2. Depending on your type of contribution your test script would vary between [feature-specific](#add-new-language-support) / [bugfix specific](#fix-bugs).
+2. Depending on your type of contribution your test script would vary between [feature-specific](#add-new-language-support) / [bugfix-specific](#fix-bugs).
 3. (<span style="color: red;">Red</span>) Once you add those tests, run `pytest` to make sure it fails deliberately.
 4. (<span style="color: green;">Green</span>) Write just enough code to implement your logic in respective python script to pass the specific test which you added and got failed earlier.
 5. Once it passes, run all the tests to see if your added code doesn't break existing code.
