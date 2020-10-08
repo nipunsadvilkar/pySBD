@@ -1,3 +1,7 @@
+# v0.3.3
+- 🐛 Better handling consecutive periods and reserved special symbols - allenai/scholarphi#114
+- Add CONTRIBUTING.md
+
 # v0.3.2
 - 🐛 ✅ Enforce clean=True when doc_type="pdf" - \#75
 
