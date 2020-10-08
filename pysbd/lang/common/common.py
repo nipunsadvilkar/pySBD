@@ -4,8 +4,9 @@ from pysbd.utils import Rule
 
 class Common(object):
 
-    # added special case: r"[。．.！!?].*" to handle intermittent dots, exclamation, etc.
-    SENTENCE_BOUNDARY_REGEX = r"（(?:[^）])*）(?=\s?[A-Z])|「(?:[^」])*」(?=\s[A-Z])|\((?:[^\)]){2,}\)(?=\s[A-Z])|\'(?:[^\'])*[^,]\'(?=\s[A-Z])|\"(?:[^\"])*[^,]\"(?=\s[A-Z])|\“(?:[^\”])*[^,]\”(?=\s[A-Z])|[。．.！!?？].*|\S.*?[。．.！!?？ȸȹ☉☈☇☄]"
+    # added special case: r"[。．.！!? ]{2,}" to handle intermittent dots, exclamation, etc.
+    # r"[。．.！!?] at end to handle single instances of these symbol inputs
+    SENTENCE_BOUNDARY_REGEX = r"（(?:[^）])*）(?=\s?[A-Z])|「(?:[^」])*」(?=\s[A-Z])|\((?:[^\)]){2,}\)(?=\s[A-Z])|\'(?:[^\'])*[^,]\'(?=\s[A-Z])|\"(?:[^\"])*[^,]\"(?=\s[A-Z])|\“(?:[^\”])*[^,]\”(?=\s[A-Z])|[。．.！!?？ ]{2,}|\S.*?[。．.！!?？ȸȹ☉☈☇☄]|[。．.！!?？]"
 
     # # Rubular: http://rubular.com/r/NqCqv372Ix
     QUOTATION_AT_END_OF_SENTENCE_REGEX = r'[!?\.-][\"\'“”]\s{1}[A-Z]'

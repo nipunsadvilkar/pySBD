@@ -51,7 +51,7 @@ print(list(doc.sents))
 
 ## Contributing
 
-If you find a text that is incorrectly segmented using pySBD, please submit an issue.
+If you want to contribute new feature/language support or found a text that is incorrectly segmented using pySBD, then please head to [CONTRIBUTING.md](https://github.com/nipunsadvilkar/pySBD/blob/master/CONTRIBUTING.md) to know more and follow these steps.
 
 1.  Fork it ( https://github.com/nipunsadvilkar/pySBD/fork )
 2.  Create your feature branch (`git checkout -b my-new-feature`)
