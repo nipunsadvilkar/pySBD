@@ -65,7 +65,7 @@ class AbbreviationReplacer(object):
         txt = " " + txt
         txt = re.sub(
             r"(?<=\s{abbr})\.(?=((\.|\:|-|\?|,)|(\s([a-z]|I\s|I'm|I'll|\d|\())))".format(
-                abbr=abbr.strip()
+                abbr=re.escape(abbr.strip())
             ),
             "∯",
             txt,
