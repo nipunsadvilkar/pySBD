@@ -52,7 +52,7 @@ the system author uses to tag our issues and pull requests.
 
 ## Contributing to the code base
 
-Happy to see you contibute to pySBD codebase. To help you get started and understand internals of pySBD, a good place to start is to refer to the implementation section of pySBD research paper (link to be added soon). Another great place for reference is to look at [merged pull requests](https://github.com/nipunsadvilkar/pySBD/pulls?q=is%3Apr+sort%3Aupdated-desc+is%3Amerged). Depending on the type of your contribution, refer to the assigned labels.
+Happy to see you contibute to pySBD codebase. To help you get started and understand internals of pySBD, a good place to start is to refer to the implementation section of [pySBD research paper](https://arxiv.org/abs/2010.09657). Another great place for reference is to look at [merged pull requests](https://github.com/nipunsadvilkar/pySBD/pulls?q=is%3Apr+sort%3Aupdated-desc+is%3Amerged). Depending on the type of your contribution, refer to the assigned labels.
 
 ### Getting started
 To make changes to pySBD's code base, you need to fork then clone the GitHub repository to your local machine. You'll need to make sure that you have a development environment consisting of a Python distribution including python 3+, pip and git installed.
