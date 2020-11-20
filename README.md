@@ -1,3 +1,4 @@
+![PySBD logo](artifacts/pysbd_logo.png?raw=true "pysbd logo")
 # pySBD: Python Sentence Boundary Disambiguation (SBD)
 
 ![Python package](https://github.com/nipunsadvilkar/pySBD/workflows/Python%20package/badge.svg) [![codecov](https://codecov.io/gh/nipunsadvilkar/pySBD/branch/master/graph/badge.svg)](https://codecov.io/gh/nipunsadvilkar/pySBD) [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](https://github.com/nipunsadvilkar/pySBD/blob/master/LICENSE) [![PyPi](https://img.shields.io/pypi/v/pysbd?color=blue&logo=pypi&logoColor=white)](https://pypi.python.org/pypi/pysbd) [![GitHub](https://img.shields.io/github/v/release/nipunsadvilkar/pySBD.svg?include_prereleases&logo=github&style=flat)](https://github.com/nipunsadvilkar/pySBD)
@@ -7,6 +8,19 @@ pySBD - python Sentence Boundary Disambiguation (SBD) - is a rule-based sentence
 This project is a direct port of ruby gem - [Pragmatic Segmenter](https://github.com/diasks2/pragmatic_segmenter) which provides rule-based sentence boundary detection.
 
 ![pysbd_code](artifacts/pysbd_code.png?raw=true "pysbd_code")
+
+## Highlights
+**'PySBD: Pragmatic Sentence Boundary Disambiguation'** a short research paper got accepted into 2nd Workshop for Natural Language Processing Open Source Software (NLP-OSS) at EMNLP 2020. </br>
+
+**Research Paper:**</br> https://arxiv.org/abs/2010.09657</br>
+
+**[Recorded Talk:](https://slideslive.com/38939754)**</br>
+
+[![pysbd_talk](artifacts/pysbd_talk.png)](https://slideslive.com/38939754)</br>
+
+**Poster:**</br>
+
+[![name](artifacts/pysbd_poster.png)](artifacts/pysbd_poster.png)
 
 ## Install
 
@@ -58,6 +72,9 @@ If you want to contribute new feature/language support or found a text that is i
 3.  Commit your changes (`git commit -am 'Add some feature'`)
 4.  Push to the branch (`git push origin my-new-feature`)
 5.  Create a new Pull Request
+
+## Citation
+TBD 
 
 ## Credit
 
