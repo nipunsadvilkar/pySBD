@@ -12,7 +12,9 @@ This project is a direct port of ruby gem - [Pragmatic Segmenter](https://github
 ## Highlights
 **'PySBD: Pragmatic Sentence Boundary Disambiguation'** a short research paper got accepted into 2nd Workshop for Natural Language Processing Open Source Software (NLP-OSS) at EMNLP 2020. </br>
 
-**Research Paper:**</br> https://arxiv.org/abs/2010.09657</br>
+**Research Paper:**</br>
+
+https://arxiv.org/abs/2010.09657</br>
 
 **[Recorded Talk:](https://slideslive.com/38939754)**</br>
 
