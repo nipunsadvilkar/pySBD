@@ -76,7 +76,22 @@ If you want to contribute new feature/language support or found a text that is i
 5.  Create a new Pull Request
 
 ## Citation
-TBD 
+If you use `pysbd` package in your projects or research, please cite [PySBD: Pragmatic Sentence Boundary Disambiguation](https://www.aclweb.org/anthology/2020.nlposs-1.15).
+```
+@inproceedings{sadvilkar-neumann-2020-pysbd,
+    title = "{P}y{SBD}: Pragmatic Sentence Boundary Disambiguation",
+    author = "Sadvilkar, Nipun  and
+      Neumann, Mark",
+    booktitle = "Proceedings of Second Workshop for NLP Open Source Software (NLP-OSS)",
+    month = nov,
+    year = "2020",
+    address = "Online",
+    publisher = "Association for Computational Linguistics",
+    url = "https://www.aclweb.org/anthology/2020.nlposs-1.15",
+    pages = "110--114",
+    abstract = "We present a rule-based sentence boundary disambiguation Python package that works out-of-the-box for 22 languages. We aim to provide a realistic segmenter which can provide logical sentences even when the format and domain of the input text is unknown. In our work, we adapt the Golden Rules Set (a language specific set of sentence boundary exemplars) originally implemented as a ruby gem pragmatic segmenter which we ported to Python with additional improvements and functionality. PySBD passes 97.92{\%} of the Golden Rule Set examplars for English, an improvement of 25{\%} over the next best open source Python tool.",
+}
+```
 
 ## Credit
 
