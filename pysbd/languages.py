@@ -21,6 +21,7 @@ from pysbd.lang.italian import Italian
 from pysbd.lang.japanese import Japanese
 from pysbd.lang.deutsch import Deutsch
 from pysbd.lang.kazakh import Kazakh
+from pysbd.lang.slovak import Slovak
 
 LANGUAGE_CODES = {
     'en': English,
@@ -44,7 +45,8 @@ LANGUAGE_CODES = {
     'it': Italian,
     'ja': Japanese,
     'de': Deutsch,
-    'kk': Kazakh
+    'kk': Kazakh,
+    'sk': Slovak
 }
 
 
