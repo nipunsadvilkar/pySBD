@@ -141,3 +141,8 @@ def de_with_clean_no_span_fixture():
 def kk_default_fixture():
     kk_segmenter = pysbd.Segmenter(language="kk", clean=False, char_span=False)
     return kk_segmenter
+
+@pytest.fixture()
+def sk_default_fixture():
+    sk_segmenter = pysbd.Segmenter(language="sk", clean=False, char_span=False)
+    return sk_segmenter
