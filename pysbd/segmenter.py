@@ -61,18 +61,18 @@ class Segmenter(object):
         # for trailing whitespaces \s* & is used as suffix
         # to keep non-destructive text after segments joins
         sent_spans = []
-        prior_start_char_idx = 0
+        prior_end_char_idx = 0
         for sent in sentences:
-            for match in re.finditer(r'{0}\s*'.format(re.escape(sent)), self.original_text):
+            for match in re.finditer('{0}\s*'.format(re.escape(sent)), self.original_text):
                 match_str = match.group()
                 match_start_idx, match_end_idx = match.span()
-                if match_start_idx >= prior_start_char_idx:
+                if match_end_idx > prior_end_char_idx:
                     # making sure if curren sentence and its span
                     # is either first sentence along with its char spans
                     # or current sent spans adjacent to prior sentence spans
                     sent_spans.append(
                         TextSpan(match_str, match_start_idx, match_end_idx))
-                    prior_start_char_idx = match_start_idx
+                    prior_end_char_idx = match_end_idx
                     break
         return sent_spans
 
