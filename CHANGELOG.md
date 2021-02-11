@@ -1,3 +1,7 @@
+# v0.3.4
+- 🐛 Fix trailing period/ellipses with spaces - #83
+- 🐛 Regex escape for parenthesis - #87
+
 # v0.3.3
 - 🐛 Better handling consecutive periods and reserved special symbols - allenai/scholarphi#114
 - Add CONTRIBUTING.md
