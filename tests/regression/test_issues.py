@@ -66,7 +66,13 @@ you may copy it, give it away or re-use it under the terms of the this license
 [('This eBook is for the use of anyone anywhere at no cost\n', 0, 56),
  ('you may copy it, give it away or re-use it under the terms of the this license\n', 56, 135)]),
 ('#78', 'Sentence. .. Next sentence. Next next sentence.',
-[('Sentence. ', 0, 10), ('.. ', 10, 13), ('Next sentence. ', 13, 28), ('Next next sentence.', 28, 47)])
+[('Sentence. ', 0, 10), ('.. ', 10, 13), ('Next sentence. ', 13, 28), ('Next next sentence.', 28, 47)]),
+('#83', 'Maissen se chargea du reste .. Logiquement,',
+[('Maissen se chargea du reste .', 0, 29), ('. ', 29, 31), ('Logiquement,', 31, 43)]),
+('#83', 'Maissen se chargea du reste ... Logiquement,',
+[('Maissen se chargea du reste ... ', 0, 32), ('Logiquement,', 32, 44)]),
+pytest.param('#83', 'Maissen se chargea du reste .... Logiquement,',
+[('Maissen se chargea du reste .', 0, 29), ('... ', 29, 33), ('Logiquement,', 33, 45)], marks=pytest.mark.xfail)
 ]
 
 @pytest.mark.parametrize('issue_no,text,expected_sents', TEST_ISSUE_DATA)
