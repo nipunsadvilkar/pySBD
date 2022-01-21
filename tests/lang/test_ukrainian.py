@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 import pytest
 
 GOLDEN_UK_RULES_TEST_CASES = [
@@ -10,6 +11,9 @@ GOLDEN_UK_RULES_TEST_CASES = [
 
     ("Попередньо забронювала велику альтанку, ту, що якраз під лісом на 20.09. Почнемо з'їжджатися десь на 11-ту.",
      ["Попередньо забронювала велику альтанку, ту, що якраз під лісом на 20.09.", "Почнемо з'їжджатися десь на 11-ту."]),
+
+    ("Станом на 2500 р. до н.е.",
+     ["Станом на 2500 р. до н.е."]),
 ]
 
 
@@ -20,3 +24,9 @@ def test_uk_sbd(uk_default_fixture, text, expected_sents):
     segments = [s.strip() for s in segments]
     assert segments == expected_sents
 
+
+def test_uk_multiperiod_abbreviation_regex(uk_default_fixture):
+    text = "Станом на 2500 р. до н.е."
+    match = re.search(uk_default_fixture.language_module.MULTI_PERIOD_ABBREVIATION_REGEX,
+                      text)
+    assert match.group() == "н.е."
