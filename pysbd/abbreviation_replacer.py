@@ -35,6 +35,7 @@ class AbbreviationReplacer(object):
         abbr_handled_text = ""
         for line in self.text.splitlines(True):
             abbr_handled_text += self.search_for_abbreviations_in_string(line)
+
         self.text = abbr_handled_text
         self.replace_multi_period_abbreviations()
         self.text = Text(self.text).apply(*self.lang.AmPmRules.All)
