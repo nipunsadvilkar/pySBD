@@ -7,6 +7,10 @@ pip install spacy
 import pysbd
 import spacy
 
+from spacy.language import Language
+
+@Language.component("pysbd_sentence_boundaries")
+
 def pysbd_sentence_boundaries(doc):
     seg = pysbd.Segmenter(language="en", clean=False, char_span=True)
     sents_char_spans = seg.segment(doc.text)
@@ -21,7 +25,7 @@ if __name__ == "__main__":
     nlp = spacy.blank('en')
 
     # add as a spacy pipeline component
-    nlp.add_pipe(pysbd_sentence_boundaries)
+    nlp.add_pipe("pysbd_sentence_boundaries")
 
     doc = nlp(text)
     print('sent_id', 'sentence', sep='\t|\t')
