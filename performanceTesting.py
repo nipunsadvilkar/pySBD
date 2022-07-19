@@ -48,4 +48,4 @@ def test(install_bool = False):
                 f2.write("%s\n" % line)
 
 
-test(True)
+test()
