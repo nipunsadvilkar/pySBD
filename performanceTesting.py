@@ -1,5 +1,6 @@
 import os
 from time import sleep
+import pysbd
 
 
 def install():
@@ -15,37 +16,31 @@ def install():
     sleep(1)
 
 
-# uncomment to install the Local version of PySBD
-# install()
-
-import pysbd
-
-
 def testHelper(text):
     """
     text: Single string of multiple sentences
     return: a list of individual sentences.
     """
     print("Running Test...")
-    # text = "గుంటూరులో హైకోర్టు ఏర్పాటు చేసారు. ఈ భీకర కాల్పుల్లో నలుగురు ఉగ్రవాదులు హతమయ్యారు."
     seg = pysbd.Segmenter(language="te", clean=False)
-    # print(seg.segment(text))
     return seg.segment(text)
 
 
-def test(install_bool = False):
+def test(lang,install_bool = False,):
     if install_bool:
         install();
 
-    file_list = os.listdir('input')
+    file_list = os.listdir(os.path.join("temp",lang,'input'))
     for file in file_list:
-        with open(os.path.join('input', file), 'r', encoding='utf8') as f1:
+        with open(os.path.join("temp",lang,'input', file), 'r', encoding='utf8') as f1:
             contents = f1.read()
             # print(type(contents))
             lines = testHelper(contents)
-            f2 = open(os.path.join('output', file[:-4:] + "_split.txt"), 'w', encoding='utf8')
+            f2 = open(os.path.join("temp",lang,'output', file[:-4:] + "_split.txt"), 'w', encoding='utf8')
             for line in lines:
                 f2.write("%s\n" % line)
 
 
-test()
+
+# test("te")
+# addLang("od","odia")

@@ -48,9 +48,8 @@ LANGUAGE_CODES = {
     'de': Deutsch,
     'kk': Kazakh,
     'sk': Slovak,
-    'te': Telugu
+    'te': Telugu,
 }
-
 
 class Language(object):
 
