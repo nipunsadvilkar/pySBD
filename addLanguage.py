@@ -54,4 +54,4 @@ def addLang(lang_code,lang,delimiter = "['.', '!', '?']",testcase = ""):
     f_languages_py.close()
 
 
-addLang("od","odia")
+addLang("ta","tamil")

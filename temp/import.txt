@@ -23,3 +23,4 @@ from pysbd.lang.kazakh import Kazakh
 from pysbd.lang.slovak import Slovak
 from pysbd.lang.telugu import Telugu
 from pysbd.lang.odia import Odia
+from pysbd.lang.tamil import Tamil

@@ -156,3 +156,9 @@ def te_default_fixture():
 def od_default_fixture():
     od_segmenter = pysbd.Segmenter(language='od', clean=False, char_span=False)
     return od_segmenter
+
+
+@pytest.fixture()
+def ta_default_fixture():
+    ta_segmenter = pysbd.Segmenter(language='ta', clean=False, char_span=False)
+    return ta_segmenter

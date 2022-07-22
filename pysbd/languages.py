@@ -24,6 +24,7 @@ from pysbd.lang.kazakh import Kazakh
 from pysbd.lang.slovak import Slovak
 from pysbd.lang.telugu import Telugu
 from pysbd.lang.odia import Odia
+from pysbd.lang.tamil import Tamil
 
 LANGUAGE_CODES = {
     'en': English,
@@ -50,7 +51,8 @@ LANGUAGE_CODES = {
     'kk': Kazakh,
     'sk': Slovak,
     'te': Telugu,
-    'od': Odia
+    'od': Odia,
+    'ta': Tamil
 }
 
 class Language(object):

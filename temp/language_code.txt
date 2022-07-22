@@ -22,4 +22,5 @@
     'kk': Kazakh,
     'sk': Slovak,
     'te': Telugu,
-    'od': Odia
+    'od': Odia,
+    'ta': Tamil
