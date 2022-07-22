@@ -21,4 +21,5 @@
     'de': Deutsch,
     'kk': Kazakh,
     'sk': Slovak,
-    'te': Telugu
+    'te': Telugu,
+    'od': Odia
