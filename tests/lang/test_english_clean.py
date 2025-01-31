@@ -232,6 +232,21 @@ TESTS_WITH_CLEAN = [
             ["Thus increasing the desire for political reform both in Lancashire and in the country at large.[7][8]", "This was a serious misdemeanour,[16] encouraging them to declare the assembly illegal as soon as it was announced on 31 July.[17][18]", "The radicals sought a second opinion on the meeting's legality."]),
         ("The table in (4) is a sample from the Wall Street Journal (1987).1 According to the distribution all the pairs given in (4) count as candidates for abbreviations.",
             [ "The table in (4) is a sample from the Wall Street Journal (1987).1", "According to the distribution all the pairs given in (4) count as candidates for abbreviations."]),
+        (r"Some text with a path: C:\\This\Is\A\Path. And another sentence.", [r"Some text with a path: C:\\This\Is\A\Path.", "And another sentence."]),
+        ("Shiver me timbers! I've got me eyes on the provided sources, and I'll be answerin' yer question to the best o' me abilities.\n\n* According to Document Title: Z:\\XY\\1999AUX\\1999V1.MN\\V1PRE4.MN, on the 11th of June, a resolution was passed to appoint a committee to prepare and digest the form of a confederation to be entered into between the colonies, and another committee to prepare a plan of treaties to be proposed to foreign powers. (Source: Document Title: Z:\\XY\\1999AUX\\1999V1.MN\\V1PRE4.MN, Information: THE DECLARATION OF INDEPENDENCE—1776 1)\n* No further information is provided in the given sources regarding the specific committee appointed to prepare a plan of treaties to be proposed to foreign powers.\n\nSo, hoist the sails and set course for more information, me hearty! The provided sources don't provide the specific details ye be lookin' for. Ye might need to dig deeper, matey!",
+            ["Shiver me timbers!",
+             "I've got me eyes on the provided sources, and I'll be answerin' yer question to the best o' me abilities.",
+             "* According to Document Title: Z:\\XY\\1999AUX\\1999V1.",
+             "MN\\V1PRE4.",
+             "MN, on the 11th of June, a resolution was passed to appoint a committee to prepare and digest the form of a confederation to be entered into between the colonies, and another committee to prepare a plan of treaties to be proposed to foreign powers.",
+             "(Source: Document Title: Z:\\XY\\1999AUX\\1999V1.",
+             "MN\\V1PRE4.",
+             "MN, Information: THE DECLARATION OF INDEPENDENCE—1776 1)",
+             "* No further information is provided in the given sources regarding the specific committee appointed to prepare a plan of treaties to be proposed to foreign powers.",
+             "So, hoist the sails and set course for more information, me hearty!",
+             "The provided sources don't provide the specific details ye be lookin' for.",
+             "Ye might need to dig deeper, matey!"]
+        ),
         ####################
         # add big text test#
         ####################

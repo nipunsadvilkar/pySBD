@@ -64,7 +64,7 @@ class UploadCommand(Command):
 
 
 setup(
-    name='pysbd',
+    name='pysbd-yurts',
     version=about['__version__'],
     description=about['__summary__'],
     long_description=long_description,
